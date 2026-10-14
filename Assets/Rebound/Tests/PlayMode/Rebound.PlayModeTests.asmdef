@@ -1,0 +1,6 @@
+{
+  "name": "Rebound.PlayModeTests",
+  "references": ["Rebound.Runtime"],
+  "optionalUnityReferences": ["TestAssemblies"],
+  "defineConstraints": ["UNITY_INCLUDE_TESTS"]
+}
