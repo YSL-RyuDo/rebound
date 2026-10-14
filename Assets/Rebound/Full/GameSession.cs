@@ -32,6 +32,7 @@ namespace Rebound.Full
             UI=gameObject.AddComponent<GameUI>();UI.Initialize(this);
             SetState(GameState.Menu);ApplyDisplay();
             if(Array.IndexOf(Environment.GetCommandLineArgs(),"--rebound-smoke")>=0)gameObject.AddComponent<ReleaseSmoke>();
+            if(Array.IndexOf(Environment.GetCommandLineArgs(),"--rebound-video")>=0)gameObject.AddComponent<GameplayRecorder>();
         }
         public void ReloadContent()
         {
