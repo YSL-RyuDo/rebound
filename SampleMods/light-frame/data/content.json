@@ -1,0 +1,49 @@
+{
+    "flight": [
+        {
+            "id": "re01",
+            "name": "LIGHT FRAME",
+            "description": "",
+            "replace": true,
+            "gravity": 4.199999809265137,
+            "thrust": 5.199999809265137,
+            "speed": 6.0,
+            "maxFall": 5.0,
+            "interval": 0.25,
+            "charge": 23.0,
+            "rebound": 14.0,
+            "range": 7.0,
+            "hp": 3,
+            "skin": "light",
+            "weapon": "pulse"
+        }
+    ],
+    "weapons": [],
+    "enemies": [],
+    "upgrades": [
+        {
+            "id": "light_vector",
+            "name": "Feather vector",
+            "description": "+6% thrust and a lighter flight profile",
+            "replace": false,
+            "effect": "thrust",
+            "icon": "upgrade",
+            "maxLevel": 3,
+            "minLevel": 1,
+            "amount": 0.05999999865889549,
+            "weight": 2.0
+        }
+    ],
+    "stages": [],
+    "assets": [
+        {
+            "id": "light",
+            "name": "Light chassis",
+            "description": "",
+            "replace": false,
+            "path": "assets/sprites/light.png",
+            "kind": "sprite"
+        }
+    ],
+    "story": []
+}

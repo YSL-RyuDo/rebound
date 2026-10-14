@@ -1,0 +1,66 @@
+{
+    "flight": [
+        {
+            "id": "re01",
+            "name": "OVERCHARGE",
+            "description": "",
+            "replace": true,
+            "gravity": 8.5,
+            "thrust": 5.800000190734863,
+            "speed": 5.0,
+            "maxFall": 7.0,
+            "interval": 0.25,
+            "charge": 34.0,
+            "rebound": 24.0,
+            "range": 7.0,
+            "hp": 3,
+            "skin": "player",
+            "weapon": "electric"
+        }
+    ],
+    "weapons": [
+        {
+            "id": "electric",
+            "name": "Arc emitter",
+            "description": "",
+            "replace": false,
+            "damage": 3.5,
+            "interval": 0.27000001072883608,
+            "speed": 17.0,
+            "size": 0.18000000715255738,
+            "crit": 0.10000000149011612,
+            "spread": 8.0,
+            "count": 1,
+            "pierce": 0,
+            "pattern": "line",
+            "sprite": "electric"
+        }
+    ],
+    "enemies": [],
+    "upgrades": [
+        {
+            "id": "electric_relay",
+            "name": "Overvoltage relay",
+            "description": "Rebound chains to an additional enemy",
+            "replace": false,
+            "effect": "chain",
+            "icon": "upgrade",
+            "maxLevel": 3,
+            "minLevel": 1,
+            "amount": 1.0,
+            "weight": 2.0
+        }
+    ],
+    "stages": [],
+    "assets": [
+        {
+            "id": "electric",
+            "name": "Electric bolt",
+            "description": "",
+            "replace": false,
+            "path": "assets/sprites/electric.png",
+            "kind": "sprite"
+        }
+    ],
+    "story": []
+}

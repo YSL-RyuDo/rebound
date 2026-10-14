@@ -1,87 +1,89 @@
-# REBOUND — Phase 1
+# RE:BOUND
 
-독자적인 PC 2D 횡스크롤 중력 자동 슈팅 프로토타입. 외부 게임 이미지·UI·음원은 사용하지 않습니다.
+Windows용 오리지널 2D 중력 로그라이크 슈팅 게임. 하강으로 에너지를 회수하고 상승하면서 전방 반동 공격을 사용합니다.
 
-## 환경 및 실행
+![Windows 통합 검증 중 렌더링한 게임 화면](Docs/Screenshots/02-game.png)
 
-작업 시작 당시 폴더에는 `.git`만 있었으므로 새 Unity 프로젝트를 구성했습니다.
+- Unity **2022.3.62f3 LTS**, Built-in 2D, C#.
+- Input Manager (Old), `Unity UI` Canvas Scaler 기준 **1920×1080**.
+- 4종 일반 적, 13종 기본 업그레이드, 4분 뒤 등장하는 3페이즈 GRAVITY WARDEN.
+- 경험치 자동 지급, 중복 없는 가중치 3지선다, 연속 레벨업 큐, 일시정지·재시작.
+- 로컬 ZIP MOD 설치·검증·활성화·해제, 샘플 2종.
+- 직접 만든 절차적 기체 그래픽·이펙트·효과음·4개 음악 루프.
+- 설정·키 매핑·기록·활성 MOD 저장.
 
-- Unity **2022.3.62f3 LTS**, Built-in Render Pipeline, 2D 모드.
-- `Packages/manifest.json`: Unity 기본 모듈 + `com.unity.test-framework` **1.1.33**. Input System, URP, TMP 등의 추가 의존성 없음.
-- `ProjectSettings/ProjectSettings.asset`: **Active Input Handling = Input Manager (Old)** (`activeInputHandler: 0`). `Input.GetKey(A/D)`와 `Input.GetKeyDown(Space)`를 사용하므로 축 매핑 작업 불필요.
-- Windows x64, 기본 창 1280×720. 카메라는 창 비율이 달라도 16:9 플레이 영역을 유지합니다.
+## 바로 실행
 
-1. Unity Hub에서 **Add → Add project from disk**로 이 폴더를 등록합니다.
-2. **2022.3.62f3**로 열고 초기 임포트가 끝날 때까지 기다립니다.
-3. `Assets/Rebound/Scenes/Game.unity`를 더블클릭합니다. 또는 상단 **REBOUND → Create or Open Phase 1 Game**을 실행합니다.
-4. **Play**를 누르고 **Game 뷰를 클릭해 키보드 포커스**를 줍니다.
-5. **A/D** 이동, **Space를 매번 눌러** 상승합니다. 누르고 있는 것만으로 연속 상승하지 않습니다. 사격은 자동입니다.
-6. 약 3유닛 하강하면 에너지가 65 이상 충전됩니다. 추락하기 전에 Space를 누르면 상승과 전방 반동 공격이 함께 발동합니다.
-7. HP가 0이 되면 **Retry 버튼 또는 R**로 다시 시작합니다.
+Windows 빌드: `Builds/FullWindows/REBOUND.exe`.
 
-메뉴는 기존 Game 씬이 있으면 열기만 하며 씬·설정·프리팹을 덮어쓰지 않습니다. 씬을 의도적으로 다시 만들려면 기존 씬을 먼저 다른 이름으로 보관하고 메뉴를 실행하세요. 새로 만든 씬은 Build Settings에 자동 등록됩니다.
+실행 파일만 옮기지 말고 **FullWindows 폴더 전체**를 복사하세요. GitHub Release의 Windows ZIP도 같은 구조입니다. 소스 저장소에는 Unity 캐시와 실행 파일을 넣지 않습니다.
 
-설정 확인 위치: **Edit → Project Settings → Player → Other Settings → Active Input Handling → Input Manager (Old)**. 이 프로젝트에는 이미 적용되어 있습니다.
+Unity 실행 순서:
 
-Windows 실행 파일 생성: **REBOUND → Build Windows Prototype**. 결과는 `Builds/Windows/REBOUND.exe`이며 배포 시 같은 디렉터리의 Data 폴더와 DLL도 함께 전달해야 합니다.
+1. Unity Hub에서 이 프로젝트 폴더를 추가합니다.
+2. **2022.3.62f3**로 열고 패키지 임포트가 끝날 때까지 기다립니다.
+3. **REBOUND → Open Full Game**을 선택합니다. 시작 씬은 `Assets/Rebound/Scenes/REBOUND.unity`입니다.
+4. Play 후 Game 뷰를 클릭합니다. **START MISSION → LAUNCH**로 시작합니다.
+5. Windows 빌드는 **REBOUND → Build Full Windows Game**으로 생성합니다.
 
-## 구현 구조 및 파일 목록
+`Assets/Rebound/Scenes/Game.unity`와 기존 Runtime 폴더는 이전 Phase 1 회귀 테스트용으로 보존했습니다. 전체 게임의 시작 씬과 코드는 `REBOUND.unity` 및 `Assets/Rebound/Full/`입니다.
 
-`Assets/Rebound/Runtime/` 아래에 다음 코드를 생성했습니다.
+## 조작과 게임 진행
 
-| 파일 | 책임 |
+| 입력 | 동작 |
 |---|---|
-| `PrototypeSettings.cs` | 이동·체력·무기·적·에너지 밸런스 데이터. 추후 JSON 값 주입 대상으로 실행 로직과 분리 |
-| `PlayerController.cs` | Update 입력 수집, FixedUpdate 상승·중력·이동·경계·추락 복귀 |
-| `PlayerHealth.cs` | HP 3, 접촉 피해·추락 피해·1.2초 무적·점멸 |
-| `WeaponController.cs` | 오른쪽 자동 발사, 물리 틱 기반 발사 간격 |
-| `ProjectilePool.cs` | 32발 사전 생성, 대여/반환, 고갈 시 해당 발사 생략 |
-| `Projectile.cs` | 투사체 이동, 적 충돌, 수명·화면 이탈·게임 종료 시 반환 |
-| `EnemyController.cs` | 적 HP·왼쪽 이동·플레이어 접촉·처치·화면 이탈 |
-| `EnemySpawner.cs` | 오른쪽에서 일정 간격으로 적 1종 생성 |
-| `FallEnergySystem.cs` | 실제 물리 위치의 하강 거리만 0~100 에너지로 누적 |
-| `ReboundAttack.cs` | 에너지 소모, 전방 사각 범위 피해, 짧은 충격파 표시 |
-| `GameManager.cs` | 생존 시간·처치 수·게임 종료·씬 재시작·화면 비율 |
-| `GameHud.cs` | HP·에너지·발동 기준선·생존 시간·조작법·Retry UI |
-| `Rebound.Runtime.asmdef` | 런타임 어셈블리 분리 |
+| A / D | 화면 왼쪽 40% 영역 안에서 좌우 이동 |
+| Space | 한 번 누를 때 상승. 기본 입력 간격 0.25초 |
+| Esc | 일시정지 / 재개 |
+| 1 / 2 / 3 | 레벨업 카드 선택 |
+| 마우스 | 메뉴·설정·MOD·카드·결과 버튼 |
 
-추가 생성 파일:
+기본 중력 6, 상승 속도 4.8, 이동 속도 5, 최대 낙하 속도 6, HP 3입니다. 실제 하강 거리와 하강 속도에 따라 에너지를 충전하며, **65 이상일 때 상승하면 반동 공격**이 발동합니다. 충전되지 않아도 상승할 수 있습니다. 반동은 전방 범위 피해, 연쇄 업그레이드, 적 탄환 제거를 지원합니다.
 
-- `Assets/Editor/ReboundSceneBuilder.cs`: 씬·프리팹·설정·도형 이미지 생성 및 Windows 빌드 메뉴.
-- `Assets/Rebound/Scenes/Game.unity`: 참조 연결을 완료한 플레이 가능 씬.
-- `Assets/Rebound/Data/PrototypeSettings.asset`: Inspector에서 조정하는 초기 설정.
-- `Assets/Rebound/Prefabs/Enemy.prefab`, `Projectile.prefab`: 임시 도형 프리팹.
-- `Assets/Rebound/Art/PrototypeSquare.png`: 직접 생성한 흰색 정사각형. 색·크기로 플레이어·적·탄환·배경을 구성.
-- `Assets/Rebound/Tests/PlayMode/PhaseOneTests.cs`, `Rebound.PlayModeTests.asmdef`: 실제 Unity 물리와 씬 재로딩을 사용하는 자동 테스트.
-- 각 에셋의 `.meta`: GUID와 씬 참조 보존.
-- `Packages/manifest.json`, `packages-lock.json`: 패키지 구성.
-- `ProjectSettings/`: Unity가 생성한 기본 프로젝트 설정 및 2D·입력·화면·빌드 씬 설정.
-- `.gitignore`: 캐시·로그·로컬 빌드·테스트 산출물 제외.
-- `README.md`, `VALIDATION.md`: 실행·설계·검증 기록.
+무기는 자동 발사하며 전방 ±20도 안의 가장 가까운 적을 조준합니다. 적을 처치하면 경험치가 자동 지급됩니다. 업그레이드 선택 중에는 게임 시간이 멈춥니다. 추락하면 HP 1을 잃고 안전 위치로 돌아오며, 일반 피격 뒤에는 1.2초 무적입니다.
 
-## 초기 밸런스
+스테이지는 0–30초 정찰, 30–90초 추적, 90–150초 차폐, 150–210초 포격, 210–240초 강화 웨이브로 진행합니다. 240초 뒤 보스가 등장하며 HP 60%·25%에서 공격이 바뀝니다. 5분은 목표 시간이며 강제 종료하지 않습니다. 보스를 처치해야 승리합니다.
 
-`Assets/Rebound/Data/PrototypeSettings.asset`을 선택해 Inspector에서 조절합니다.
+## MOD 사용
 
-| 항목 | 값 |
-|---|---:|
-| 중력 | 6 units/s² |
-| 상승 초기 속도 | 4.8 units/s |
-| 좌우 이동 | 5 units/s |
-| 최대 낙하 속도 | 6 units/s |
-| 상승 입력 간격 | 0.25초 |
-| 이동 영역 | 화면 왼쪽 40% (몸체 여백 제외) |
-| HP / 무적 | 3 / 1.2초 |
-| 기본 발사 간격 / 피해 | 0.22초 / 1 |
-| 투사체 속도 / 수명 / 풀 크기 | 15 / 2초 / 32 |
-| 적 생성 간격 / HP / 이동 속도 | 1.1초 / 3 / 2.2 |
-| 하강 1유닛당 에너지 | 22 |
-| 반동 발동 기준 / 피해 / 범위 | 65 / 5 / 6.5×3.2 |
+1. 메인 메뉴 → **MOD MANAGER**.
+2. **INSTALL SAMPLES**로 LIGHT FRAME과 OVERCHARGE ZIP을 설치합니다.
+3. 원하는 패키지에 **ENABLE**을 누르고 메뉴로 돌아가 새 게임을 시작합니다.
+4. 사용자 ZIP은 **OPEN MOD FOLDER → Inbox**에 넣고 **INSTALL INBOX ZIPs**를 누릅니다.
+5. **DISABLE** 후 새 게임을 시작하면 해당 변경이 해제됩니다.
 
-상승은 에너지와 무관하게 항상 입력 간격 조건만 만족하면 가능합니다. 상승 시 속도를 4.8로 설정하는 방식이므로 하강 중에도 같은 상승 감각을 제공합니다. 반동이 발동하면 저장 에너지를 전부 소비합니다. 입력 간격 안에서 누른 Space는 무시합니다. 추락은 접촉 무적 여부와 무관하게 HP를 1 줄이고, 에너지를 초기화하며 안전 위치로 복귀합니다. 순간이동 거리는 에너지에 포함되지 않습니다. 게임 종료 시 모든 공격·적 이동·플레이어 이동과 생존 시간이 정지합니다.
+두 샘플은 모두 기본 `re01` 기체를 교체하므로 **한 번에 하나만 활성화**하세요. 동시에 켜면 modId 정렬상 뒤에 오는 충돌 패키지를 거부하고 화면에 오류를 표시합니다. 기본 게임은 계속 실행됩니다. 샘플 소스는 `SampleMods/`, 설치 ZIP은 `Assets/StreamingAssets/SampleMods/`에 있습니다.
 
-## 범위와 후속 작업
+MOD와 설정은 `Application.persistentDataPath`에 저장됩니다. Windows 기본 위치는 `%USERPROFILE%/AppData/LocalLow/Independent Prototype/REBOUND/`입니다. MOD Manager의 폴더 열기를 사용하면 실제 위치로 바로 이동합니다.
 
-Phase 1만 구현했습니다. 현재 도형 및 IMGUI 기반 영문 HUD이며 음향, 애니메이션, 한국어 폰트, 키 재설정, 일시정지 메뉴는 없습니다. 적은 1종이고 기본 투사체만 풀링합니다. 밸런스는 초기값이며 플레이 체감 검증이 필요합니다. 검증 범위는 `VALIDATION.md`를 확인하세요.
+## 코드 및 데이터
 
-Phase 2 후보: 경험치 드롭·획득, 레벨업 3지선다, MOD JSON 스키마·검증·적용, 무기 변형, 적 패턴과 난이도 곡선. 아직 구현하지 않았습니다.
+| 파일 / 경로 | 역할 |
+|---|---|
+| `Assets/Rebound/Full/GameSession.cs` | 시작·상태 전환·런 초기화·승패·콘텐츠 연결 |
+| `ContentData.cs` | 콘텐츠 DTO, 기본 콘텐츠 작성기, 레지스트리 |
+| `PlayerFlight.cs` | Update 입력, FixedUpdate 이동·낙하·추진·에너지·HP·무적 |
+| `CombatWorld.cs` | 적·투사체 풀·연속 선분 충돌·자동 조준·피해·반동·웨이브·보스 |
+| `Progression.cs` | 경험치·레벨 큐·후보 추첨·13종 효과·원본 기반 능력치 재계산 |
+| `Modding.cs` | ZIP 설치·경로/크기/데이터 검증·원자적 콘텐츠 적용·PNG/WAV 로딩·서버 인터페이스 |
+| `GameUI.cs` | Canvas 메뉴·스토리·HUD·설정·일시정지·카드·결과·MOD·크레딧 |
+| `SaveManager.cs` | 버전 있는 JSON 설정 저장·손상 복구·키 매핑 |
+| `ArtFactory.cs` | 자체 생성 스프라이트·시각 효과·MOD 스킨 |
+| `AudioDirector.cs` | 직접 합성한 효과음·4개 음악 루프·볼륨·MOD 오디오 |
+| `ReleaseSmoke.cs` | 명시적인 CLI 옵션에서만 실행되는 Windows 통합 검증 |
+| `Assets/Rebound/Resources/base-content.json` | 실제 게임에서 읽는 기본 콘텐츠·스토리 데이터 |
+| `Assets/Editor/FullGameBuilder.cs` | 시작 씬·기본 JSON·샘플 ZIP 생성, Windows 빌드 |
+| `Assets/Rebound/Tests/PlayMode/FullGameTests.cs` | 전체 게임 및 MOD 회귀 테스트 |
+
+데이터 수정은 `base-content.json`에서 합니다. `BuiltinContent.Create()`는 초기 생성용이며, 생성기는 기존 JSON과 씬을 덮어쓰지 않습니다. 씬은 GameBootstrap이 런타임에 월드·Canvas·EventSystem·오디오·풀을 구성하므로 수동 오브젝트 연결은 필요 없습니다.
+
+## 문서
+
+- `Docs/FULL_GAME_SPEC.md`: 전달받은 전체 요구사항 원문.
+- `Docs/MOD_GUIDE.md`: 스키마, 교체 규칙, 제한, 제작 예시.
+- `Docs/SERVER_INTEGRATION.md`: 서버 연결을 위해 필요한 실제 정보.
+- `Docs/RESOURCES.md`: 그래픽·사운드·패키지 및 라이선스 출처.
+- `VALIDATION.md`: 실제 실행한 테스트 및 남은 확인 항목.
+- `Docs/PHASE1_README.md`, `Docs/PHASE1_VALIDATION.md`: 이전 버전 기록.
+
+현재 UI와 스토리는 영문입니다. 오디오는 절차적으로 합성한 짧은 루프이며 전문 제작 음악은 아닙니다. 서버 API가 제공되지 않아 원격 검색·다운로드는 연결하지 않았고, 로컬 ZIP 설치는 구현했습니다. 실제 출시 품질을 위한 장시간 수동 밸런스·접근성·다양한 PC 검증은 별도입니다.

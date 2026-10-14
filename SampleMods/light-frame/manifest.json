@@ -1,0 +1,13 @@
+{
+    "schemaVersion": 1,
+    "modId": "light-frame",
+    "name": "LIGHT FRAME",
+    "author": "REBOUND project",
+    "version": "1.0.0",
+    "targetGameVersion": "1.0.0",
+    "description": "Low gravity, nimble thrust, custom chassis and flight upgrade.",
+    "license": "CC0-1.0",
+    "content": [
+        "data/content.json"
+    ]
+}

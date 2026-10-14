@@ -1,0 +1,8 @@
+PASS Windows ZIP applied: light-frame
+PASS Windows ZIP applied: overcharge
+PASS Base content restored
+PASS Boss phase 3
+PASS Victory transition
+PASS Retry resets run
+PASS Game over transition
+SMOKE PASSED

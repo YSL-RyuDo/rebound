@@ -1,0 +1,13 @@
+{
+    "schemaVersion": 1,
+    "modId": "overcharge",
+    "name": "OVERCHARGE",
+    "author": "REBOUND project",
+    "version": "1.0.0",
+    "targetGameVersion": "1.0.0",
+    "description": "Heavy gravity, rapid charge, powerful rebound and electric weapon.",
+    "license": "CC0-1.0",
+    "content": [
+        "data/content.json"
+    ]
+}

@@ -1,0 +1,132 @@
+{
+  "date": "2026-10-14",
+  "unity": "2022.3.62f3",
+  "suites": [
+    {
+      "source": "TestResults\\full-editmode.xml",
+      "result": "Passed",
+      "passed": "5",
+      "failed": "0",
+      "tests": [
+        {
+          "name": "RejectExecutableAndDuplicateCasePaths",
+          "result": "Passed",
+          "duration": "0.050540"
+        },
+        {
+          "name": "RejectSymlinkEntry",
+          "result": "Passed",
+          "duration": "0.013666"
+        },
+        {
+          "name": "RejectUnknownVersionAndDuplicateContentIds",
+          "result": "Passed",
+          "duration": "0.005573"
+        },
+        {
+          "name": "RejectZipBombAndExcessiveEntryCount",
+          "result": "Passed",
+          "duration": "0.074203"
+        },
+        {
+          "name": "SweptCollisionFindsFastBulletCrossing",
+          "result": "Passed",
+          "duration": "0.005011"
+        }
+      ]
+    },
+    {
+      "source": "TestResults\\full-playmode-final.xml",
+      "result": "Passed",
+      "passed": "17",
+      "failed": "0",
+      "tests": [
+        {
+          "name": "BossPhasesVictoryAndRetry",
+          "result": "Passed",
+          "duration": "1.276615"
+        },
+        {
+          "name": "CorruptSaveRecoversAndValidSaveRoundTrips",
+          "result": "Passed",
+          "duration": "0.795655"
+        },
+        {
+          "name": "EnemyPatternsArmorAndReboundDirection",
+          "result": "Passed",
+          "duration": "0.861672"
+        },
+        {
+          "name": "FullMovementEnergyAndDamage",
+          "result": "Passed",
+          "duration": "1.963975"
+        },
+        {
+          "name": "FullTimelineAndBoundedProjectilePool",
+          "result": "Passed",
+          "duration": "0.985323"
+        },
+        {
+          "name": "LevelQueueUniqueChoicesAndStackRebuild",
+          "result": "Passed",
+          "duration": "0.797012"
+        },
+        {
+          "name": "MaliciousZipAndInvalidContentAreRejected",
+          "result": "Passed",
+          "duration": "0.790833"
+        },
+        {
+          "name": "PauseFreezesAndSettingsResumeCorrectly",
+          "result": "Passed",
+          "duration": "1.022002"
+        },
+        {
+          "name": "RealZipSamplesApplyDisableAndRejectConflict",
+          "result": "Passed",
+          "duration": "0.807635"
+        },
+        {
+          "name": "RetryDoesNotAccumulateAudioSources",
+          "result": "Passed",
+          "duration": "1.579349"
+        },
+        {
+          "name": "SweptProjectilesDamageEnemiesAndPoolReturns",
+          "result": "Passed",
+          "duration": "1.450920"
+        },
+        {
+          "name": "AutomaticFireKillsAndPoolReuses",
+          "result": "Passed",
+          "duration": "3.107684"
+        },
+        {
+          "name": "EnergyUsesDistanceAndReboundOnlyHitsFront",
+          "result": "Passed",
+          "duration": "0.041582"
+        },
+        {
+          "name": "FallDamageInvulnerabilityGameOverAndRetry",
+          "result": "Passed",
+          "duration": "0.283351"
+        },
+        {
+          "name": "MovementRiseGravityAndBounds",
+          "result": "Passed",
+          "duration": "3.891311"
+        },
+        {
+          "name": "RealDescentChargesAndRiseConsumesEnergy",
+          "result": "Passed",
+          "duration": "1.108309"
+        },
+        {
+          "name": "RiseCooldownAndEnemyContact",
+          "result": "Passed",
+          "duration": "0.516523"
+        }
+      ]
+    }
+  ]
+}

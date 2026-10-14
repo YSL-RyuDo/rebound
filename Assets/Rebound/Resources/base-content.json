@@ -1,0 +1,370 @@
+{
+  "flight": [
+    {
+      "id": "re01",
+      "name": "RE-01",
+      "description": "",
+      "replace": false,
+      "gravity": 6.0,
+      "thrust": 4.800000190734863,
+      "speed": 5.0,
+      "maxFall": 6.0,
+      "interval": 0.25,
+      "charge": 20.0,
+      "rebound": 14.0,
+      "range": 7.0,
+      "hp": 3,
+      "skin": "player",
+      "weapon": "pulse"
+    }
+  ],
+  "weapons": [
+    {
+      "id": "pulse",
+      "name": "Pulse emitter",
+      "description": "",
+      "replace": false,
+      "damage": 3.0,
+      "interval": 0.25,
+      "speed": 17.0,
+      "size": 0.18000000715255737,
+      "crit": 0.05000000074505806,
+      "spread": 8.0,
+      "count": 1,
+      "pierce": 0,
+      "pattern": "line",
+      "sprite": "bullet"
+    }
+  ],
+  "enemies": [
+    {
+      "id": "scout",
+      "name": "Scout",
+      "description": "",
+      "replace": false,
+      "hp": 9.0,
+      "speed": 2.0,
+      "interval": 3.0,
+      "armor": 0.0,
+      "xp": 5,
+      "damage": 1,
+      "pattern": "straight",
+      "sprite": "drone"
+    },
+    {
+      "id": "hunter",
+      "name": "Hunter",
+      "description": "",
+      "replace": false,
+      "hp": 14.0,
+      "speed": 2.799999952316284,
+      "interval": 3.0,
+      "armor": 0.0,
+      "xp": 8,
+      "damage": 1,
+      "pattern": "track",
+      "sprite": "hunter"
+    },
+    {
+      "id": "shield",
+      "name": "Bulwark",
+      "description": "",
+      "replace": false,
+      "hp": 24.0,
+      "speed": 1.399999976158142,
+      "interval": 3.0,
+      "armor": 0.6499999761581421,
+      "xp": 13,
+      "damage": 1,
+      "pattern": "shield",
+      "sprite": "shield"
+    },
+    {
+      "id": "gunner",
+      "name": "Artillery",
+      "description": "",
+      "replace": false,
+      "hp": 18.0,
+      "speed": 1.2000000476837158,
+      "interval": 3.0,
+      "armor": 0.0,
+      "xp": 12,
+      "damage": 1,
+      "pattern": "shoot",
+      "sprite": "gunner"
+    }
+  ],
+  "upgrades": [
+    {
+      "id": "damage",
+      "name": "Amplifier",
+      "description": "+25% base weapon damage",
+      "replace": false,
+      "effect": "damage",
+      "icon": "damage",
+      "maxLevel": 5,
+      "minLevel": 1,
+      "amount": 0.25,
+      "weight": 1.0
+    },
+    {
+      "id": "haste",
+      "name": "Rapid cycling",
+      "description": "+18% firing rate",
+      "replace": false,
+      "effect": "haste",
+      "icon": "haste",
+      "maxLevel": 5,
+      "minLevel": 1,
+      "amount": 0.18000000715255737,
+      "weight": 1.0
+    },
+    {
+      "id": "multi",
+      "name": "Split emitter",
+      "description": "+1 projectile per volley",
+      "replace": false,
+      "effect": "multi",
+      "icon": "multi",
+      "maxLevel": 3,
+      "minLevel": 1,
+      "amount": 1.0,
+      "weight": 1.0
+    },
+    {
+      "id": "pierce",
+      "name": "Phase needle",
+      "description": "+1 target penetration",
+      "replace": false,
+      "effect": "pierce",
+      "icon": "pierce",
+      "maxLevel": 3,
+      "minLevel": 1,
+      "amount": 1.0,
+      "weight": 1.0
+    },
+    {
+      "id": "crit",
+      "name": "Precision core",
+      "description": "+10% critical chance; critical hits deal double damage",
+      "replace": false,
+      "effect": "crit",
+      "icon": "crit",
+      "maxLevel": 5,
+      "minLevel": 1,
+      "amount": 0.10000000149011612,
+      "weight": 1.0
+    },
+    {
+      "id": "range",
+      "name": "Resonance field",
+      "description": "+20% rebound reach",
+      "replace": false,
+      "effect": "range",
+      "icon": "range",
+      "maxLevel": 4,
+      "minLevel": 1,
+      "amount": 0.20000000298023224,
+      "weight": 1.0
+    },
+    {
+      "id": "rebound",
+      "name": "Impact capacitor",
+      "description": "+35% rebound damage",
+      "replace": false,
+      "effect": "rebound",
+      "icon": "rebound",
+      "maxLevel": 5,
+      "minLevel": 1,
+      "amount": 0.3499999940395355,
+      "weight": 1.0
+    },
+    {
+      "id": "chain",
+      "name": "Arc relay",
+      "description": "Rebound arcs to one extra nearby target per rank",
+      "replace": false,
+      "effect": "chain",
+      "icon": "chain",
+      "maxLevel": 3,
+      "minLevel": 1,
+      "amount": 1.0,
+      "weight": 1.0
+    },
+    {
+      "id": "charge",
+      "name": "Energy recycler",
+      "description": "+25% fall energy efficiency",
+      "replace": false,
+      "effect": "charge",
+      "icon": "charge",
+      "maxLevel": 4,
+      "minLevel": 1,
+      "amount": 0.25,
+      "weight": 1.0
+    },
+    {
+      "id": "thrust",
+      "name": "Vector booster",
+      "description": "+8% rise thrust",
+      "replace": false,
+      "effect": "thrust",
+      "icon": "thrust",
+      "maxLevel": 3,
+      "minLevel": 1,
+      "amount": 0.07999999821186066,
+      "weight": 1.0
+    },
+    {
+      "id": "fall",
+      "name": "Air brakes",
+      "description": "Reduce maximum fall speed by 10%",
+      "replace": false,
+      "effect": "fall",
+      "icon": "fall",
+      "maxLevel": 3,
+      "minLevel": 1,
+      "amount": 0.10000000149011612,
+      "weight": 1.0
+    },
+    {
+      "id": "guard",
+      "name": "Aegis cell",
+      "description": "Gain a shield charge; one charge regenerates every 20s",
+      "replace": false,
+      "effect": "guard",
+      "icon": "guard",
+      "maxLevel": 3,
+      "minLevel": 1,
+      "amount": 1.0,
+      "weight": 1.0
+    },
+    {
+      "id": "repair",
+      "name": "Repair kit",
+      "description": "Restore 1 HP and increase maximum HP by 1",
+      "replace": false,
+      "effect": "repair",
+      "icon": "repair",
+      "maxLevel": 3,
+      "minLevel": 1,
+      "amount": 1.0,
+      "weight": 1.0
+    }
+  ],
+  "stages": [
+    {
+      "id": "powerplant",
+      "name": "The broken sky",
+      "description": "",
+      "replace": false,
+      "bossTime": 240.0,
+      "bossHp": 1400.0,
+      "background": "reactor",
+      "waves": [
+        {
+          "start": 0.0,
+          "end": 30.0,
+          "interval": 1.5,
+          "difficulty": 1.0,
+          "minY": -3.799999952316284,
+          "maxY": 3.200000047683716,
+          "count": 1,
+          "enemies": [
+            "scout"
+          ]
+        },
+        {
+          "start": 30.0,
+          "end": 90.0,
+          "interval": 1.2000000476837158,
+          "difficulty": 1.100000023841858,
+          "minY": -3.799999952316284,
+          "maxY": 3.200000047683716,
+          "count": 1,
+          "enemies": [
+            "scout",
+            "hunter"
+          ]
+        },
+        {
+          "start": 90.0,
+          "end": 150.0,
+          "interval": 1.0,
+          "difficulty": 1.2000000476837158,
+          "minY": -3.799999952316284,
+          "maxY": 3.200000047683716,
+          "count": 2,
+          "enemies": [
+            "scout",
+            "hunter",
+            "shield"
+          ]
+        },
+        {
+          "start": 150.0,
+          "end": 210.0,
+          "interval": 0.8999999761581421,
+          "difficulty": 1.350000023841858,
+          "minY": -3.799999952316284,
+          "maxY": 3.200000047683716,
+          "count": 2,
+          "enemies": [
+            "hunter",
+            "shield",
+            "gunner"
+          ]
+        },
+        {
+          "start": 210.0,
+          "end": 240.0,
+          "interval": 0.800000011920929,
+          "difficulty": 1.5,
+          "minY": -3.799999952316284,
+          "maxY": 3.200000047683716,
+          "count": 2,
+          "enemies": [
+            "scout",
+            "shield",
+            "gunner"
+          ]
+        }
+      ]
+    }
+  ],
+  "assets": [],
+  "story": [
+    {
+      "id": "intro",
+      "text": "GRAVITY GRID FAILURE\n\nThe floating city is falling. Its defense machines reject all access.\nRE-01, enter the powerplant and shut down the GRAVITY WARDEN.\n\nYour engine recovers energy as you fall. Turn descent into a weapon."
+    },
+    {
+      "id": "outer",
+      "text": "01 / OUTER GRID  —  Recover energy. Keep flying."
+    },
+    {
+      "id": "security",
+      "text": "02 / SECURITY BREACH  —  Tracking drones inbound."
+    },
+    {
+      "id": "anomaly",
+      "text": "03 / GRAVITY ANOMALY  —  Rebound breaks armor."
+    },
+    {
+      "id": "core",
+      "text": "04 / CENTRAL SHAFT  —  Artillery signals detected."
+    },
+    {
+      "id": "warning",
+      "text": "05 / CORE ACCESS  —  WARDEN activation imminent."
+    },
+    {
+      "id": "boss",
+      "text": "GRAVITY WARDEN\nUNAUTHORIZED MASS DETECTED"
+    },
+    {
+      "id": "ending",
+      "text": "WARDEN OFFLINE\nGravity grid restored. The city holds.\nRE-01: recovery mission complete."
+    }
+  ]
+}
