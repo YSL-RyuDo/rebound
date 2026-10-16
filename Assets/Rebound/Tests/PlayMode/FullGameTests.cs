@@ -76,6 +76,27 @@ public sealed class FullGameTests
         Assert.IsTrue(game.Progress.Choices.All(u=>u.effect=="reward2"));int before=game.Score;
         Assert.IsTrue(game.Progress.Choose(1));Assert.AreEqual(before+100,game.Score);yield return null;
     }
+    [UnityTest] public IEnumerator InstalledAugmentCardKeepsCustomIconNameAndDescription()
+    {
+        var draft=new WorkshopProject(Path.Combine(isolated,"icon-draft"),BuiltinContent.Create());
+        var texture=new Texture2D(8,8);texture.SetPixels(Enumerable.Repeat(Color.magenta,64).ToArray());texture.Apply();
+        string png=Path.Combine(isolated,"icon.png");File.WriteAllBytes(png,texture.EncodeToPNG());UnityEngine.Object.Destroy(texture);
+        string iconId=draft.ImportSprite(png,"custom_augment_icon");
+        var upgrade=new UpgradeData{id="custom_card",name="사용자 증강",description="직접 작성한 설명입니다.\n공격력 +35%",icon=iconId,tier="gold",effect="damage",amount=.35f};
+        draft.Apply("upgrades",upgrade);string id=game.Mods.Install(draft.Export(Path.Combine(isolated,"exports")));
+        game.Save.Data.enabledMods=new[]{id};game.ReloadContent();game.StartRun();game.Player.ReadInput=false;
+        game.Progress.AddXp(12);game.Progress.OpenNext();game.Progress.Choices[0]=game.Content.Upgrades[upgrade.id];game.SetState(GameState.LevelUp);
+        yield return null;
+        var labels=UnityEngine.Object.FindObjectsOfType<UnityEngine.UI.Text>();
+        Assert.IsTrue(labels.Any(t=>t.text==upgrade.name));
+        var details=labels.Single(t=>t.text.StartsWith(upgrade.description));
+        Assert.IsTrue(details.text.Contains(game.Progress.Preview(upgrade)),"Description must not replace computed effect values");
+        var image=UnityEngine.Object.FindObjectsOfType<UnityEngine.UI.Image>().Single(i=>i.sprite==game.Art.Get(iconId));
+        Assert.AreEqual(Color.white,image.color,"Rarity color must not tint an imported icon");Assert.IsTrue(image.preserveAspect);
+        var scroll=details.GetComponentInParent<UnityEngine.UI.ScrollRect>();
+        Assert.GreaterOrEqual(scroll.content.rect.height,details.preferredHeight);
+        float damage=game.Stats.Damage;game.Progress.Choose(0);Assert.Greater(game.Stats.Damage,damage);
+    }
     [UnityTest] public IEnumerator WorkshopSceneAndPlaytestRoundTrip()
     {
         string old=PlayerPrefs.GetString("Workshop.LastDraft","");WorkshopPlaytest.DraftPath=Path.Combine(isolated,"draft");

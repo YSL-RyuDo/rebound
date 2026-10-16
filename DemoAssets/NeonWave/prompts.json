@@ -1,0 +1,48 @@
+{
+  "tool": "Built-in image_gen",
+  "purpose": "Original REBOUND Workshop demonstration assets",
+  "additional": [
+  [
+    "hunter",
+    "Use case: stylized-concept. Create one original 2D side-scrolling game ENEMY sprite for REBOUND, no existing franchise references. Subject: fast HUNTER drone, long sleek swept triangular plum armor, sharp hooked prongs pointing LEFT, a magenta optical slit, small cyan engine at RIGHT. Agile dangerous silhouette, asymmetrical layered mechanical panels. Perfect LEFT-facing side profile, no perspective floor, no isometric view. Polished hand-painted 2D game art, cel shading, bold dark outline, small controlled emissive highlights, large readable silhouette at 65 pixels wide, coherent with ivory/cyan player spacecraft in dark navy derelict orbital reactor. One sprite centered and large with narrow margins, square 1024 PNG. Absolutely no text, no scene, no cast shadow, no projectile. Actual transparent alpha background.",
+    true
+  ],
+  [
+    "shield",
+    "Use case: stylized-concept. Create one original 2D side-scrolling game ENEMY sprite for REBOUND, no existing franchise references. Subject: heavy BULWARK shield drone, stocky round gunmetal body, large vertical armored crescent plate on its LEFT side, glowing cobalt-blue shield rim and amber central eye, thick brass details. Sturdy broad silhouette. Perfect LEFT-facing side profile, no perspective floor, no isometric view. Polished hand-painted 2D game art, cel shading, bold dark outline, small controlled emissive highlights, large readable silhouette at 65 pixels wide, coherent with ivory/cyan player spacecraft in dark navy derelict orbital reactor. One sprite centered and large with narrow margins, square 1024 PNG. Absolutely no text, no scene, no cast shadow, no projectile. Actual transparent alpha background.",
+    true
+  ],
+  [
+    "gunner",
+    "Use case: stylized-concept. Create one original 2D side-scrolling game ENEMY sprite for REBOUND, no existing franchise references. Subject: ARTILLERY drone, compact floating charcoal industrial turret, a prominent short cannon barrel pointing LEFT with hot orange bore, three yellow armor plates, red targeting lens, small rear stabilizer fins. Distinct barrel-forward silhouette. Perfect LEFT-facing side profile, no perspective floor, no isometric view. Polished hand-painted 2D game art, cel shading, bold dark outline, small controlled emissive highlights, large readable silhouette at 65 pixels wide, coherent with ivory/cyan player spacecraft in dark navy derelict orbital reactor. One sprite centered and large with narrow margins, square 1024 PNG. Absolutely no text, no scene, no cast shadow, no projectile. Actual transparent alpha background.",
+    true
+  ],
+  [
+    "augment",
+    "Use case: stylized-concept. Original 2D roguelike upgrade ICON sprite for REBOUND sci-fi game. NEON OVERCHARGE: a compact faceted cyan energy crystal clamped in a graphite ring, a hot magenta split lightning bolt, tiny amber mechanical accents. One centered object only, bold readable silhouette at 72 pixels, polished hand-painted cel shading, crisp dark outline, restrained glow, coherent with dark navy orbital reactor and ivory/cyan spacecraft. Square 1024 canvas, single emblem fills most of canvas with narrow safe margins. No badge background, no text, no letters, no UI frame, no stars outside the emblem, no scene, no cast shadow, no existing franchise imagery. Actual transparent alpha background.",
+    true
+  ],
+  [
+    "haste",
+    "Use case: stylized-concept. Original 2D roguelike upgrade ICON sprite for REBOUND sci-fi game. COOLING CIRCUIT: a small ivory and graphite coolant turbine, three curved cyan blades, blue luminous coolant arcs and a tiny amber mechanical hub. One centered object only, bold readable silhouette at 72 pixels, polished hand-painted cel shading, crisp dark outline, restrained glow, coherent with dark navy orbital reactor and ivory/cyan spacecraft. Square 1024 canvas, single emblem fills most of canvas with narrow safe margins. No badge background, no text, no letters, no UI frame, no stars outside the emblem, no scene, no cast shadow, no existing franchise imagery. Actual transparent alpha background.",
+    true
+  ]
+],
+  "main": [
+    [
+      "background",
+      "Use case: stylized-concept. Asset type: background PNG for an ORIGINAL 2D side-scrolling sci-fi shooter REBOUND, no existing franchise imagery. Create a polished hand-painted game environment: a vast derelict orbital gravity-reactor hangar, viewed perfectly side-on. Panoramic 16:9 composition, output about 1536x864 and maximum dimension 2048. Dark deep navy / muted teal atmosphere, distant layered machinery, hanging cables, subtle cyan reactor strips, small warm amber warning lights. The middle 70 percent is dark, low-detail playable open air; most architectural detail frames the top and bottom, distant arches in back. Strong depth and atmospheric perspective, crisp restrained highlights, readable at small scale, beautiful indie game art. No player, no enemies, no projectiles, no text, no UI, no logos, no watermark. Entire background is opaque.",
+      false
+    ],
+    [
+      "player",
+      "Use case: stylized-concept. Asset type: single transparent PNG player sprite for an ORIGINAL 2D side-scrolling sci-fi shooter. A compact agile recovery drone spacecraft facing RIGHT in exact side profile, horizontal silhouette. Polished hand-painted 2D game sprite with clean bold silhouette, ivory and graphite armored body, bright cyan cockpit lens, two angular teal fins, small amber engine nozzle at LEFT. Subtle cel shading and tightly controlled metallic detail, strong dark outline suitable at 70 pixels wide. Coherent with a dark navy derelict gravity-reactor hangar. One single ship, centered and large with narrow margins, roughly 3:2 canvas, maximum dimension 1536. NO isometric/top-down perspective, no pilot/person, no weapons firing, no flame trail, no text, no watermark, no scenery, no floor, no cast shadow. Real transparent alpha background.",
+      true
+    ],
+    [
+      "enemy",
+      "Use case: stylized-concept. Asset type: single transparent PNG enemy sprite for an ORIGINAL 2D side-scrolling sci-fi shooter. A hostile floating industrial sentry robot facing LEFT in exact side profile. Compact rounded diamond armor silhouette with two claw-like forward prongs on the LEFT, central glowing orange-red optical sensor, dark plum and gunmetal armor, restrained hot magenta electrical accents. Polished hand-painted 2D sprite, clean bold dark outline, cel shading, readable at 65 pixels wide, complementary to ivory/cyan player drone in dark navy orbital reactor hangar. One single robot, centered large with narrow margins, square 1024 canvas. NO humanoid, no familiar franchise designs, no perspective floor, no isometric view, no weapons firing, no text, no watermark, no scene, no cast shadow. Actual transparent alpha background.",
+      true
+    ]
+  ]
+}

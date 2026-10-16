@@ -1,0 +1,43 @@
+{
+  "durationSeconds": 605.5,
+  "frames": 18165,
+  "video": "1920x1080 H.264, 30fps",
+  "audio": "48kHz stereo AAC",
+  "decodedWithoutErrors": true,
+  "audioRms": 0.01245382246331054,
+  "audioPeak": 0.29011300206184387,
+  "subtitleCues": 79,
+  "chapters": 11,
+  "modImages": 10,
+  "exportedImagesMatchOriginals": true,
+  "koreanAugmentMetadataVerified": true,
+  "screenshots": [
+    [
+      "basic",
+      22
+    ],
+    [
+      "haste",
+      186
+    ],
+    [
+      "creator",
+      215
+    ],
+    [
+      "card",
+      339.067
+    ],
+    [
+      "play",
+      373.95
+    ],
+    [
+      "outro",
+      602
+    ]
+  ],
+  "videoBytes": 63496454,
+  "videoSHA256": "54578a5e79003ea623a4c5e1a56b9c2bff8a539275179a7a8a74b68d74820f91",
+  "modSHA256": "12772201f939425026bfb06fe239ee527702e7a9f43dfc8fdb86c622791d520e"
+}

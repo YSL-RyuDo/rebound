@@ -34,6 +34,7 @@ namespace Rebound.Full
             if(Array.IndexOf(Environment.GetCommandLineArgs(),"--rebound-smoke")>=0)gameObject.AddComponent<ReleaseSmoke>();
             if(Array.IndexOf(Environment.GetCommandLineArgs(),"--rebound-video")>=0)gameObject.AddComponent<GameplayRecorder>();
             if(Array.IndexOf(Environment.GetCommandLineArgs(),"--workshop-smoke")>=0&&!WorkshopSmoke.Running)new GameObject("Workshop integration harness").AddComponent<WorkshopSmoke>();
+            if(Array.IndexOf(Environment.GetCommandLineArgs(),"--workshop-video")>=0&&!WorkshopRecorder.Active)new GameObject("Workshop video capture").AddComponent<WorkshopRecorder>();
         }
         public void ReloadContent()
         {

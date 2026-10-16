@@ -1,5 +1,13 @@
 # RE:BOUND 통합 검증 기록
 
+## 증강 이미지·문구 및 제작 영상 — 2026-10-16
+
+Unity 2022.3.62f3 PlayMode **21/21 통과**, 실패 0. 이번 실행에는 실제 MOD ZIP을 설치한 후 증강 카드의 사용자 아이콘·한글 이름·설명·계산된 효과 값을 확인하고 선택 시 능력치 증가까지 검사하는 회귀 테스트를 추가했습니다. 아이콘 원색/종횡비 유지와 긴 설명의 스크롤 영역 크기도 검증했습니다. 결과 원본: `Docs/TestResults/workshop-video-playmode.xml`.
+
+Windows 빌드 성공: `Logs/workshop-video-final-build.log`. 이전 EditMode 11/11 결과는 아래 v1.1 기록이며 이번 UI 수정에서 다시 실행한 결과로 표시하지 않습니다. 제작부터 설치·실제 플레이까지는 별도의 Windows 녹화로 추가 확인하며 결과와 영상 안내는 `Docs/WORKSHOP_VIDEO.md`에 기록합니다.
+
+실제 Windows 새 녹화 완료: **18,165프레임 / 30fps / 605.5초**. 제작 씬에서 PNG 10개를 가져오고 기존/새 증강 문구·효과를 수정한 뒤 ZIP 내보내기, 설치, 활성화, 새 게임, 자연 레벨업과 재시도를 수행했습니다. 종료 시 초안 콘텐츠가 아닌 설치된 MOD를 사용했고 새 증강이 선택된 상태였습니다. `workshop-video-complete.json`, `workshop-video-evidence.txt`를 참고하세요. 마지막 패키징 빌드는 자막 챕터 전환 기록의 순서도 수정한 `Logs/workshop-video-package-build.log`입니다. UI/전투 코드는 촬영본과 동일합니다.
+
 ## v1.1 Workshop — 2026-10-16
 
 Unity 2022.3.62f3 / Windows x64. EditMode **11/11**, PlayMode **20/20** 통과. 최신 빌드와 Windows 통합 검증 결과는 `Docs/TestResults/workshop-automated-summary.json`, `workshop-windows.txt`, `workshop-base-windows.txt`에 보존합니다.

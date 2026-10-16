@@ -39,6 +39,16 @@
 
 기존 Phase 1 씬·코드와 사용자가 설치한 MOD는 보존합니다. Windows 배포 폴더는 기존 `Builds/FullWindows`, 배포 ZIP은 기존 `Builds/REBOUND.zip`을 갱신합니다.
 
+## 영상 및 증강 이미지·문구 보완
+
+- GameUI.cs: 사용자 증강 설명을 카드에 표시하고 계산된 실제 효과를 함께 유지합니다. 아이콘 PNG의 원색과 종횡비를 보존하며 텍스트 길이에 맞게 스크롤 높이를 계산합니다.
+- ModWorkshop.cs: 증강 미리보기에도 아이콘 원색·이름·설명을 표시합니다. 녹화 도구가 실제 편집 필드를 찾을 수 있도록 UI 오브젝트 이름을 지정합니다.
+- WorkshopRecorder.cs / GameSession.cs: 명시적 옵션에서만 실제 제작·설치·플레이와 게임 오디오를 녹화합니다.
+- FullGameTests.cs: 내보낸 MOD의 아이콘·한글 문구·실제 효과가 설치 후 카드에 반영되는 회귀 검사.
+- DemoAssets/NeonWave/: 원본 PNG 10개와 생성 프롬프트·출처.
+- Tools/finish_workshop_video.py: 한국어 자막·챕터·오디오를 합쳐 MP4와 SRT를 생성합니다.
+- Docs/WORKSHOP_VIDEO.md, Screenshots/11~13, TestResults/workshop-video-*: 실제 완성 영상 및 검증 기록.
+
 ## 확인 범위와 제한
 
 EditMode/PlayMode 결과와 Windows 실행 검증은 `VALIDATION.md` 및 `Docs/TestResults/workshop-*.json/txt`에 기록합니다. Windows 검증은 UI 버튼 콜백을 호출하는 자동 통합 검사이며 사람이 마우스/키보드로 전체 게임을 클리어한 테스트를 뜻하지 않습니다.

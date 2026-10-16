@@ -83,7 +83,7 @@ namespace Rebound.Full
             Button(root,"FOLDER",1430,22,145,40,()=>Application.OpenURL(new Uri(Workspace).AbsoluteUri));
             var m=Project.Draft.manifest;
             Meta("MOD ID",m.modId,24,230,v=>m.modId=v);Meta("NAME",m.name,270,300,v=>m.name=v);Meta("AUTHOR",m.author,586,250,v=>m.author=v);Meta("VERSION",m.version,852,150,v=>m.version=v);Meta("LICENSE",m.license,1018,250,v=>m.license=v);
-            Label(root,"DESCRIPTION",1284,82,290,24,14,accent);InputBox(root,m.description,1284,107,290,38,v=>m.description=v);
+            Label(root,"DESCRIPTION",1284,82,290,24,14,accent);InputBox(root,m.description,1284,107,290,38,v=>m.description=v).gameObject.name="Meta:DESCRIPTION";
             Label(root,"1. SELECT",24,170,410,30,18,accent);Label(root,"2. EDIT / APPLY",455,170,560,30,18,accent);Label(root,"3. PREVIEW / TEST",1040,170,535,30,18,accent);
             int tab=0;
             foreach(var s in WorkshopProject.Sections)
@@ -132,7 +132,7 @@ namespace Rebound.Full
             status=Label(root,message,24,833,1550,34,14,accent);
             Label(root,"Draft: "+Project.Root,24,873,1550,22,12);
         }
-        void Meta(string label,string value,float x,float width,Action<string> set){Label(root,label,x,82,width,24,14,accent);InputBox(root,value,x,107,width,38,set);}
+        void Meta(string label,string value,float x,float width,Action<string> set){Label(root,label,x,82,width,24,14,accent);InputBox(root,value,x,107,width,38,set).gameObject.name="Meta:"+label;}
         void BuildFields(Transform form,object obj,ref float y)
         {
             foreach(var field in obj.GetType().GetFields(BindingFlags.Public|BindingFlags.Instance).OrderBy(f=>f.Name=="id"?0:f.Name=="name"?1:f.Name=="description"?2:3))
@@ -145,7 +145,7 @@ namespace Rebound.Full
                 var choices=Options(obj,name);
                 if(choices!=null)
                 {
-                    string value=current?.ToString();Button(form,value+"  >",210,y,315,34,()=>{ReadFields();int n=Array.IndexOf(choices,value);field.SetValue(obj,choices[(n+1)%choices.Length]);Render();});
+                    string value=current?.ToString();Button(form,value+"  >",210,y,315,34,()=>{ReadFields();int n=Array.IndexOf(choices,value);field.SetValue(obj,choices[(n+1)%choices.Length]);Render();}).gameObject.name="Field:"+name;
                 }
                 else InputBox(form,current is string[] array?string.Join(",",array):Convert.ToString(current,CultureInfo.InvariantCulture),210,y,315,34,value=>
                 {
@@ -153,7 +153,7 @@ namespace Rebound.Full
                     else if(field.FieldType==typeof(int)){if(!int.TryParse(value,out var i))throw new FormatException(name+": enter a whole number");field.SetValue(obj,i);}
                     else if(field.FieldType==typeof(string[]))field.SetValue(obj,value.Split(',').Select(v=>v.Trim()).Where(v=>v.Length>0).ToArray());
                     else field.SetValue(obj,value);
-                });
+                }).gameObject.name="Field:"+name;
                 y+=40;
             }
         }
@@ -198,8 +198,9 @@ namespace Rebound.Full
             }
             if(selected is UpgradeData upgrade)
             {
-                var icon=Box(p.transform,210,80,100,100,AugmentRules.TierColor(upgrade.tier));icon.sprite=art.Get(upgrade.icon);
-                Label(p.transform,upgrade.tier.ToUpperInvariant()+" / "+upgrade.name,24,285,490,60,20,AugmentRules.TierColor(upgrade.tier));
+                var icon=Box(p.transform,210,80,100,100,art.SpriteColor(upgrade.icon,AugmentRules.TierColor(upgrade.tier)));icon.sprite=art.Get(upgrade.icon);icon.preserveAspect=true;
+                Label(p.transform,upgrade.tier.ToUpperInvariant()+" / "+upgrade.name,24,252,490,45,20,AugmentRules.TierColor(upgrade.tier));
+                Label(p.transform,upgrade.description,24,297,490,60,16);
             }
             string help="Preview: 27 px = 1 world unit; target at (12, 1).\nAPPLY refreshes artwork. TEST PLAY uses this draft.\nReturn through Main Menu > Workshop.\n\nPNG import assigns the selected item's image.\nNew enemies: add their ID to a stage wave.\nNew weapons: set a flight's weapon ID.";
             Label(root,help,1040,585,535,145,15);

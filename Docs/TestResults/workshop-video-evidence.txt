@@ -1,0 +1,8 @@
+Installed package: neon-wave-lab
+Draft override active: False
+Kills: 57
+Level: 9
+Custom augment rank: 1
+Weapon: wave
+Count: 3
+Damage: 7.4

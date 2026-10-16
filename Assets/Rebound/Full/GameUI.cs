@@ -97,15 +97,19 @@ namespace Rebound.Full
                 Color tier=AugmentRules.TierColor(u.tier);
                 Box(root,x,220,350,350,new Color(.055f,.11f,.17f));
                 Box(root,x,220,350,4,tier);
-                var icon=Box(root,x+25,245,48,48,tier);icon.sprite=game.Art.Get(u.icon);
-                Label(root,u.tier.ToUpperInvariant(),x+90,257,240,35,18,tier);
+                var icon=Box(root,x+25,239,64,64,game.Art.SpriteColor(u.icon,tier));icon.sprite=game.Art.Get(u.icon);icon.preserveAspect=true;
+                Label(root,u.tier.ToUpperInvariant(),x+105,257,220,35,18,tier);
                 Label(root,u.name,x+24,307,305,65,25,tier);
                 int rank=game.Progress.Ranks.TryGetValue(u.id,out int r)?r:0;
                 var preview=Box(root,x+24,375,305,145,new Color(0,0,0,0));preview.gameObject.AddComponent<RectMask2D>();
                 var scroll=preview.gameObject.AddComponent<ScrollRect>();string changes=game.Progress.Preview(u);
-                var content=Rect("Effect changes",preview.transform,0,0,305,Mathf.Max(145,changes.Split('\n').Length*25));
+                string description=string.IsNullOrWhiteSpace(u.description)?changes:u.description+"\n\n"+changes;
+                var content=Rect("Effect changes",preview.transform,0,0,305,145);
                 scroll.viewport=preview.rectTransform;scroll.content=content;scroll.horizontal=false;scroll.movementType=ScrollRect.MovementType.Clamped;scroll.scrollSensitivity=25;
-                Label(content,changes,0,0,305,Mathf.Max(145,changes.Split('\n').Length*25),17);
+                var details=Label(content,description,0,0,305,145,17);
+                float contentHeight=Mathf.Max(preview.rectTransform.rect.height,details.preferredHeight+8);
+                content.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical,contentHeight);
+                details.rectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical,contentHeight);
                 Label(root,Progression.IsSupply(u)?"SUPPLY":$"RANK {rank} → {rank+1} / {u.maxLevel}",x+24,530,305,32,18,tier);
                 Button(root,"SELECT  [ "+(i+1)+" ]",x,585,350,58,()=>game.Progress.Choose(index,generation));
             }
