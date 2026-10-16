@@ -105,7 +105,8 @@
       "maxLevel": 5,
       "minLevel": 1,
       "amount": 0.25,
-      "weight": 1.0
+      "weight": 1.0,
+      "tier": "silver"
     },
     {
       "id": "haste",
@@ -117,7 +118,8 @@
       "maxLevel": 5,
       "minLevel": 1,
       "amount": 0.18000000715255737,
-      "weight": 1.0
+      "weight": 1.0,
+      "tier": "silver"
     },
     {
       "id": "multi",
@@ -129,7 +131,8 @@
       "maxLevel": 3,
       "minLevel": 1,
       "amount": 1.0,
-      "weight": 1.0
+      "weight": 1.0,
+      "tier": "prismatic"
     },
     {
       "id": "pierce",
@@ -141,7 +144,8 @@
       "maxLevel": 3,
       "minLevel": 1,
       "amount": 1.0,
-      "weight": 1.0
+      "weight": 1.0,
+      "tier": "gold"
     },
     {
       "id": "crit",
@@ -153,7 +157,8 @@
       "maxLevel": 5,
       "minLevel": 1,
       "amount": 0.10000000149011612,
-      "weight": 1.0
+      "weight": 1.0,
+      "tier": "gold"
     },
     {
       "id": "range",
@@ -165,7 +170,8 @@
       "maxLevel": 4,
       "minLevel": 1,
       "amount": 0.20000000298023224,
-      "weight": 1.0
+      "weight": 1.0,
+      "tier": "silver"
     },
     {
       "id": "rebound",
@@ -177,7 +183,8 @@
       "maxLevel": 5,
       "minLevel": 1,
       "amount": 0.3499999940395355,
-      "weight": 1.0
+      "weight": 1.0,
+      "tier": "gold"
     },
     {
       "id": "chain",
@@ -189,7 +196,8 @@
       "maxLevel": 3,
       "minLevel": 1,
       "amount": 1.0,
-      "weight": 1.0
+      "weight": 1.0,
+      "tier": "platinum"
     },
     {
       "id": "charge",
@@ -201,7 +209,8 @@
       "maxLevel": 4,
       "minLevel": 1,
       "amount": 0.25,
-      "weight": 1.0
+      "weight": 1.0,
+      "tier": "silver"
     },
     {
       "id": "thrust",
@@ -213,7 +222,8 @@
       "maxLevel": 3,
       "minLevel": 1,
       "amount": 0.07999999821186066,
-      "weight": 1.0
+      "weight": 1.0,
+      "tier": "silver"
     },
     {
       "id": "fall",
@@ -225,7 +235,8 @@
       "maxLevel": 3,
       "minLevel": 1,
       "amount": 0.10000000149011612,
-      "weight": 1.0
+      "weight": 1.0,
+      "tier": "silver"
     },
     {
       "id": "guard",
@@ -237,7 +248,8 @@
       "maxLevel": 3,
       "minLevel": 1,
       "amount": 1.0,
-      "weight": 1.0
+      "weight": 1.0,
+      "tier": "platinum"
     },
     {
       "id": "repair",
@@ -249,7 +261,8 @@
       "maxLevel": 3,
       "minLevel": 1,
       "amount": 1.0,
-      "weight": 1.0
+      "weight": 1.0,
+      "tier": "silver"
     }
   ],
   "stages": [
@@ -365,6 +378,38 @@
     {
       "id": "ending",
       "text": "WARDEN OFFLINE\nGravity grid restored. The city holds.\nRE-01: recovery mission complete."
+    }
+  ],
+  "effects": [
+    {
+      "id": "impact",
+      "name": "Bullet impact",
+      "sprite": "spark",
+      "color": "#FFD166",
+      "size": 0.09,
+      "lifetime": 0.45,
+      "speed": 3,
+      "count": 3
+    },
+    {
+      "id": "explosion",
+      "name": "Enemy explosion",
+      "sprite": "spark",
+      "color": "#FF4538",
+      "size": 0.15,
+      "lifetime": 0.45,
+      "speed": 3,
+      "count": 10
+    },
+    {
+      "id": "rebound_fx",
+      "name": "Rebound ring",
+      "sprite": "ring",
+      "color": "#40E5FF",
+      "size": 1,
+      "lifetime": 0.3,
+      "speed": 0,
+      "count": 1
     }
   ]
 }

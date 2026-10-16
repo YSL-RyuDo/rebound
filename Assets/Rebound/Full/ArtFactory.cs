@@ -6,6 +6,8 @@ namespace Rebound.Full
     public sealed class ArtFactory
     {
         readonly Dictionary<string,Sprite> sprites=new Dictionary<string,Sprite>();
+        readonly HashSet<string> imported=new HashSet<string>();
+        public Color SpriteColor(string id,Color tint)=>imported.Contains(id)?new Color(1,1,1,tint.a):tint;
         public readonly Color Cyan=new Color(.18f,.94f,.94f), Red=new Color(1,.27f,.22f), Gold=new Color(1,.8f,.28f);
         public Sprite Get(string id)
         {
@@ -55,11 +57,12 @@ namespace Rebound.Full
                 var s=ModAssetLoader.Sprite(ModValidator.SafePath(registry.AssetRoots[a.id],a.path));
                 if(sprites.TryGetValue(a.id,out var old)) {Object.Destroy(old.texture);Object.Destroy(old);}
                 sprites[a.id]=s;
+                imported.Add(a.id);
             }
         }
         public SpriteRenderer Draw(string name,string sprite,Vector2 position,Vector2 scale,Color color,Transform parent,int order=1)
         {
-            var renderer=new GameObject(name).AddComponent<SpriteRenderer>(); renderer.sprite=Get(sprite);renderer.color=color;renderer.sortingOrder=order;
+            var renderer=new GameObject(name).AddComponent<SpriteRenderer>(); renderer.sprite=Get(sprite);renderer.color=order<7?SpriteColor(sprite,color):color;renderer.sortingOrder=order;
             renderer.transform.SetParent(parent,false); renderer.transform.position=position;renderer.transform.localScale=scale;return renderer;
         }
         public void Dispose() {foreach(var s in sprites.Values) {Object.Destroy(s.texture);Object.Destroy(s);} sprites.Clear();}
@@ -69,18 +72,26 @@ namespace Rebound.Full
         struct Particle {public SpriteRenderer sprite;public Vector2 velocity;public float life,max;}
         readonly List<Particle> particles=new List<Particle>(); GameSession game;
         public void Initialize(GameSession session) {game=session;}
-        public void Burst(Vector2 position,Color color,int count=8,float scale=.12f)
+        public void Burst(Vector2 position,Color color,int count=8,float scale=.12f,string effect="impact")
         {
+            game.Content.Effects.TryGetValue(effect,out var data);
+            if(data!=null){count=data.count;scale=data.size;ColorUtility.TryParseHtmlString(data.color,out color);}
             for(int i=0;i<count&&particles.Count<180;i++)
             {
-                var sprite=game.Art.Draw("Spark","spark",position,Vector2.one*scale,color,transform,8);
-                particles.Add(new Particle {sprite=sprite,velocity=Random.insideUnitCircle*3,life=.45f,max=.45f});
+                var sprite=game.Art.Draw("Spark",data?.sprite??"spark",position,Vector2.one*scale,color,transform,8);
+                particles.Add(new Particle {sprite=sprite,velocity=Random.insideUnitCircle*(data?.speed??3),life=data?.lifetime??.45f,max=data?.lifetime??.45f});
             }
         }
         public void Ring(Vector2 position,float size,Color color)
         {
-            var sprite=game.Art.Draw("Shock ring","ring",position,Vector2.one*size,color,transform,7);
-            particles.Add(new Particle {sprite=sprite,life=.3f,max=.3f});
+            if(particles.Count>=180)return;
+            game.Content.Effects.TryGetValue(game.Content.Flight[game.FlightId].reboundEffect,out var data);
+            if(data!=null)ColorUtility.TryParseHtmlString(data.color,out color);
+            for(int i=0;i<(data?.count??1)&&particles.Count<180;i++)
+            {
+                var sprite=game.Art.Draw("Shock ring",data?.sprite??"ring",position,Vector2.one*size*(data?.size??1),color,transform,7);
+                particles.Add(new Particle {sprite=sprite,velocity=Random.insideUnitCircle*(data?.speed??0),life=data?.lifetime??.3f,max=data?.lifetime??.3f});
+            }
         }
         void Update()
         {

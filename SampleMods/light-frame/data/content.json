@@ -15,7 +15,8 @@
             "range": 7.0,
             "hp": 3,
             "skin": "light",
-            "weapon": "pulse"
+            "weapon": "pulse",
+            "reboundEffect": "rebound_fx"
         }
     ],
     "weapons": [],
@@ -31,7 +32,9 @@
             "maxLevel": 3,
             "minLevel": 1,
             "amount": 0.05999999865889549,
-            "weight": 2.0
+            "weight": 2.0,
+            "tier": "silver",
+            "effects": []
         }
     ],
     "stages": [],
@@ -45,5 +48,6 @@
             "kind": "sprite"
         }
     ],
-    "story": []
+    "story": [],
+    "effects": []
 }

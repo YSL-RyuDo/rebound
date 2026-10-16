@@ -6,6 +6,7 @@ namespace Rebound.Full
     {
         GameSession game;Rigidbody2D body;SpriteRenderer hull,engine,shield;
         float axis,vy,nextRise,nextShot,immune,regen;bool queued,ready;
+        Color hullColor;
         public float Energy;public int Hp,Shields;public bool ReadInput=true;
         public Vector2 Position=>body.position;public float VelocityY=>vy;
         public void Initialize(GameSession session)
@@ -13,6 +14,7 @@ namespace Rebound.Full
             game=session;body=gameObject.AddComponent<Rigidbody2D>();body.bodyType=RigidbodyType2D.Kinematic;body.gravityScale=0;body.interpolation=RigidbodyInterpolation2D.Interpolate;
             transform.position=new Vector2(-5.5f,1);body.position=transform.position;Hp=game.Stats.MaxHp;
             hull=game.Art.Draw("Hull",game.Content.Flight[game.FlightId].skin,body.position,new Vector2(.95f,.65f),game.Art.Cyan,transform,5);
+            hullColor=hull.color;
             engine=game.Art.Draw("Thruster","spark",body.position+Vector2.left*.5f,new Vector2(.5f,.25f),game.Art.Gold,transform,4);
             shield=game.Art.Draw("Shield","ring",body.position,Vector2.one*1.15f,game.Art.Cyan,transform,5);
         }
@@ -22,7 +24,7 @@ namespace Rebound.Full
         {
             if(!game)return;
             if(ReadInput){axis=(Input.GetKey(game.Save.Right)?1:0)-(Input.GetKey(game.Save.Left)?1:0);if(Input.GetKeyDown(game.Save.Rise))Rise();}
-            hull.color=Time.time<immune?new Color(.2f,1,1,.35f+Mathf.PingPong(Time.time*8,.65f)):game.Art.Cyan;
+            var color=hullColor;if(Time.time<immune)color.a=.35f+Mathf.PingPong(Time.time*8,.65f);hull.color=color;
             hull.transform.localRotation=Quaternion.Euler(0,0,Mathf.Clamp(vy*2,-12,12));
             engine.transform.localScale=new Vector2(.35f+Mathf.Max(0,vy)*.07f,.2f+Mathf.Sin(Time.time*30)*.04f);
             shield.enabled=Shields>0;

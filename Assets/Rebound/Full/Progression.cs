@@ -15,8 +15,11 @@ namespace Rebound.Full
             float haste=0;
             foreach(var pair in ranks)
             {
-                var u=content.Upgrades[pair.Key];float amount=u.amount*pair.Value;
-                switch(u.effect)
+                var u=content.Upgrades[pair.Key];
+                foreach(var effect in AugmentRules.Effects(u))
+                {
+                float amount=effect.amount*pair.Value;
+                switch(effect.effect)
                 {
                     case "damage":Damage+=w.damage*amount;break;
                     case "haste":haste+=amount;break;
@@ -32,6 +35,7 @@ namespace Rebound.Full
                     case "guard":MaxShield+=(int)amount;break;
                     case "repair":MaxHp+=(int)amount;break;
                 }
+                }
             }
             Interval=Mathf.Max(.06f,w.interval/(1+haste));Count=Mathf.Clamp(Count,1,12);Pierce=Mathf.Clamp(Pierce,0,16);Crit=Mathf.Clamp01(Crit);
             Thrust=Mathf.Clamp(Thrust,1,10);MaxFall=Mathf.Max(2,MaxFall);Range=Mathf.Clamp(Range,1,13);MaxHp=Mathf.Clamp(MaxHp,1,20);MaxShield=Mathf.Clamp(MaxShield,0,5);
@@ -43,6 +47,7 @@ namespace Rebound.Full
         public readonly List<UpgradeData> Choices=new List<UpgradeData>();
         public int Level {get;private set;}=1; public int Xp {get;private set;} public int Pending {get;private set;}
         public int Required => 12+(Level-1)*7;
+        public int Generation {get;private set;}
         public Progression(GameSession session){game=session;}
         public void AddXp(int amount)
         {
@@ -52,33 +57,54 @@ namespace Rebound.Full
         public void OpenNext()
         {
             if(Pending<=0)return;
-            Choices.Clear();
-            var available=game.Content.Upgrades.Values.Where(u=>Level>=u.minLevel&&(!Ranks.ContainsKey(u.id)||Ranks[u.id]<u.maxLevel)).OrderBy(u=>u.id).ToList();
+            Choices.Clear();Generation++;
+            var available=game.Content.Upgrades.Values.Where(CanOffer).OrderBy(u=>u.id).ToList();
             while(Choices.Count<3 && available.Count>0)
             {
-                float roll=Random.value*available.Sum(u=>u.weight);int index=available.Count-1;
-                for(int i=0;i<available.Count;i++){roll-=available[i].weight;if(roll<=0){index=i;break;}}
-                Choices.Add(available[index]);available.RemoveAt(index);
+                var tiers=available.Select(u=>u.tier).Distinct().ToList();
+                float tierRoll=Random.value*tiers.Sum(AugmentRules.TierWeight);string tier=tiers.Last();
+                foreach(var t in tiers){tierRoll-=AugmentRules.TierWeight(t);if(tierRoll<=0){tier=t;break;}}
+                var pool=available.Where(u=>u.tier==tier).ToList();
+                float roll=Random.value*pool.Sum(u=>u.weight);var chosen=pool.Last();
+                foreach(var u in pool){roll-=u.weight;if(roll<=0){chosen=u;break;}}
+                Choices.Add(chosen);available.Remove(chosen);
             }
             while(Choices.Count<3)
             {
                 int slot=Choices.Count;
-                Choices.Add(new UpgradeData {id="reward_"+slot,name=slot==0?"Emergency repair":slot==1?"Energy reserve":"Salvage cache",description=slot==0?"Restore one HP":slot==1?"Fill rebound energy":"Gain 100 score",effect="reward"+slot,maxLevel=1});
+                // Score supplies always have an observable effect, even at full HP/energy and all caps.
+                Choices.Add(new UpgradeData {id="__supply_"+slot,name="Salvage cache",description="Gain 100 score (all remaining upgrades capped)",effect="reward2",maxLevel=1});
             }
             game.SetState(GameState.LevelUp);game.Audio.Play("level");
         }
-        public bool Choose(int index)
+        public bool CanOffer(UpgradeData u)
         {
-            if(game.State!=GameState.LevelUp||index<0||index>=Choices.Count||Pending<=0)return false;
+            int rank=Ranks.TryGetValue(u.id,out var r)?r:0;
+            return Level>=u.minLevel&&rank<u.maxLevel&&Preview(u).Length>0;
+        }
+        public string Preview(UpgradeData u)
+        {
+            if(IsSupply(u))return "+100 score";
+            var ranks=new Dictionary<string,int>(Ranks);ranks[u.id]=ranks.TryGetValue(u.id,out var r)?r+1:1;
+            var f=game.Content.Flight[game.FlightId];var next=new PlayerStats();next.Rebuild(f,game.Content.Weapons[f.weapon],ranks,game.Content);
+            return AugmentRules.Difference(game.Stats,next);
+        }
+        // Internal supplies use IDs forbidden in MOD definitions; legacy effect text cannot impersonate one.
+        public static bool IsSupply(UpgradeData u)=>u.id!=null&&u.id.StartsWith("__supply_",System.StringComparison.Ordinal);
+        public bool Choose(int index,int generation=-1)
+        {
+            if(game.State!=GameState.LevelUp||index<0||index>=Choices.Count||Pending<=0||(generation>=0&&generation!=Generation))return false;
             var u=Choices[index];
-            if(u.effect=="reward0")game.Player.Heal(1);
-            else if(u.effect=="reward1")game.Player.Energy=100;
-            else if(u.effect=="reward2")game.Score+=100;
+            if(!IsSupply(u)&&!CanOffer(u)){OpenNext();return false;}
+            if(IsSupply(u))game.Score+=100;
             else
             {
                 Ranks[u.id]=Ranks.TryGetValue(u.id,out int rank)?rank+1:1;game.RebuildStats();
-                if(u.effect=="repair")game.Player.Heal((int)u.amount);
-                if(u.effect=="guard")game.Player.Shields=game.Stats.MaxShield;
+                foreach(var effect in AugmentRules.Effects(u))
+                {
+                    if(effect.effect=="repair")game.Player.Heal((int)effect.amount);
+                    if(effect.effect=="guard")game.Player.Shields=game.Stats.MaxShield;
+                }
             }
             Pending--;game.Audio.Play("select");game.SetState(GameState.Playing);
             if(Pending>0)OpenNext();return true;

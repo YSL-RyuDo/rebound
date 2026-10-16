@@ -12,6 +12,7 @@ namespace Rebound.Full
     {
         public SpriteRenderer Visual;public Vector2 Position,Velocity;public float Damage,Life,Radius;
         public bool Active,Hostile,Critical;public int Pierce;public readonly HashSet<CombatEnemy> Hit=new HashSet<CombatEnemy>();
+        public WeaponData MotionData;public ProjectileMotion Motion;
     }
     public sealed class CombatWorld : MonoBehaviour
     {
@@ -48,28 +49,29 @@ namespace Rebound.Full
             for(int i=0;i<stats.Count;i++)
             {
                 float angle=(i-(stats.Count-1)*.5f)*(stats.Weapon.pattern=="fan"?stats.Weapon.spread:6);
-                Vector2 dir=Quaternion.Euler(0,0,angle)*direction;bool crit=Random.value<stats.Crit;
-                Shoot(origin+Vector2.right*.5f,dir*stats.BulletSpeed,stats.Damage*(crit?2:1),stats.BulletSize,stats.Pierce,false,crit,stats.Weapon.sprite);
+                Vector2 dir=Quaternion.Euler(0,0,angle+stats.Weapon.launchAngle)*direction;bool crit=Random.value<stats.Crit;
+                Shoot(origin+Vector2.right*.5f,dir*stats.BulletSpeed,stats.Damage*(crit?2:1),stats.BulletSize,stats.Pierce,false,crit,stats.Weapon.sprite,stats.Weapon);
             }
             game.Audio.Play("shot",.15f);
         }
-        public void Shoot(Vector2 position,Vector2 velocity,float damage,float size,int pierce,bool hostile,bool critical=false,string sprite="bullet")
+        public void Shoot(Vector2 position,Vector2 velocity,float damage,float size,int pierce,bool hostile,bool critical=false,string sprite="bullet",WeaponData motion=null)
         {
             if(pool.Count==0)return;
             var p=pool.Dequeue();p.Position=position;p.Velocity=velocity;p.Damage=damage;p.Radius=size*.5f;p.Pierce=pierce;p.Hostile=hostile;p.Critical=critical;p.Life=5;p.Active=true;p.Hit.Clear();
-            p.Visual.sprite=game.Art.Get(sprite);p.Visual.enabled=true;p.Visual.color=hostile?game.Art.Red:critical?Color.white:game.Art.Gold;
+            p.MotionData=motion;p.Motion=new ProjectileMotion(position,velocity);p.Life=motion?.lifetime??5;
+            p.Visual.sprite=game.Art.Get(sprite);p.Visual.enabled=true;p.Visual.color=game.Art.SpriteColor(sprite,hostile?game.Art.Red:critical?Color.white:game.Art.Gold);
             p.Visual.transform.position=position;p.Visual.transform.localScale=new Vector2(size*2,size);p.Visual.transform.rotation=Quaternion.Euler(0,0,Mathf.Atan2(velocity.y,velocity.x)*Mathf.Rad2Deg);
         }
         void Release(CombatProjectile p){if(!p.Active)return;p.Active=false;p.Visual.enabled=false;pool.Enqueue(p);}
-        public void Hit(CombatEnemy enemy,float damage,bool rebound=false,bool critical=false)
+        public void Hit(CombatEnemy enemy,float damage,bool rebound=false,bool critical=false,string effect="impact")
         {
             if(enemy.Dead||!game.Running)return;
             float armor=enemy.Boss?(enemy.Phase==3&&enemy.Age%8<2?.8f:.35f):enemy.Data.armor;
             enemy.Hp-=damage*(rebound?1.5f:1-armor);
-            game.Effects.Burst(enemy.Position,critical?Color.white:game.Art.Gold,critical?5:2,.09f);game.Audio.Play("hit",.08f);
+            game.Effects.Burst(enemy.Position,critical?Color.white:game.Art.Gold,critical?5:2,.09f,effect);game.Audio.Play("hit",.08f);
             if(enemy.Hp>0)return;
             enemy.Dead=true;enemy.Visual.enabled=false;enemy.Shield.enabled=false;enemy.Warning.enabled=false;
-            game.EnemyKilled(enemy.Data.xp,enemy.Position);
+            game.EnemyKilled(enemy.Data.xp,enemy.Position,enemy.Data.deathEffect);
             if(enemy.Boss)game.Finish(true);
         }
         public void Rebound(Vector2 origin,PlayerStats stats)
@@ -125,7 +127,14 @@ namespace Rebound.Full
             foreach(var p in Projectiles)
             {
                 if(!p.Active)continue;
-                Vector2 old=p.Position;p.Position+=p.Velocity*dt;p.Life-=dt;
+                Vector2? target=null;
+                if(p.MotionData!=null&&p.MotionData.trajectory=="homing")
+                {
+                    float nearest=float.MaxValue;
+                    foreach(var e in Enemies)if(!e.Dead&&!p.Hit.Contains(e)){float d=(e.Position-p.Position).sqrMagnitude;if(d<nearest){nearest=d;target=e.Position;}}
+                }
+                Vector2 old=p.Position;p.Position=p.Motion.Step(p.MotionData,dt,target);p.Velocity=p.Motion.Velocity;p.Life-=dt;
+                var direction=p.Position-old;if(direction.sqrMagnitude>0)p.Visual.transform.rotation=Quaternion.Euler(0,0,Mathf.Atan2(direction.y,direction.x)*Mathf.Rad2Deg);
                 if(p.Hostile)
                 {
                     if(SegmentDistance(game.Player.Position,old,p.Position)<.28f+p.Radius){game.Player.Damage(Mathf.CeilToInt(p.Damage));Release(p);}
@@ -133,7 +142,7 @@ namespace Rebound.Full
                 else foreach(var e in Enemies)
                 {
                     if(e.Dead||p.Hit.Contains(e)||SegmentDistance(e.Position,old,p.Position)>(e.Boss?1.2f:.36f)+p.Radius)continue;
-                    p.Hit.Add(e);Hit(e,p.Damage,false,p.Critical);if(p.Pierce--<=0){Release(p);break;}
+                    p.Hit.Add(e);Hit(e,p.Damage,false,p.Critical,p.MotionData?.impactEffect??"impact");if(p.Pierce--<=0){Release(p);break;}
                 }
                 if(p.Life<=0||Mathf.Abs(p.Position.x)>11||Mathf.Abs(p.Position.y)>6)Release(p);
                 p.Visual.transform.position=p.Position;

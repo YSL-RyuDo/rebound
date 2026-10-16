@@ -9,6 +9,9 @@ EditorBuildSettings:
     path: Assets/Rebound/Scenes/REBOUND.unity
     guid: a97f84c48909c0a4389527c6deb986dc
   - enabled: 1
+    path: Assets/Rebound/Scenes/ModWorkshop.unity
+    guid: 54236919bfc05c0449343af01c1f23d8
+  - enabled: 1
     path: Assets/Rebound/Scenes/Game.unity
     guid: 09a2dad31ee8fa74089beff8cc3b8adc
   m_configObjects: {}

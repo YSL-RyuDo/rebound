@@ -1,5 +1,23 @@
 # RE:BOUND 통합 검증 기록
 
+## v1.1 Workshop — 2026-10-16
+
+Unity 2022.3.62f3 / Windows x64. EditMode **11/11**, PlayMode **20/20** 통과. 최신 빌드와 Windows 통합 검증 결과는 `Docs/TestResults/workshop-automated-summary.json`, `workshop-windows.txt`, `workshop-base-windows.txt`에 보존합니다.
+
+추가 검사: 치명타/추진/낙하 속도 상한과 최대 단계에서 후보 제외, 이전 선택창 재사용 방지, 모든 증강 소진 시 실제 점수 지급, 복합 효과와 내부 보상 구분, 초안 저장/재열기, ZIP 내보내기/설치/재편집, PNG 가져오기, 불량 편집의 트랜잭션 거부, 궤적별 실제 이동, 제작 씬→게임→제작 씬 전환.
+
+Windows 자동 검사는 실제 빌드의 UI 버튼 콜백으로 파동 탄환 및 프리즘 복합 증강을 작성하고, PNG와 폭발 색을 수정한 뒤 ZIP 설치·초안 플레이·실제 전투 이펙트를 확인합니다. 사용자 초안/설치 폴더와 분리된 로그 폴더에서 실행합니다. 사람이 모든 화면을 클릭한 검사는 아니며, 캡처는 카메라/Canvas를 직접 렌더링해 검토합니다.
+
+재실행:
+
+```powershell
+& '.\Builds\FullWindows\REBOUND.exe' --workshop-smoke --smoke-output 'C:\Temp\ReboundWorkshopCheck'
+```
+
+출력 폴더는 매번 새 폴더를 사용하세요. 일반 실행에서는 검증 코드가 작동하지 않습니다. 테스트 플레이는 최고 기록을 갱신하지 않습니다. 현 버전의 수동 확인 절차는 `Docs/WORKSHOP_GUIDE.md`에 있습니다. 장시간 밸런스, 다양한 PC/해상도에서 실제 마우스·키보드 조작, 한국어 이외 사용자 폰트 검증은 남아 있습니다.
+
+## v1.0 이전 검증 기록
+
 검증일: 2026-10-14 (한국 시간). Unity 2022.3.62f3, Windows x64.
 
 ## 결과

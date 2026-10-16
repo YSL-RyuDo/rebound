@@ -1,0 +1,177 @@
+{
+  "date": "2026-10-16",
+  "unity": "2022.3.62f3",
+  "suites": [
+    {
+      "source": "Logs\\workshop-edit-final.xml",
+      "result": "Passed",
+      "passed": 11,
+      "failed": 0,
+      "tests": [
+        {
+          "name": "RejectExecutableAndDuplicateCasePaths",
+          "result": "Passed",
+          "duration": "0.099898"
+        },
+        {
+          "name": "RejectSymlinkEntry",
+          "result": "Passed",
+          "duration": "0.016671"
+        },
+        {
+          "name": "RejectUnknownVersionAndDuplicateContentIds",
+          "result": "Passed",
+          "duration": "0.007827"
+        },
+        {
+          "name": "RejectZipBombAndExcessiveEntryCount",
+          "result": "Passed",
+          "duration": "0.121085"
+        },
+        {
+          "name": "SweptCollisionFindsFastBulletCrossing",
+          "result": "Passed",
+          "duration": "0.005616"
+        },
+        {
+          "name": "CompositeEffectsRebuildWithoutCompounding",
+          "result": "Passed",
+          "duration": "0.006274"
+        },
+        {
+          "name": "DraftOverrideExportInstallAndReopenRoundTrip",
+          "result": "Passed",
+          "duration": "0.082603"
+        },
+        {
+          "name": "InvalidEditsAreTransactionalAndReferencesCannotDangle",
+          "result": "Passed",
+          "duration": "0.003921"
+        },
+        {
+          "name": "LegacySchemaStillGetsSafeNewDefaults",
+          "result": "Passed",
+          "duration": "0.001542"
+        },
+        {
+          "name": "SpriteImportAssignExportAndLoad",
+          "result": "Passed",
+          "duration": "0.084098"
+        },
+        {
+          "name": "TrajectoriesHaveObservableDistinctMotionAndFrameStableWave",
+          "result": "Passed",
+          "duration": "0.006736"
+        }
+      ]
+    },
+    {
+      "source": "Logs\\workshop-play-final.xml",
+      "result": "Passed",
+      "passed": 20,
+      "failed": 0,
+      "tests": [
+        {
+          "name": "AllCappedSupplyActuallyChangesScore",
+          "result": "Passed",
+          "duration": "1.243943"
+        },
+        {
+          "name": "BossPhasesVictoryAndRetry",
+          "result": "Passed",
+          "duration": "1.280654"
+        },
+        {
+          "name": "CappedAugmentsNeverOfferAndStaleChoiceCannotSpendAnotherLevel",
+          "result": "Passed",
+          "duration": "0.938520"
+        },
+        {
+          "name": "CorruptSaveRecoversAndValidSaveRoundTrips",
+          "result": "Passed",
+          "duration": "0.889530"
+        },
+        {
+          "name": "EnemyPatternsArmorAndReboundDirection",
+          "result": "Passed",
+          "duration": "0.958391"
+        },
+        {
+          "name": "FullMovementEnergyAndDamage",
+          "result": "Passed",
+          "duration": "2.072626"
+        },
+        {
+          "name": "FullTimelineAndBoundedProjectilePool",
+          "result": "Passed",
+          "duration": "1.092176"
+        },
+        {
+          "name": "LevelQueueUniqueChoicesAndStackRebuild",
+          "result": "Passed",
+          "duration": "0.947656"
+        },
+        {
+          "name": "MaliciousZipAndInvalidContentAreRejected",
+          "result": "Passed",
+          "duration": "0.889520"
+        },
+        {
+          "name": "PauseFreezesAndSettingsResumeCorrectly",
+          "result": "Passed",
+          "duration": "1.126589"
+        },
+        {
+          "name": "RealZipSamplesApplyDisableAndRejectConflict",
+          "result": "Passed",
+          "duration": "0.917206"
+        },
+        {
+          "name": "RetryDoesNotAccumulateAudioSources",
+          "result": "Passed",
+          "duration": "1.759864"
+        },
+        {
+          "name": "SweptProjectilesDamageEnemiesAndPoolReturns",
+          "result": "Passed",
+          "duration": "1.583311"
+        },
+        {
+          "name": "WorkshopSceneAndPlaytestRoundTrip",
+          "result": "Passed",
+          "duration": "1.887743"
+        },
+        {
+          "name": "AutomaticFireKillsAndPoolReuses",
+          "result": "Passed",
+          "duration": "3.437949"
+        },
+        {
+          "name": "EnergyUsesDistanceAndReboundOnlyHitsFront",
+          "result": "Passed",
+          "duration": "0.041496"
+        },
+        {
+          "name": "FallDamageInvulnerabilityGameOverAndRetry",
+          "result": "Passed",
+          "duration": "0.274808"
+        },
+        {
+          "name": "MovementRiseGravityAndBounds",
+          "result": "Passed",
+          "duration": "3.874775"
+        },
+        {
+          "name": "RealDescentChargesAndRiseConsumesEnergy",
+          "result": "Passed",
+          "duration": "1.125046"
+        },
+        {
+          "name": "RiseCooldownAndEnemyContact",
+          "result": "Passed",
+          "duration": "0.533011"
+        }
+      ]
+    }
+  ]
+}

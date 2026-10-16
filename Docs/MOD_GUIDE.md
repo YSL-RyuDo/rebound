@@ -1,6 +1,6 @@
 # RE:BOUND MOD schema 1
 
-게임 버전 `1.0.0`, ZIP 루트에 `manifest.json`이 있어야 합니다. 감싸는 최상위 폴더를 추가하지 마세요.
+게임 버전 `1.1.0`. 기존 `targetGameVersion: "1.0.0"` 패키지도 읽습니다. ZIP 루트에 `manifest.json`이 있어야 합니다. 감싸는 최상위 폴더를 추가하지 마세요. 화면에서 제작하는 방법은 [Workshop 가이드](WORKSHOP_GUIDE.md)에 있습니다.
 
 ```text
 manifest.json
@@ -23,7 +23,7 @@ assets/audio/custom.wav
 }
 ```
 
-콘텐츠 JSON은 `ContentPack` 형식입니다. `flight`, `weapons`, `enemies`, `upgrades`, `stages`, `assets`, `story` 배열을 사용합니다. 전체 필드와 기본값은 `Assets/Rebound/Full/ContentData.cs`, 작동하는 예시는 `SampleMods/`를 참고하세요. JSON 객체는 Unity JsonUtility가 읽으며 알 수 없는 필드는 무시되므로 철자를 정확히 맞춰야 합니다.
+콘텐츠 JSON은 `ContentPack` 형식입니다. `flight`, `weapons`, `enemies`, `upgrades`, `stages`, `effects`, `assets`, `story` 배열을 사용합니다. 전체 필드와 기본값은 `Assets/Rebound/Full/ContentData.cs`, 작동하는 예시는 `SampleMods/`를 참고하세요. JSON 객체는 Unity JsonUtility가 읽으며 알 수 없는 필드는 무시되므로 철자를 정확히 맞춰야 합니다.
 
 ## 추가와 교체
 
@@ -49,6 +49,11 @@ assets/audio/custom.wav
 | upgrades | effect, amount, maxLevel, minLevel, weight, icon |
 | stages | bossTime, bossHp, background, waves |
 | assets | kind (`sprite`/`audio`), path |
+| effects | sprite, color (#RRGGBB), size, lifetime, speed, count |
+
+v1.1 확장: `weapons`에 `trajectory`, `amplitude`, `frequency`, `gravity`, `acceleration`, `turnRate`, `launchAngle`, `lifetime`, `impactEffect`를 추가했습니다. `flight.reboundEffect`, `enemies.deathEffect`는 이펙트 ID를 참조합니다. 기본 ID는 `impact`, `explosion`, `rebound_fx`입니다. `stages.backgroundMode`는 `tile` 또는 `stretch`입니다.
+
+`upgrades.tier`: `silver`, `gold`, `platinum`, `prismatic`. `effects: [{"effect":"damage","amount":0.5},{"effect":"multi","amount":1}]`처럼 최대 8개 효과를 조합할 수 있습니다. 비어 있으면 기존 단일 `effect`/`amount`를 사용합니다. `multi`, `pierce`, `chain`, `guard`, `repair`의 amount는 정수여야 합니다. 무효 단계가 생기는 소수 증분은 거부합니다. 등급은 희귀도만 결정하고 amount에 숨은 배수를 곱하지 않습니다.
 
 무기 패턴은 `line`, `fan`. 적 패턴은 `straight`, `track`, `shield`, `shoot`. 업그레이드 효과는 `damage`, `haste`, `multi`, `pierce`, `crit`, `range`, `rebound`, `chain`, `charge`, `thrust`, `fall`, `guard`, `repair`를 지원합니다. 새로운 코드를 실행하는 패턴 추가는 지원하지 않습니다.
 

@@ -9,21 +9,35 @@ namespace Rebound.Full
     {
         public float gravity = 6, thrust = 4.8f, speed = 5, maxFall = 6, interval = .25f, charge = 20, rebound = 14, range = 7;
         public int hp = 3; public string skin = "player", weapon = "pulse";
+        public string reboundEffect = "rebound_fx";
     }
     [Serializable] public class WeaponData : Definition
     {
         public float damage = 3, interval = .25f, speed = 17, size = .18f, crit = .05f, spread = 8;
         public int count = 1, pierce; public string pattern = "line", sprite = "bullet";
+        public string trajectory = "straight";
+        public string impactEffect = "impact";
+        public float amplitude = .6f, frequency = 2, gravity, acceleration, turnRate = 120, launchAngle, lifetime = 5;
     }
     [Serializable] public class EnemyData : Definition
     {
         public float hp = 9, speed = 2, interval = 3, armor;
         public int xp = 5, damage = 1; public string pattern = "straight", sprite = "drone";
+        public string deathEffect = "explosion";
     }
     [Serializable] public class UpgradeData : Definition
     {
         public string effect, icon = "upgrade"; public int maxLevel = 5, minLevel = 1;
         public float amount = 1, weight = 1;
+        public string tier = "silver";
+        public UpgradeEffect[] effects = new UpgradeEffect[0];
+    }
+    [Serializable] public class UpgradeEffect { public string effect = "damage"; public float amount = .25f; }
+    [Serializable] public class EffectData : Definition
+    {
+        public string sprite = "spark", color = "#FFD166";
+        public float size = .15f, lifetime = .45f, speed = 3;
+        public int count = 8;
     }
     [Serializable] public class WaveData
     {
@@ -33,6 +47,7 @@ namespace Rebound.Full
     [Serializable] public class StageData : Definition
     {
         public float bossTime = 240, bossHp = 1400; public string background = "reactor"; public WaveData[] waves;
+        public string backgroundMode = "tile";
     }
     [Serializable] public class StoryData { public string id, text; }
     [Serializable] public class AssetData : Definition { public string path, kind; }
@@ -42,6 +57,7 @@ namespace Rebound.Full
         public EnemyData[] enemies = new EnemyData[0]; public UpgradeData[] upgrades = new UpgradeData[0];
         public StageData[] stages = new StageData[0]; public AssetData[] assets = new AssetData[0];
         public StoryData[] story = new StoryData[0];
+        public EffectData[] effects = new EffectData[0];
     }
     public static class BuiltinContent
     {
@@ -88,6 +104,12 @@ namespace Rebound.Full
                 U("guard","Aegis cell","Gain a shield charge; one charge regenerates every 20s","guard",1,3),
                 U("repair","Repair kit","Restore 1 HP and increase maximum HP by 1","repair",1,3)
             };
+            foreach(var u in p.upgrades) u.tier = u.id=="multi"?"prismatic":u.id=="chain"||u.id=="guard"?"platinum":u.id=="crit"||u.id=="rebound"||u.id=="pierce"?"gold":"silver";
+            p.effects = new[] {
+                new EffectData { id="impact", name="Bullet impact", count=3, size=.09f },
+                new EffectData { id="explosion", name="Enemy explosion", count=10, color="#FF4538" },
+                new EffectData { id="rebound_fx", name="Rebound ring", sprite="ring", count=1, size=1, lifetime=.3f, speed=0, color="#40E5FF" }
+            };
             return p;
         }
         static UpgradeData U(string id,string name,string desc,string effect,float amount,int max) => new UpgradeData {id=id,name=name,description=desc,effect=effect,icon=id,amount=amount,maxLevel=max};
@@ -101,12 +123,14 @@ namespace Rebound.Full
         public readonly Dictionary<string,UpgradeData> Upgrades = new Dictionary<string,UpgradeData>();
         public readonly Dictionary<string,StageData> Stages = new Dictionary<string,StageData>();
         public readonly Dictionary<string,AssetData> Assets = new Dictionary<string,AssetData>();
+        public readonly Dictionary<string,EffectData> Effects = new Dictionary<string,EffectData>();
         public readonly Dictionary<string,string> AssetRoots = new Dictionary<string,string>();
         public readonly Dictionary<string,string> Story = new Dictionary<string,string>();
         public void Apply(ContentPack p, string root, bool baseline, HashSet<string> changed)
         {
             Add(Flight,p.flight,baseline,changed); Add(Weapons,p.weapons,baseline,changed); Add(Enemies,p.enemies,baseline,changed);
             Add(Upgrades,p.upgrades,baseline,changed); Add(Stages,p.stages,baseline,changed); Add(Assets,p.assets,baseline,changed);
+            Add(Effects,p.effects??new EffectData[0],baseline,changed);
             foreach(var a in p.assets) AssetRoots[a.id]=root;
             foreach(var s in p.story) { if (!baseline) throw new FormatException("Story overrides are not supported in schema 1."); Story[s.id]=s.text; }
         }
@@ -125,8 +149,15 @@ namespace Rebound.Full
         {
             if (!Flight.ContainsKey("re01") || !Stages.ContainsKey("powerplant")) throw new FormatException("Required defaults missing");
             foreach(var f in Flight.Values) if (!Weapons.ContainsKey(f.weapon)) throw new FormatException("Unknown weapon: "+f.weapon);
+            if(Effects.Count>0)
+            {
+                foreach(var f in Flight.Values) CheckEffect(f.reboundEffect);
+                foreach(var w in Weapons.Values) CheckEffect(w.impactEffect);
+                foreach(var e in Enemies.Values) CheckEffect(e.deathEffect);
+            }
             foreach(var s in Stages.Values) foreach(var w in s.waves) foreach(var id in w.enemies)
                 if(!Enemies.ContainsKey(id)) throw new FormatException("Unknown enemy: "+id);
         }
+        void CheckEffect(string id){if(string.IsNullOrEmpty(id)||!Effects.ContainsKey(id))throw new FormatException("Unknown effect ID: "+id);}
     }
 }

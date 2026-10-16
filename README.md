@@ -9,6 +9,8 @@ Windows용 오리지널 2D 중력 로그라이크 슈팅 게임. 하강으로 �
 - 4종 일반 적, 13종 기본 업그레이드, 4분 뒤 등장하는 3페이즈 GRAVITY WARDEN.
 - 경험치 자동 지급, 중복 없는 가중치 3지선다, 연속 레벨업 큐, 일시정지·재시작.
 - 로컬 ZIP MOD 설치·검증·활성화·해제, 샘플 2종.
+- **v1.1: MOD WORKSHOP 제작 씬** — PNG 교체, 탄환 궤적, 적/웨이브, 이펙트, 증강 편집·추가, 테스트 플레이·ZIP 내보내기.
+- 실버·골드·플래티넘·프리즘 증강. 최대 단계와 실제 능력치 상한을 함께 검사하고 카드에 적용 전후 수치를 표시합니다.
 - 직접 만든 절차적 기체 그래픽·이펙트·효과음·4개 음악 루프.
 - 설정·키 매핑·기록·활성 MOD 저장.
 
@@ -46,6 +48,8 @@ Unity 실행 순서:
 
 ## MOD 사용
 
+직접 제작: 메인 메뉴 **MOD WORKSHOP** 또는 Unity **REBOUND → Open MOD Workshop**. 사용 순서와 수치 단위는 [제작 가이드](Docs/WORKSHOP_GUIDE.md)를 참고하세요. 기존 MOD ZIP도 별도 초안으로 가져와 수정할 수 있습니다.
+
 1. 메인 메뉴 → **MOD MANAGER**.
 2. **INSTALL SAMPLES**로 LIGHT FRAME과 OVERCHARGE ZIP을 설치합니다.
 3. 원하는 패키지에 **ENABLE**을 누르고 메뉴로 돌아가 새 게임을 시작합니다.
@@ -65,6 +69,10 @@ MOD와 설정은 `Application.persistentDataPath`에 저장됩니다. Windows �
 | `PlayerFlight.cs` | Update 입력, FixedUpdate 이동·낙하·추진·에너지·HP·무적 |
 | `CombatWorld.cs` | 적·투사체 풀·연속 선분 충돌·자동 조준·피해·반동·웨이브·보스 |
 | `Progression.cs` | 경험치·레벨 큐·후보 추첨·13종 효과·원본 기반 능력치 재계산 |
+| `AugmentRules.cs` | 증강 등급 가중치·복합 효과·실제 능력치 변화 비교 |
+| `ProjectileMotion.cs` | 전투와 Workshop이 공유하는 직선/파동/포물선/유도 궤적 |
+| `WorkshopProject.cs` | 초안 저장·복제·검증·PNG/ZIP 가져오기·ZIP 내보내기 |
+| `ModWorkshop.cs` | 별도 제작 씬의 폼·미리보기·테스트 플레이 |
 | `Modding.cs` | ZIP 설치·경로/크기/데이터 검증·원자적 콘텐츠 적용·PNG/WAV 로딩·서버 인터페이스 |
 | `GameUI.cs` | Canvas 메뉴·스토리·HUD·설정·일시정지·카드·결과·MOD·크레딧 |
 | `SaveManager.cs` | 버전 있는 JSON 설정 저장·손상 복구·키 매핑 |

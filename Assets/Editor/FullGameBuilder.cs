@@ -9,6 +9,13 @@ using UnityEngine;
 public static class FullGameBuilder
 {
     public const string MainScene="Assets/Rebound/Scenes/REBOUND.unity";
+    public const string WorkshopScene="Assets/Rebound/Scenes/ModWorkshop.unity";
+    [MenuItem("REBOUND/Open MOD Workshop")]
+    public static void OpenWorkshop()
+    {
+        if(!EditorSceneManager.SaveCurrentModifiedScenesIfUserWantsTo())return;
+        if(!File.Exists(WorkshopScene))Generate();EditorSceneManager.OpenScene(WorkshopScene);
+    }
     [MenuItem("REBOUND/Open Full Game")]
     public static void Open()
     {
@@ -28,9 +35,15 @@ public static class FullGameBuilder
             new GameObject("GameBootstrap - full content, menus and world").AddComponent<GameSession>();
             EditorSceneManager.SaveScene(scene,MainScene);
         }
-        EditorBuildSettings.scenes=new[]{new EditorBuildSettingsScene(MainScene,true),new EditorBuildSettingsScene("Assets/Rebound/Scenes/Game.unity",true)};
+        if(!File.Exists(WorkshopScene))
+        {
+            var workshop=EditorSceneManager.NewScene(NewSceneSetup.EmptyScene,NewSceneMode.Single);
+            var camera=new GameObject("Main Camera",typeof(Camera),typeof(AudioListener)).GetComponent<Camera>();camera.tag="MainCamera";camera.orthographic=true;camera.transform.position=new Vector3(0,0,-10);
+            new GameObject("MOD Workshop").AddComponent<ModWorkshop>();EditorSceneManager.SaveScene(workshop,WorkshopScene);
+        }
+        EditorBuildSettings.scenes=new[]{new EditorBuildSettingsScene(MainScene,true),new EditorBuildSettingsScene(WorkshopScene,true),new EditorBuildSettingsScene("Assets/Rebound/Scenes/Game.unity",true)};
         PlayerSettings.productName="REBOUND";PlayerSettings.defaultScreenWidth=1920;PlayerSettings.defaultScreenHeight=1080;PlayerSettings.fullScreenMode=FullScreenMode.Windowed;
-        PlayerSettings.bundleVersion="1.0.0";PlayerSettings.runInBackground=true;
+        PlayerSettings.bundleVersion="1.1.0";PlayerSettings.runInBackground=true;
         AssetDatabase.SaveAssets();Debug.Log("FULL GAME GENERATED");
     }
     static void Samples()
@@ -67,7 +80,7 @@ public static class FullGameBuilder
     public static void Build()
     {
         Generate();Directory.CreateDirectory("Builds/FullWindows");
-        var report=BuildPipeline.BuildPlayer(new BuildPlayerOptions {scenes=new[]{MainScene},locationPathName="Builds/FullWindows/REBOUND.exe",target=BuildTarget.StandaloneWindows64,options=BuildOptions.None});
+        var report=BuildPipeline.BuildPlayer(new BuildPlayerOptions {scenes=new[]{MainScene,WorkshopScene},locationPathName="Builds/FullWindows/REBOUND.exe",target=BuildTarget.StandaloneWindows64,options=BuildOptions.None});
         if(report.summary.result!=UnityEditor.Build.Reporting.BuildResult.Succeeded)throw new Exception("Full build failed: "+report.summary.result);
         Debug.Log("FULL WINDOWS BUILD SUCCEEDED");
     }

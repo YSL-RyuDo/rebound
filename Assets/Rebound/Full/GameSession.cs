@@ -33,17 +33,24 @@ namespace Rebound.Full
             SetState(GameState.Menu);ApplyDisplay();
             if(Array.IndexOf(Environment.GetCommandLineArgs(),"--rebound-smoke")>=0)gameObject.AddComponent<ReleaseSmoke>();
             if(Array.IndexOf(Environment.GetCommandLineArgs(),"--rebound-video")>=0)gameObject.AddComponent<GameplayRecorder>();
+            if(Array.IndexOf(Environment.GetCommandLineArgs(),"--workshop-smoke")>=0&&!WorkshopSmoke.Running)new GameObject("Workshop integration harness").AddComponent<WorkshopSmoke>();
         }
         public void ReloadContent()
         {
             Mods.Scan(Save.Data.enabledMods);Content=Mods.Load(baseline);
+            if(WorkshopPlaytest.Content!=null){Content=WorkshopPlaytest.Content;TestMode=true;}
             // Recreate generated assets so disabling a MOD always restores base graphics and sounds.
             if(arena) Destroy(arena.gameObject);
             Art.Dispose();Art=new ArtFactory();Art.LoadMods(Content);
             Destroy(Audio);Audio=gameObject.AddComponent<AudioDirector>();Audio.Initialize(Save);Audio.LoadMods(Content);
             if(!Content.Flight.ContainsKey(FlightId))FlightId="re01";if(!Content.Stages.ContainsKey(StageId))StageId="powerplant";
             arena=new GameObject("Parallax reactor").transform;
-            for(int i=0;i<30;i++)
+            if(Content.Stages[StageId].backgroundMode=="stretch")
+            {
+                var background=Art.Draw("Background",Content.Stages[StageId].background,Vector2.zero,Vector2.one,Color.white,arena,-5);
+                background.transform.localScale=new Vector2((Right-Left)/background.sprite.bounds.size.x,10/background.sprite.bounds.size.y);
+            }
+            else for(int i=0;i<30;i++)
             {
                 float x=-10+(i%10)*2.1f,y=-4+(i/10)*3.8f;
                 Art.Draw("Reactor panel",Content.Stages[StageId].background,new Vector2(x,y),new Vector2(1.9f,3.4f),new Color(.06f,.13f,.2f),arena,-5);
@@ -68,6 +75,7 @@ namespace Rebound.Full
         public void ShowSettings(){returnTo=State;SetState(GameState.Settings);}
         public void CloseSettings(){Save.Save();ApplyDisplay();SetState(returnTo);}
         public void MainMenu(){ClearRun();SetState(GameState.Menu);}
+        public void OpenWorkshop(){ClearRun();WorkshopPlaytest.Content=null;UnityEngine.SceneManagement.SceneManager.LoadScene("ModWorkshop");}
         void ClearRun()
         {
             Time.timeScale=1;if(World)Destroy(World.gameObject);if(Player)Destroy(Player.gameObject);World=null;Player=null;Stage=null;Effects.Clear();
@@ -78,9 +86,9 @@ namespace Rebound.Full
             SetState(victory?GameState.Clear:GameState.GameOver);Audio.Play(victory?"win":"lose");if(victory)Audio.MusicTrack("clear");
             if(!TestMode){Save.Data.bestScore=Mathf.Max(Save.Data.bestScore,Score);Save.Data.bestTime=Mathf.Max(Save.Data.bestTime,Elapsed);if(victory)Save.Data.clears++;Save.Save();}
         }
-        public void EnemyKilled(int xp,Vector2 pos)
+        public void EnemyKilled(int xp,Vector2 pos,string effect="explosion")
         {
-            if(!Running)return;Kills++;Score+=xp*10;Progress.AddXp(xp);Effects.Burst(pos,Art.Red,10,.16f);Audio.Play("explode",.5f);
+            if(!Running)return;Kills++;Score+=xp*10;Progress.AddXp(xp);Effects.Burst(pos,Art.Red,10,.16f,effect);Audio.Play("explode",.5f);
         }
         public void Announce(string text){Notice=text;NoticeUntil=Time.unscaledTime+4;}
         public void Shake(float amount){shake=Mathf.Max(shake,amount);}
@@ -106,7 +114,7 @@ namespace Rebound.Full
             shake=Mathf.Max(0,shake-Time.unscaledDeltaTime);
             Vector2 offset=Save.Data.shake&&Running?UnityEngine.Random.insideUnitCircle*shake*.12f:Vector2.zero;
             Camera.transform.position=new Vector3(offset.x,offset.y,-10);
-            if(arena&&Running) foreach(Transform panel in arena) {panel.position+=Vector3.left*Time.deltaTime*.15f;if(panel.position.x< -11)panel.position+=Vector3.right*21;}
+            if(arena&&Running&&Content.Stages[StageId].backgroundMode=="tile") foreach(Transform panel in arena) {panel.position+=Vector3.left*Time.deltaTime*.15f;if(panel.position.x< -11)panel.position+=Vector3.right*21;}
         }
         void OnDestroy(){Time.timeScale=1;if(Art!=null)Art.Dispose();if(arena)Destroy(arena.gameObject);if(Effects)Destroy(Effects.gameObject);if(World)Destroy(World.gameObject);if(Player)Destroy(Player.gameObject);}
     }

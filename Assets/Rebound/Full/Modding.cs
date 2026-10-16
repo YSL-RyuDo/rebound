@@ -31,7 +31,7 @@ namespace Rebound.Full
         }
         public static void Manifest(ModManifest m)
         {
-            if(m==null || m.schemaVersion!=1 || !Id.IsMatch(m.modId??"") || m.targetGameVersion!="1.0.0" ||
+            if(m==null || m.schemaVersion!=1 || !Id.IsMatch(m.modId??"") || (m.targetGameVersion!="1.0.0"&&m.targetGameVersion!="1.1.0") ||
                 string.IsNullOrWhiteSpace(m.name) || string.IsNullOrWhiteSpace(m.author) || string.IsNullOrWhiteSpace(m.description) ||
                 string.IsNullOrWhiteSpace(m.license) || !Version.TryParse(m.version,out _) || m.content==null || m.content.Length<1 || m.content.Length>32)
                 throw new FormatException("Invalid manifest or incompatible schema/game version");
@@ -49,14 +49,37 @@ namespace Rebound.Full
         {
             if(p==null) throw new FormatException("Missing content");
             Definitions(p.flight); Definitions(p.weapons); Definitions(p.enemies); Definitions(p.upgrades); Definitions(p.stages); Definitions(p.assets);
+            Definitions(p.effects??new EffectData[0]);
             if(p.story==null) throw new FormatException("Missing story array");
             foreach(var f in p.flight) { Range(f.gravity,.5f,20); Range(f.thrust,1,10); Range(f.speed,1,10); Range(f.maxFall,2,12); Range(f.interval,.12f,1); Range(f.charge,1,100); Range(f.hp,1,10); Range(f.rebound,1,100); Range(f.range,1,12); }
             foreach(var w in p.weapons) { Range(w.damage,.1f,100); Range(w.interval,.08f,3); Range(w.speed,3,30); Range(w.size,.05f,.6f); Range(w.crit,0,1); Range(w.count,1,7); Range(w.pierce,0,8); Range(w.spread,0,25); if(w.pattern!="line"&&w.pattern!="fan") throw new FormatException("Unsupported weapon pattern"); }
             foreach(var e in p.enemies) { Range(e.hp,1,1000); Range(e.speed,.2f,8); Range(e.interval,.5f,10); Range(e.armor,0,.85f); Range(e.xp,1,100); Range(e.damage,1,3); if(!new[]{"straight","track","shield","shoot"}.Contains(e.pattern)) throw new FormatException("Unsupported enemy pattern"); }
-            foreach(var u in p.upgrades) { Range(u.amount,.01f,5); Range(u.weight,.01f,100); Range(u.maxLevel,1,10); Range(u.minLevel,1,50); if(!new[]{"damage","haste","multi","pierce","crit","range","rebound","chain","charge","thrust","fall","guard","repair"}.Contains(u.effect)) throw new FormatException("Unsupported upgrade effect"); }
+            foreach(var w in p.weapons)
+            {
+                if(!new[]{"straight","wave","arc","homing"}.Contains(w.trajectory))throw new FormatException("Unknown trajectory");
+                Range(w.amplitude,0,3);Range(w.frequency,0,8);Range(w.gravity,-20,20);Range(w.acceleration,-10,10);
+                Range(w.turnRate,0,360);Range(w.launchAngle,-90,90);Range(w.lifetime,.1f,10);
+            }
+            foreach(var u in p.upgrades)
+            {
+                Range(u.weight,.01f,100);Range(u.maxLevel,1,10);Range(u.minLevel,1,50);
+                if(!AugmentRules.Tiers.Contains(u.tier)||(u.effects!=null&&u.effects.Length>8))throw new FormatException("Invalid augment tier/effect count");
+                foreach(var e in AugmentRules.Effects(u))
+                {
+                    if(e==null||!AugmentRules.Codes.Contains(e.effect))throw new FormatException("Unsupported upgrade effect");
+                    Range(e.amount,.01f,5);
+                    if(new[]{"multi","pierce","chain","guard","repair"}.Contains(e.effect)&&e.amount!=Mathf.Floor(e.amount))throw new FormatException(e.effect+" requires a whole number; fractional ranks can have no effect");
+                }
+            }
+            foreach(var e in p.effects??new EffectData[0])
+            {
+                Range(e.size,.02f,4);Range(e.lifetime,.05f,3);Range(e.speed,0,12);Range(e.count,1,32);
+                if(!ColorUtility.TryParseHtmlString(e.color,out _))throw new FormatException("Effect color must be a valid HTML color");
+            }
             foreach(var s in p.stages)
             {
                 Range(s.bossTime,30,1200); Range(s.bossHp,100,10000);
+                if(s.backgroundMode!="tile"&&s.backgroundMode!="stretch")throw new FormatException("Background mode must be tile or stretch");
                 if(s.waves==null || s.waves.Length<1 || s.waves.Length>64) throw new FormatException("Invalid waves");
                 foreach(var w in s.waves) { Range(w.start,0,s.bossTime); Range(w.end,w.start+.1f,s.bossTime); Range(w.interval,.25f,10); Range(w.count,1,6); Range(w.difficulty,.5f,5); Range(w.minY,-4,3.3f); Range(w.maxY,w.minY,3.3f); if(w.enemies==null || w.enemies.Length<1 || w.enemies.Length>16) throw new FormatException("Invalid wave enemy list"); }
             }

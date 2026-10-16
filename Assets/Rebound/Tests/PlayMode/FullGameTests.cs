@@ -52,6 +52,43 @@ public sealed class FullGameTests
         game.World.Hit(boss,100000,true);Assert.AreEqual(GameState.Clear,game.State);
         game.StartRun();yield return null;Assert.AreEqual(1,game.Progress.Level);Assert.AreEqual(3,game.Player.Hp);Assert.AreEqual(0,game.Score);
     }
+    [UnityTest] public IEnumerator CappedAugmentsNeverOfferAndStaleChoiceCannotSpendAnotherLevel()
+    {
+        game.Content.Weapons["pulse"].crit=1;game.RebuildStats();
+        Assert.IsFalse(game.Progress.CanOffer(game.Content.Upgrades["crit"]));
+        game.Content.Flight["re01"].thrust=10;game.Content.Flight["re01"].maxFall=2;game.RebuildStats();
+        Assert.IsFalse(game.Progress.CanOffer(game.Content.Upgrades["thrust"]));Assert.IsFalse(game.Progress.CanOffer(game.Content.Upgrades["fall"]));
+        game.Progress.Ranks["damage"]=game.Content.Upgrades["damage"].maxLevel;game.RebuildStats();
+        Assert.IsFalse(game.Progress.CanOffer(game.Content.Upgrades["damage"]));
+        game.Progress.AddXp(200);game.Progress.OpenNext();int generation=game.Progress.Generation,pending=game.Progress.Pending;
+        Assert.IsTrue(game.Progress.Choices.All(u=>u.id!="crit"&&u.id!="damage"));
+        Assert.IsTrue(game.Progress.Choose(0,generation));Assert.AreEqual(pending-1,game.Progress.Pending);
+        Assert.IsFalse(game.Progress.Choose(0,generation));Assert.AreEqual(pending-1,game.Progress.Pending);
+        var combo=new UpgradeData{id="reward_0",name="Composite",effect="reward2",effects=new[]{new UpgradeEffect{effect="damage",amount=.5f}}};
+        game.Content.Upgrades.Add(combo.id,combo);game.Progress.Choices[0]=combo;float damage=game.Stats.Damage;int score=game.Score;
+        Assert.IsTrue(game.Progress.Choose(0,game.Progress.Generation));Assert.Greater(game.Stats.Damage,damage);Assert.AreEqual(score,game.Score,"Composite effect overrides legacy text; MOD IDs cannot impersonate supplies");
+        yield return null;
+    }
+    [UnityTest] public IEnumerator AllCappedSupplyActuallyChangesScore()
+    {
+        foreach(var u in game.Content.Upgrades.Values)game.Progress.Ranks[u.id]=u.maxLevel;game.RebuildStats();
+        game.Player.Heal(100);game.Player.Energy=100;game.Progress.AddXp(20);game.Progress.OpenNext();
+        Assert.IsTrue(game.Progress.Choices.All(u=>u.effect=="reward2"));int before=game.Score;
+        Assert.IsTrue(game.Progress.Choose(1));Assert.AreEqual(before+100,game.Score);yield return null;
+    }
+    [UnityTest] public IEnumerator WorkshopSceneAndPlaytestRoundTrip()
+    {
+        string old=PlayerPrefs.GetString("Workshop.LastDraft","");WorkshopPlaytest.DraftPath=Path.Combine(isolated,"draft");
+        yield return SceneManager.LoadSceneAsync("ModWorkshop");yield return null;
+        var workshop=UnityEngine.Object.FindObjectOfType<ModWorkshop>();Assert.NotNull(workshop);
+        var w=new WeaponData{id="pulse",name="Wave test",trajectory="wave",amplitude=1};workshop.Project.Apply("weapons",w);
+        WorkshopPlaytest.Content=workshop.Project.Validate();yield return SceneManager.LoadSceneAsync("REBOUND");yield return null;
+        game=UnityEngine.Object.FindObjectOfType<GameSession>();game.StartRun();game.Player.ReadInput=false;
+        Assert.AreEqual("wave",game.Stats.Weapon.trajectory);Assert.IsTrue(game.TestMode);
+        game.World.FirePlayer(Vector2.zero,game.Stats);yield return new WaitForFixedUpdate();yield return new WaitForFixedUpdate();
+        Assert.IsTrue(game.World.Projectiles.Any(p=>p.Active&&p.MotionData!=null&&p.MotionData.trajectory=="wave"&&p.Position.y!=0));
+        WorkshopPlaytest.Content=null;WorkshopPlaytest.DraftPath=null;PlayerPrefs.SetString("Workshop.LastDraft",old);
+    }
     [UnityTest] public IEnumerator SweptProjectilesDamageEnemiesAndPoolReturns()
     {
         game.Player.enabled=false;var target=game.World.Spawn(game.Content.Enemies["scout"],new Vector2(-2,1));

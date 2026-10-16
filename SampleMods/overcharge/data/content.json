@@ -15,7 +15,8 @@
             "range": 7.0,
             "hp": 3,
             "skin": "player",
-            "weapon": "electric"
+            "weapon": "electric",
+            "reboundEffect": "rebound_fx"
         }
     ],
     "weapons": [
@@ -33,7 +34,16 @@
             "count": 1,
             "pierce": 0,
             "pattern": "line",
-            "sprite": "electric"
+            "sprite": "electric",
+            "trajectory": "straight",
+            "impactEffect": "impact",
+            "amplitude": 0.6000000238418579,
+            "frequency": 2.0,
+            "gravity": 0.0,
+            "acceleration": 0.0,
+            "turnRate": 120.0,
+            "launchAngle": 0.0,
+            "lifetime": 5.0
         }
     ],
     "enemies": [],
@@ -48,7 +58,9 @@
             "maxLevel": 3,
             "minLevel": 1,
             "amount": 1.0,
-            "weight": 2.0
+            "weight": 2.0,
+            "tier": "silver",
+            "effects": []
         }
     ],
     "stages": [],
@@ -62,5 +74,6 @@
             "kind": "sprite"
         }
     ],
-    "story": []
+    "story": [],
+    "effects": []
 }
