@@ -1,0 +1,13 @@
+{
+    "schemaVersion": 1,
+    "modId": "trajectory-b-formula",
+    "name": "B - 수식 탄환",
+    "author": "REBOUND project",
+    "version": "1.0.0",
+    "targetGameVersion": "1.2.0",
+    "description": "x(t)=v*t, y(t)=a*sin(2*pi*f*t). Matches A with v=17, a=0.6, f=2.",
+    "license": "CC0-1.0",
+    "content": [
+        "data/content.json"
+    ]
+}

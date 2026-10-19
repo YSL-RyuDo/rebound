@@ -76,7 +76,7 @@ namespace Rebound.Full
             Button(root,"STAGE: "+game.Content.Stages[game.StageId].name,650,438,510,60,()=>{var ids=game.Content.Stages.Keys.OrderBy(s=>s).ToArray();game.StageId=ids[(Array.IndexOf(ids,game.StageId)+1)%ids.Length];Render();});
             Button(root,WorkshopPlaytest.Content!=null?"RETURN TO WORKSHOP":"MOD WORKSHOP",650,510,510,52,game.OpenWorkshop);
             Label(root,$"BEST SCORE {game.Save.Data.bestScore}  /  LONGEST FLIGHT {game.Save.Data.bestTime:0}s",650,585,510,60,18,game.Art.Cyan);
-            Label(root,"v1.1.0  /  MOD Workshop + Augment tiers  /  Original art & audio",100,665,1100,28,16);
+            Label(root,"v1.2.0  /  A: Parameters · B: Formulas  /  MOD Workshop",100,665,1100,28,16);
         }
         Image Bar(float x,float y,float w,float h,Color color){Box(root,x,y,w,h,line);return Box(root,x,y,0,h,color);}
         void Hud()

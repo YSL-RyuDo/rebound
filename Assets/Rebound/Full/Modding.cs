@@ -31,7 +31,7 @@ namespace Rebound.Full
         }
         public static void Manifest(ModManifest m)
         {
-            if(m==null || m.schemaVersion!=1 || !Id.IsMatch(m.modId??"") || (m.targetGameVersion!="1.0.0"&&m.targetGameVersion!="1.1.0") ||
+            if(m==null || m.schemaVersion!=1 || !Id.IsMatch(m.modId??"") || (m.targetGameVersion!="1.0.0"&&m.targetGameVersion!="1.1.0"&&m.targetGameVersion!="1.2.0") ||
                 string.IsNullOrWhiteSpace(m.name) || string.IsNullOrWhiteSpace(m.author) || string.IsNullOrWhiteSpace(m.description) ||
                 string.IsNullOrWhiteSpace(m.license) || !Version.TryParse(m.version,out _) || m.content==null || m.content.Length<1 || m.content.Length>32)
                 throw new FormatException("Invalid manifest or incompatible schema/game version");
@@ -59,6 +59,8 @@ namespace Rebound.Full
                 if(!new[]{"straight","wave","arc","homing"}.Contains(w.trajectory))throw new FormatException("Unknown trajectory");
                 Range(w.amplitude,0,3);Range(w.frequency,0,8);Range(w.gravity,-20,20);Range(w.acceleration,-10,10);
                 Range(w.turnRate,0,360);Range(w.launchAngle,-90,90);Range(w.lifetime,.1f,10);
+                if(w.motionMode!="parameters"&&w.motionMode!="formula")throw new FormatException("Unknown motion mode");
+                if(w.motionMode=="formula")TrajectoryFormula.Validate(w);
             }
             foreach(var u in p.upgrades)
             {

@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8"?>
+<test-run id="2" testcasecount="23" result="Passed" total="23" passed="23" failed="0" inconclusive="0" skipped="0" asserts="0" engine-version="3.5.0.0" clr-version="4.0.30319.42000" start-time="2026-10-19 04:35:34Z" end-time="2026-10-19 04:36:03Z" duration="29.8910502">
+  <test-suite type="TestSuite" id="1000" name="REBOUND" fullname="REBOUND" runstate="Runnable" testcasecount="23" result="Passed" start-time="2026-10-19 04:35:34Z" end-time="2026-10-19 04:36:03Z" duration="29.891050" total="23" passed="23" failed="0" inconclusive="0" skipped="0" asserts="0">
+    <properties />
+    <test-suite type="Assembly" id="1026" name="Rebound.PlayModeTests.dll" fullname="C:/Users/GCT/Documents/ChatGPT/2번째 MOD게임/Library/ScriptAssemblies/Rebound.PlayModeTests.dll" runstate="Runnable" testcasecount="23" result="Passed" start-time="2026-10-19 04:35:34Z" end-time="2026-10-19 04:36:03Z" duration="29.886281" total="23" passed="23" failed="0" inconclusive="0" skipped="0" asserts="0">
+      <properties>
+        <property name="_PID" value="41840" />
+        <property name="_APPDOMAIN" value="Unity Child Domain" />
+        <property name="platform" value="PlayMode" />
+      </properties>
+      <test-suite type="TestFixture" id="1001" name="FullGameTests" fullname="FullGameTests" classname="FullGameTests" runstate="Runnable" testcasecount="17" result="Passed" start-time="2026-10-19 04:35:34Z" end-time="2026-10-19 04:35:54Z" duration="20.583845" total="17" passed="17" failed="0" inconclusive="0" skipped="0" asserts="0">
+        <properties />
+        <test-case id="1006" name="AllCappedSupplyActuallyChangesScore" fullname="FullGameTests.AllCappedSupplyActuallyChangesScore" methodname="AllCappedSupplyActuallyChangesScore" classname="FullGameTests" runstate="Runnable" seed="1973902608" result="Passed" start-time="2026-10-19 04:35:34Z" end-time="2026-10-19 04:35:35Z" duration="1.472912" asserts="0">
+          <properties>
+            <property name="_JOINTYPE" value="UnityCombinatorial" />
+          </properties>
+        </test-case>
+        <test-case id="1004" name="BossPhasesVictoryAndRetry" fullname="FullGameTests.BossPhasesVictoryAndRetry" methodname="BossPhasesVictoryAndRetry" classname="FullGameTests" runstate="Runnable" seed="1417018864" result="Passed" start-time="2026-10-19 04:35:35Z" end-time="2026-10-19 04:35:36Z" duration="1.140731" asserts="0">
+          <properties>
+            <property name="_JOINTYPE" value="UnityCombinatorial" />
+          </properties>
+        </test-case>
+        <test-case id="1005" name="CappedAugmentsNeverOfferAndStaleChoiceCannotSpendAnotherLevel" fullname="FullGameTests.CappedAugmentsNeverOfferAndStaleChoiceCannotSpendAnotherLevel" methodname="CappedAugmentsNeverOfferAndStaleChoiceCannotSpendAnotherLevel" classname="FullGameTests" runstate="Runnable" seed="1097130458" result="Passed" start-time="2026-10-19 04:35:36Z" end-time="2026-10-19 04:35:37Z" duration="0.826075" asserts="0">
+          <properties>
+            <property name="_JOINTYPE" value="UnityCombinatorial" />
+          </properties>
+        </test-case>
+        <test-case id="1018" name="CorruptSaveRecoversAndValidSaveRoundTrips" fullname="FullGameTests.CorruptSaveRecoversAndValidSaveRoundTrips" methodname="CorruptSaveRecoversAndValidSaveRoundTrips" classname="FullGameTests" runstate="Runnable" seed="1889063138" result="Passed" start-time="2026-10-19 04:35:37Z" end-time="2026-10-19 04:35:38Z" duration="0.896307" asserts="0">
+          <properties />
+        </test-case>
+        <test-case id="1013" name="EnemyPatternsArmorAndReboundDirection" fullname="FullGameTests.EnemyPatternsArmorAndReboundDirection" methodname="EnemyPatternsArmorAndReboundDirection" classname="FullGameTests" runstate="Runnable" seed="848698535" result="Passed" start-time="2026-10-19 04:35:38Z" end-time="2026-10-19 04:35:39Z" duration="0.889038" asserts="0">
+          <properties>
+            <property name="_JOINTYPE" value="UnityCombinatorial" />
+          </properties>
+        </test-case>
+        <test-case id="1009" name="FormulaProjectilesHitAndInvalidRuntimeResultsReturnToPool" fullname="FullGameTests.FormulaProjectilesHitAndInvalidRuntimeResultsReturnToPool" methodname="FormulaProjectilesHitAndInvalidRuntimeResultsReturnToPool" classname="FullGameTests" runstate="Runnable" seed="20887258" result="Passed" start-time="2026-10-19 04:35:39Z" end-time="2026-10-19 04:35:40Z" duration="1.007323" asserts="0">
+          <properties>
+            <property name="_JOINTYPE" value="UnityCombinatorial" />
+          </properties>
+        </test-case>
+        <test-case id="1002" name="FullMovementEnergyAndDamage" fullname="FullGameTests.FullMovementEnergyAndDamage" methodname="FullMovementEnergyAndDamage" classname="FullGameTests" runstate="Runnable" seed="1026193981" result="Passed" start-time="2026-10-19 04:35:40Z" end-time="2026-10-19 04:35:42Z" duration="1.990282" asserts="0">
+          <properties>
+            <property name="_JOINTYPE" value="UnityCombinatorial" />
+          </properties>
+        </test-case>
+        <test-case id="1014" name="FullTimelineAndBoundedProjectilePool" fullname="FullGameTests.FullTimelineAndBoundedProjectilePool" methodname="FullTimelineAndBoundedProjectilePool" classname="FullGameTests" runstate="Runnable" seed="2118852444" result="Passed" start-time="2026-10-19 04:35:42Z" end-time="2026-10-19 04:35:43Z" duration="0.997089" asserts="0">
+          <properties>
+            <property name="_JOINTYPE" value="UnityCombinatorial" />
+          </properties>
+        </test-case>
+        <test-case id="1007" name="InstalledAugmentCardKeepsCustomIconNameAndDescription" fullname="FullGameTests.InstalledAugmentCardKeepsCustomIconNameAndDescription" methodname="InstalledAugmentCardKeepsCustomIconNameAndDescription" classname="FullGameTests" runstate="Runnable" seed="309383501" result="Passed" start-time="2026-10-19 04:35:43Z" end-time="2026-10-19 04:35:44Z" duration="1.393342" asserts="0">
+          <properties>
+            <property name="_JOINTYPE" value="UnityCombinatorial" />
+          </properties>
+        </test-case>
+        <test-case id="1003" name="LevelQueueUniqueChoicesAndStackRebuild" fullname="FullGameTests.LevelQueueUniqueChoicesAndStackRebuild" methodname="LevelQueueUniqueChoicesAndStackRebuild" classname="FullGameTests" runstate="Runnable" seed="1584076887" result="Passed" start-time="2026-10-19 04:35:44Z" end-time="2026-10-19 04:35:45Z" duration="0.817962" asserts="0">
+          <properties>
+            <property name="_JOINTYPE" value="UnityCombinatorial" />
+          </properties>
+        </test-case>
+        <test-case id="1017" name="MaliciousZipAndInvalidContentAreRejected" fullname="FullGameTests.MaliciousZipAndInvalidContentAreRejected" methodname="MaliciousZipAndInvalidContentAreRejected" classname="FullGameTests" runstate="Runnable" seed="450823001" result="Passed" start-time="2026-10-19 04:35:45Z" end-time="2026-10-19 04:35:46Z" duration="0.776511" asserts="0">
+          <properties />
+        </test-case>
+        <test-case id="1012" name="PauseFreezesAndSettingsResumeCorrectly" fullname="FullGameTests.PauseFreezesAndSettingsResumeCorrectly" methodname="PauseFreezesAndSettingsResumeCorrectly" classname="FullGameTests" runstate="Runnable" seed="1433945342" result="Passed" start-time="2026-10-19 04:35:46Z" end-time="2026-10-19 04:35:47Z" duration="1.001939" asserts="0">
+          <properties>
+            <property name="_JOINTYPE" value="UnityCombinatorial" />
+          </properties>
+        </test-case>
+        <test-case id="1016" name="RealZipSamplesApplyDisableAndRejectConflict" fullname="FullGameTests.RealZipSamplesApplyDisableAndRejectConflict" methodname="RealZipSamplesApplyDisableAndRejectConflict" classname="FullGameTests" runstate="Runnable" seed="934097910" result="Passed" start-time="2026-10-19 04:35:47Z" end-time="2026-10-19 04:35:48Z" duration="0.835804" asserts="0">
+          <properties />
+        </test-case>
+        <test-case id="1015" name="RetryDoesNotAccumulateAudioSources" fullname="FullGameTests.RetryDoesNotAccumulateAudioSources" methodname="RetryDoesNotAccumulateAudioSources" classname="FullGameTests" runstate="Runnable" seed="98150080" result="Passed" start-time="2026-10-19 04:35:48Z" end-time="2026-10-19 04:35:49Z" duration="1.580452" asserts="0">
+          <properties>
+            <property name="_JOINTYPE" value="UnityCombinatorial" />
+          </properties>
+        </test-case>
+        <test-case id="1011" name="SweptProjectilesDamageEnemiesAndPoolReturns" fullname="FullGameTests.SweptProjectilesDamageEnemiesAndPoolReturns" methodname="SweptProjectilesDamageEnemiesAndPoolReturns" classname="FullGameTests" runstate="Runnable" seed="823108224" result="Passed" start-time="2026-10-19 04:35:49Z" end-time="2026-10-19 04:35:51Z" duration="1.441167" asserts="0">
+          <properties>
+            <property name="_JOINTYPE" value="UnityCombinatorial" />
+          </properties>
+        </test-case>
+        <test-case id="1008" name="WorkshopSceneAndPlaytestRoundTrip" fullname="FullGameTests.WorkshopSceneAndPlaytestRoundTrip" methodname="WorkshopSceneAndPlaytestRoundTrip" classname="FullGameTests" runstate="Runnable" seed="1741644694" result="Passed" start-time="2026-10-19 04:35:51Z" end-time="2026-10-19 04:35:52Z" duration="1.654475" asserts="0">
+          <properties>
+            <property name="_JOINTYPE" value="UnityCombinatorial" />
+          </properties>
+        </test-case>
+        <test-case id="1010" name="WorkshopSwitchesBothModesAndPlaysEditedFormula" fullname="FullGameTests.WorkshopSwitchesBothModesAndPlaysEditedFormula" methodname="WorkshopSwitchesBothModesAndPlaysEditedFormula" classname="FullGameTests" runstate="Runnable" seed="2112333206" result="Passed" start-time="2026-10-19 04:35:52Z" end-time="2026-10-19 04:35:54Z" duration="1.850831" asserts="0">
+          <properties>
+            <property name="_JOINTYPE" value="UnityCombinatorial" />
+          </properties>
+        </test-case>
+      </test-suite>
+      <test-suite type="TestFixture" id="1019" name="PhaseOneTests" fullname="PhaseOneTests" classname="PhaseOneTests" runstate="Runnable" testcasecount="6" result="Passed" start-time="2026-10-19 04:35:54Z" end-time="2026-10-19 04:36:03Z" duration="9.301195" total="6" passed="6" failed="0" inconclusive="0" skipped="0" asserts="0">
+        <properties />
+        <test-case id="1022" name="AutomaticFireKillsAndPoolReuses" fullname="PhaseOneTests.AutomaticFireKillsAndPoolReuses" methodname="AutomaticFireKillsAndPoolReuses" classname="PhaseOneTests" runstate="Runnable" seed="1929864019" result="Passed" start-time="2026-10-19 04:35:54Z" end-time="2026-10-19 04:35:58Z" duration="3.426974" asserts="0">
+          <properties>
+            <property name="_JOINTYPE" value="UnityCombinatorial" />
+          </properties>
+        </test-case>
+        <test-case id="1021" name="EnergyUsesDistanceAndReboundOnlyHitsFront" fullname="PhaseOneTests.EnergyUsesDistanceAndReboundOnlyHitsFront" methodname="EnergyUsesDistanceAndReboundOnlyHitsFront" classname="PhaseOneTests" runstate="Runnable" seed="484581520" result="Passed" start-time="2026-10-19 04:35:58Z" end-time="2026-10-19 04:35:58Z" duration="0.041583" asserts="0">
+          <properties>
+            <property name="_JOINTYPE" value="UnityCombinatorial" />
+          </properties>
+        </test-case>
+        <test-case id="1023" name="FallDamageInvulnerabilityGameOverAndRetry" fullname="PhaseOneTests.FallDamageInvulnerabilityGameOverAndRetry" methodname="FallDamageInvulnerabilityGameOverAndRetry" classname="PhaseOneTests" runstate="Runnable" seed="938935869" result="Passed" start-time="2026-10-19 04:35:58Z" end-time="2026-10-19 04:35:58Z" duration="0.274795" asserts="0">
+          <properties>
+            <property name="_JOINTYPE" value="UnityCombinatorial" />
+          </properties>
+        </test-case>
+        <test-case id="1020" name="MovementRiseGravityAndBounds" fullname="PhaseOneTests.MovementRiseGravityAndBounds" methodname="MovementRiseGravityAndBounds" classname="PhaseOneTests" runstate="Runnable" seed="1353316647" result="Passed" start-time="2026-10-19 04:35:58Z" end-time="2026-10-19 04:36:02Z" duration="3.891548" asserts="0">
+          <properties>
+            <property name="_JOINTYPE" value="UnityCombinatorial" />
+          </properties>
+        </test-case>
+        <test-case id="1025" name="RealDescentChargesAndRiseConsumesEnergy" fullname="PhaseOneTests.RealDescentChargesAndRiseConsumesEnergy" methodname="RealDescentChargesAndRiseConsumesEnergy" classname="PhaseOneTests" runstate="Runnable" seed="434155269" result="Passed" start-time="2026-10-19 04:36:02Z" end-time="2026-10-19 04:36:03Z" duration="1.124934" asserts="0">
+          <properties>
+            <property name="_JOINTYPE" value="UnityCombinatorial" />
+          </properties>
+        </test-case>
+        <test-case id="1024" name="RiseCooldownAndEnemyContact" fullname="PhaseOneTests.RiseCooldownAndEnemyContact" methodname="RiseCooldownAndEnemyContact" classname="PhaseOneTests" runstate="Runnable" seed="1043980182" result="Passed" start-time="2026-10-19 04:36:03Z" end-time="2026-10-19 04:36:03Z" duration="0.533217" asserts="0">
+          <properties>
+            <property name="_JOINTYPE" value="UnityCombinatorial" />
+          </properties>
+        </test-case>
+      </test-suite>
+    </test-suite>
+  </test-suite>
+</test-run>

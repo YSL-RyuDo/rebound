@@ -48,8 +48,24 @@ namespace Rebound.Full
             game.Content.Weapons["pulse"].crit=1;game.RebuildStats();Check(!game.Progress.CanOffer(game.Content.Upgrades["crit"]),"Capped critical augment excluded");
             game.Progress.AddXp(20);game.Progress.OpenNext();yield return Capture("09-augment-tiers.png");
             game.OpenWorkshop();yield return null;yield return null;Check(FindObjectOfType<ModWorkshop>()!=null&&WorkshopPlaytest.Content==null,"Return restores authoring draft");
+            workshop=FindObjectOfType<ModWorkshop>();Click("WEAPONS");Click("B · 수식 방식 / FORMULA");
+            Edit("formulaX","v*t");Edit("formulaY","a*sin(2*pi*f*t)+0.2*sin(2*pi*5*t)");Click("APPLY");
+            Check(workshop.Project.Validate().Weapons["pulse"].motionMode=="formula","Formula mode and custom expression apply through UI");
+            yield return Capture("14-formula-workshop.png");
+            Click("A · 수치 방식 / PARAMETERS");Click("APPLY");
+            Check(workshop.Project.Validate().Weapons["pulse"].motionMode=="parameters","Parameter version remains selectable");
+            yield return Capture("15-parameter-workshop.png");
+            Click("B · 수식 방식 / FORMULA");Click("APPLY");
+            var formulas=new ModManager(Path.Combine(output,"formula-mods"));string formulaId=formulas.Install(workshop.Project.Export(Path.Combine(output,"formula-exports")));formulas.Scan(new[]{formulaId});
+            Check(formulas.Load(JsonUtility.FromJson<ContentPack>(baseText.text)).Weapons["pulse"].formulaY.Contains("0.2*sin"),"Formula survives ZIP export and installation");
+            Click("TEST PLAY");yield return null;yield return null;game=FindObjectOfType<GameSession>();game.StartRun();game.Player.ReadInput=false;
+            for(int i=0;i<50;i++){if(game.State==GameState.LevelUp)game.Progress.Choose(0);if(game.Player.Position.y<-.8f)game.Player.Rise();yield return new WaitForSecondsRealtime(.025f);}
+            Check(game.World.Projectiles.Any(p=>p.Active&&p.MotionData?.motionMode=="formula"&&!p.Motion.Invalid),"Formula bullets move in real Windows combat");
+            yield return Capture("16-formula-combat.png");
             finished=true;File.AppendAllText(Path.Combine(output,"results.txt"),"WORKSHOP SMOKE PASSED\n");Restore();Application.Quit(0);
         }
+        static void Edit(string field,string value)
+        {var input=FindObjectsOfType<InputField>().Single(i=>i.gameObject.name=="Field:"+field);input.text=value;input.onEndEdit.Invoke(value);}
         static void Click(string text)
         {
             var button=FindObjectsOfType<Button>().FirstOrDefault(b=>b.GetComponentInChildren<Text>()?.text==text);

@@ -1,0 +1,13 @@
+{
+    "schemaVersion": 1,
+    "modId": "trajectory-a-parameters",
+    "name": "A - 수치 탄환",
+    "author": "REBOUND project",
+    "version": "1.0.0",
+    "targetGameVersion": "1.2.0",
+    "description": "Parameter wave: speed 17, amplitude 0.6, frequency 2 Hz. Enable A or B, not both.",
+    "license": "CC0-1.0",
+    "content": [
+        "data/content.json"
+    ]
+}

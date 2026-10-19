@@ -1,0 +1,18 @@
+PASS Workshop scene loaded
+PASS Smoke draft is isolated from user Workshop files
+PASS UI changes trajectory to wave
+PASS UI creates prismatic composite augment
+PASS PNG assigned through UI
+PASS Effect color edited through UI
+PASS Exported ZIP installs with trajectory and PNG
+PASS Test play opens game with draft
+PASS Draft active; records disabled
+PASS Edited explosion is rendered in combat
+PASS Draft bullets run through combat pool
+PASS Capped critical augment excluded
+PASS Return restores authoring draft
+PASS Formula mode and custom expression apply through UI
+PASS Parameter version remains selectable
+PASS Formula survives ZIP export and installation
+PASS Formula bullets move in real Windows combat
+WORKSHOP SMOKE PASSED

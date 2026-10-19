@@ -128,12 +128,13 @@ namespace Rebound.Full
             {
                 if(!p.Active)continue;
                 Vector2? target=null;
-                if(p.MotionData!=null&&p.MotionData.trajectory=="homing")
+                if(p.MotionData!=null&&p.MotionData.motionMode!="formula"&&p.MotionData.trajectory=="homing")
                 {
                     float nearest=float.MaxValue;
                     foreach(var e in Enemies)if(!e.Dead&&!p.Hit.Contains(e)){float d=(e.Position-p.Position).sqrMagnitude;if(d<nearest){nearest=d;target=e.Position;}}
                 }
                 Vector2 old=p.Position;p.Position=p.Motion.Step(p.MotionData,dt,target);p.Velocity=p.Motion.Velocity;p.Life-=dt;
+                if(p.Motion.Invalid){Release(p);continue;}
                 var direction=p.Position-old;if(direction.sqrMagnitude>0)p.Visual.transform.rotation=Quaternion.Euler(0,0,Mathf.Atan2(direction.y,direction.x)*Mathf.Rad2Deg);
                 if(p.Hostile)
                 {

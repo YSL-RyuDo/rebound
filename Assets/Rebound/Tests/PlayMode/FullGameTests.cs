@@ -110,6 +110,43 @@ public sealed class FullGameTests
         Assert.IsTrue(game.World.Projectiles.Any(p=>p.Active&&p.MotionData!=null&&p.MotionData.trajectory=="wave"&&p.Position.y!=0));
         WorkshopPlaytest.Content=null;WorkshopPlaytest.DraftPath=null;PlayerPrefs.SetString("Workshop.LastDraft",old);
     }
+    [UnityTest] public IEnumerator FormulaProjectilesHitAndInvalidRuntimeResultsReturnToPool()
+    {
+        game.Player.enabled=false;
+        var weapon=new WeaponData{motionMode="formula",formulaX="v*t",formulaY="0"};
+        var target=game.World.Spawn(game.Content.Enemies["scout"],new Vector2(-2,1));
+        game.World.Shoot(new Vector2(-5,1),Vector2.right*30,100,.2f,0,false,motion:weapon);
+        yield return new WaitForSeconds(.15f);Assert.IsTrue(target.Dead);Assert.GreaterOrEqual(game.Kills,1);
+        var invalid=new WeaponData{motionMode="formula",formulaX="v*t",formulaY="sqrt(-t)"};
+        game.World.Shoot(Vector2.zero,Vector2.right*10,100,.2f,0,false,motion:invalid);
+        var shot=game.World.Projectiles.Single(p=>p.Active&&p.MotionData==invalid);
+        yield return new WaitForFixedUpdate();yield return new WaitForFixedUpdate();
+        Assert.IsTrue(shot.Motion.Invalid);Assert.IsFalse(shot.Active);Assert.IsFalse(shot.Visual.enabled);
+        Assert.IsFalse(float.IsNaN(shot.Position.x)||float.IsNaN(shot.Position.y));
+    }
+    [UnityTest] public IEnumerator WorkshopSwitchesBothModesAndPlaysEditedFormula()
+    {
+        string previous=PlayerPrefs.GetString("Workshop.LastDraft","");
+        WorkshopPlaytest.DraftPath=Path.Combine(isolated,"formula-draft");
+        try
+        {
+            yield return SceneManager.LoadSceneAsync("ModWorkshop");yield return null;
+            Action<string> click=label=>UnityEngine.Object.FindObjectsOfType<UnityEngine.UI.Button>().Single(b=>b.GetComponentInChildren<UnityEngine.UI.Text>()?.text==label).onClick.Invoke();
+            Action<string,string> edit=(name,value)=>{var input=UnityEngine.Object.FindObjectsOfType<UnityEngine.UI.InputField>().Single(i=>i.name=="Field:"+name);input.text=value;input.onEndEdit.Invoke(value);};
+            var workshop=UnityEngine.Object.FindObjectOfType<ModWorkshop>();
+            click("straight  >");click("APPLY");Assert.AreEqual("parameters",workshop.Project.Validate().Weapons["pulse"].motionMode);
+            click("B · 수식 방식 / FORMULA");edit("formulaX","v*t");edit("formulaY","a*sin(2*pi*f*t)+0.2*sin(2*pi*5*t)");click("APPLY");
+            Assert.AreEqual("formula",workshop.Project.Validate().Weapons["pulse"].motionMode);
+            click("A · 수치 방식 / PARAMETERS");Assert.IsFalse(UnityEngine.Object.FindObjectsOfType<UnityEngine.UI.InputField>().Any(i=>i.name=="Field:formulaX"));
+            click("B · 수식 방식 / FORMULA");Assert.IsTrue(UnityEngine.Object.FindObjectsOfType<UnityEngine.UI.InputField>().Any(i=>i.text.Contains("0.2*sin")));
+            click("TEST PLAY");yield return null;yield return null;
+            game=UnityEngine.Object.FindObjectOfType<GameSession>();game.StartRun();game.Player.ReadInput=false;
+            Assert.AreEqual("formula",game.Stats.Weapon.motionMode);
+            yield return new WaitForSeconds(.1f);
+            Assert.IsTrue(game.World.Projectiles.Any(p=>p.Active&&p.MotionData?.motionMode=="formula"&&!p.Motion.Invalid));
+        }
+        finally{WorkshopPlaytest.Content=null;WorkshopPlaytest.DraftPath=null;PlayerPrefs.SetString("Workshop.LastDraft",previous);}
+    }
     [UnityTest] public IEnumerator SweptProjectilesDamageEnemiesAndPoolReturns()
     {
         game.Player.enabled=false;var target=game.World.Spawn(game.Content.Enemies["scout"],new Vector2(-2,1));

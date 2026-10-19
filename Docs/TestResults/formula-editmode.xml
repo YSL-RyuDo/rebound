@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<test-run id="2" testcasecount="22" result="Passed" total="22" passed="22" failed="0" inconclusive="0" skipped="0" asserts="0" engine-version="3.5.0.0" clr-version="4.0.30319.42000" start-time="2026-10-19 04:34:20Z" end-time="2026-10-19 04:34:21Z" duration="0.5016077">
+  <test-suite type="TestSuite" id="1029" name="REBOUND" fullname="REBOUND" runstate="Runnable" testcasecount="22" result="Passed" start-time="2026-10-19 04:34:20Z" end-time="2026-10-19 04:34:21Z" duration="0.501608" total="22" passed="22" failed="0" inconclusive="0" skipped="0" asserts="0">
+    <properties />
+    <test-suite type="Assembly" id="1056" name="Rebound.EditModeTests.dll" fullname="C:/Users/GCT/Documents/ChatGPT/2번째 MOD게임/Library/ScriptAssemblies/Rebound.EditModeTests.dll" runstate="Runnable" testcasecount="22" result="Passed" start-time="2026-10-19 04:34:20Z" end-time="2026-10-19 04:34:21Z" duration="0.489933" total="22" passed="22" failed="0" inconclusive="0" skipped="0" asserts="0">
+      <properties>
+        <property name="_PID" value="36132" />
+        <property name="_APPDOMAIN" value="Unity Child Domain" />
+        <property name="platform" value="EditMode" />
+      </properties>
+      <test-suite type="TestFixture" id="1030" name="ModSecurityTests" fullname="ModSecurityTests" classname="ModSecurityTests" runstate="Runnable" testcasecount="5" result="Passed" start-time="2026-10-19 04:34:20Z" end-time="2026-10-19 04:34:21Z" duration="0.247341" total="5" passed="5" failed="0" inconclusive="0" skipped="0" asserts="0">
+        <properties />
+        <test-case id="1031" name="RejectExecutableAndDuplicateCasePaths" fullname="ModSecurityTests.RejectExecutableAndDuplicateCasePaths" methodname="RejectExecutableAndDuplicateCasePaths" classname="ModSecurityTests" runstate="Runnable" seed="1401031744" result="Passed" start-time="2026-10-19 04:34:20Z" end-time="2026-10-19 04:34:20Z" duration="0.101299" asserts="0">
+          <properties />
+        </test-case>
+        <test-case id="1032" name="RejectSymlinkEntry" fullname="ModSecurityTests.RejectSymlinkEntry" methodname="RejectSymlinkEntry" classname="ModSecurityTests" runstate="Runnable" seed="1980112885" result="Passed" start-time="2026-10-19 04:34:20Z" end-time="2026-10-19 04:34:20Z" duration="0.015850" asserts="0">
+          <properties />
+        </test-case>
+        <test-case id="1034" name="RejectUnknownVersionAndDuplicateContentIds" fullname="ModSecurityTests.RejectUnknownVersionAndDuplicateContentIds" methodname="RejectUnknownVersionAndDuplicateContentIds" classname="ModSecurityTests" runstate="Runnable" seed="1863055689" result="Passed" start-time="2026-10-19 04:34:20Z" end-time="2026-10-19 04:34:20Z" duration="0.006416" asserts="0">
+          <properties />
+        </test-case>
+        <test-case id="1033" name="RejectZipBombAndExcessiveEntryCount" fullname="ModSecurityTests.RejectZipBombAndExcessiveEntryCount" methodname="RejectZipBombAndExcessiveEntryCount" classname="ModSecurityTests" runstate="Runnable" seed="1025598514" result="Passed" start-time="2026-10-19 04:34:20Z" end-time="2026-10-19 04:34:21Z" duration="0.106843" asserts="0">
+          <properties />
+        </test-case>
+        <test-case id="1035" name="SweptCollisionFindsFastBulletCrossing" fullname="ModSecurityTests.SweptCollisionFindsFastBulletCrossing" methodname="SweptCollisionFindsFastBulletCrossing" classname="ModSecurityTests" runstate="Runnable" seed="913905773" result="Passed" start-time="2026-10-19 04:34:21Z" end-time="2026-10-19 04:34:21Z" duration="0.004557" asserts="0">
+          <properties />
+        </test-case>
+      </test-suite>
+      <test-suite type="TestFixture" id="1036" name="TrajectoryFormulaTests" fullname="TrajectoryFormulaTests" classname="TrajectoryFormulaTests" runstate="Runnable" testcasecount="11" result="Passed" start-time="2026-10-19 04:34:21Z" end-time="2026-10-19 04:34:21Z" duration="0.083754" total="11" passed="11" failed="0" inconclusive="0" skipped="0" asserts="0">
+        <properties />
+        <test-case id="1038" name="ArithmeticPrecedenceFunctionsAndScientificNotation" fullname="TrajectoryFormulaTests.ArithmeticPrecedenceFunctionsAndScientificNotation" methodname="ArithmeticPrecedenceFunctionsAndScientificNotation" classname="TrajectoryFormulaTests" runstate="Runnable" seed="1698678439" result="Passed" start-time="2026-10-19 04:34:21Z" end-time="2026-10-19 04:34:21Z" duration="0.004869" asserts="0">
+          <properties />
+        </test-case>
+        <test-case id="1047" name="ComplexityAndInvalidResultsAreBounded" fullname="TrajectoryFormulaTests.ComplexityAndInvalidResultsAreBounded" methodname="ComplexityAndInvalidResultsAreBounded" classname="TrajectoryFormulaTests" runstate="Runnable" seed="195459728" result="Passed" start-time="2026-10-19 04:34:21Z" end-time="2026-10-19 04:34:21Z" duration="0.002716" asserts="0">
+          <properties />
+        </test-case>
+        <test-case id="1037" name="FormulaAndParameterWavesMatchAtRotatedLaunchAndDifferentFrameRates" fullname="TrajectoryFormulaTests.FormulaAndParameterWavesMatchAtRotatedLaunchAndDifferentFrameRates" methodname="FormulaAndParameterWavesMatchAtRotatedLaunchAndDifferentFrameRates" classname="TrajectoryFormulaTests" runstate="Runnable" seed="1868366708" result="Passed" start-time="2026-10-19 04:34:21Z" end-time="2026-10-19 04:34:21Z" duration="0.004025" asserts="0">
+          <properties />
+        </test-case>
+        <test-case id="1048" name="FormulaRoundTripsThroughZipAndBadEditDoesNotReplaceSavedWeapon" fullname="TrajectoryFormulaTests.FormulaRoundTripsThroughZipAndBadEditDoesNotReplaceSavedWeapon" methodname="FormulaRoundTripsThroughZipAndBadEditDoesNotReplaceSavedWeapon" classname="TrajectoryFormulaTests" runstate="Runnable" seed="686405126" result="Passed" start-time="2026-10-19 04:34:21Z" end-time="2026-10-19 04:34:21Z" duration="0.067565" asserts="0">
+          <properties />
+        </test-case>
+        <test-suite type="ParameterizedMethod" id="1046" name="InvalidSyntaxIsRejected" fullname="TrajectoryFormulaTests.InvalidSyntaxIsRejected" classname="TrajectoryFormulaTests" runstate="Runnable" testcasecount="7" result="Passed" start-time="2026-10-19 04:34:21Z" end-time="2026-10-19 04:34:21Z" duration="0.002794" total="7" passed="7" failed="0" inconclusive="0" skipped="0" asserts="0">
+          <properties />
+          <test-case id="1039" name="InvalidSyntaxIsRejected(&quot;System.IO.File.ReadAllText(1)&quot;)" fullname="TrajectoryFormulaTests.InvalidSyntaxIsRejected(&quot;System.IO.File.ReadAllText(1)&quot;)" methodname="InvalidSyntaxIsRejected" classname="TrajectoryFormulaTests" runstate="Runnable" seed="892713417" result="Passed" start-time="2026-10-19 04:34:21Z" end-time="2026-10-19 04:34:21Z" duration="0.000515" asserts="0">
+            <properties />
+          </test-case>
+          <test-case id="1040" name="InvalidSyntaxIsRejected(&quot;2t&quot;)" fullname="TrajectoryFormulaTests.InvalidSyntaxIsRejected(&quot;2t&quot;)" methodname="InvalidSyntaxIsRejected" classname="TrajectoryFormulaTests" runstate="Runnable" seed="1559641153" result="Passed" start-time="2026-10-19 04:34:21Z" end-time="2026-10-19 04:34:21Z" duration="0.000154" asserts="0">
+            <properties />
+          </test-case>
+          <test-case id="1041" name="InvalidSyntaxIsRejected(&quot;sin(t&quot;)" fullname="TrajectoryFormulaTests.InvalidSyntaxIsRejected(&quot;sin(t&quot;)" methodname="InvalidSyntaxIsRejected" classname="TrajectoryFormulaTests" runstate="Runnable" seed="1722058853" result="Passed" start-time="2026-10-19 04:34:21Z" end-time="2026-10-19 04:34:21Z" duration="0.000116" asserts="0">
+            <properties />
+          </test-case>
+          <test-case id="1042" name="InvalidSyntaxIsRejected(&quot;sin(t,2)&quot;)" fullname="TrajectoryFormulaTests.InvalidSyntaxIsRejected(&quot;sin(t,2)&quot;)" methodname="InvalidSyntaxIsRejected" classname="TrajectoryFormulaTests" runstate="Runnable" seed="907981102" result="Passed" start-time="2026-10-19 04:34:21Z" end-time="2026-10-19 04:34:21Z" duration="0.000090" asserts="0">
+            <properties />
+          </test-case>
+          <test-case id="1043" name="InvalidSyntaxIsRejected(&quot;clamp(t,0)&quot;)" fullname="TrajectoryFormulaTests.InvalidSyntaxIsRejected(&quot;clamp(t,0)&quot;)" methodname="InvalidSyntaxIsRejected" classname="TrajectoryFormulaTests" runstate="Runnable" seed="1701451636" result="Passed" start-time="2026-10-19 04:34:21Z" end-time="2026-10-19 04:34:21Z" duration="0.000079" asserts="0">
+            <properties />
+          </test-case>
+          <test-case id="1044" name="InvalidSyntaxIsRejected(&quot;1e999&quot;)" fullname="TrajectoryFormulaTests.InvalidSyntaxIsRejected(&quot;1e999&quot;)" methodname="InvalidSyntaxIsRejected" classname="TrajectoryFormulaTests" runstate="Runnable" seed="108793267" result="Passed" start-time="2026-10-19 04:34:21Z" end-time="2026-10-19 04:34:21Z" duration="0.000318" asserts="0">
+            <properties />
+          </test-case>
+          <test-case id="1045" name="InvalidSyntaxIsRejected(&quot;unknown*t&quot;)" fullname="TrajectoryFormulaTests.InvalidSyntaxIsRejected(&quot;unknown*t&quot;)" methodname="InvalidSyntaxIsRejected" classname="TrajectoryFormulaTests" runstate="Runnable" seed="1855440709" result="Passed" start-time="2026-10-19 04:34:21Z" end-time="2026-10-19 04:34:21Z" duration="0.000099" asserts="0">
+            <properties />
+          </test-case>
+        </test-suite>
+      </test-suite>
+      <test-suite type="TestFixture" id="1049" name="WorkshopTests" fullname="WorkshopTests" classname="WorkshopTests" runstate="Runnable" testcasecount="6" result="Passed" start-time="2026-10-19 04:34:21Z" end-time="2026-10-19 04:34:21Z" duration="0.157535" total="6" passed="6" failed="0" inconclusive="0" skipped="0" asserts="0">
+        <properties />
+        <test-case id="1053" name="CompositeEffectsRebuildWithoutCompounding" fullname="WorkshopTests.CompositeEffectsRebuildWithoutCompounding" methodname="CompositeEffectsRebuildWithoutCompounding" classname="WorkshopTests" runstate="Runnable" seed="1329351983" result="Passed" start-time="2026-10-19 04:34:21Z" end-time="2026-10-19 04:34:21Z" duration="0.002844" asserts="0">
+          <properties />
+        </test-case>
+        <test-case id="1050" name="DraftOverrideExportInstallAndReopenRoundTrip" fullname="WorkshopTests.DraftOverrideExportInstallAndReopenRoundTrip" methodname="DraftOverrideExportInstallAndReopenRoundTrip" classname="WorkshopTests" runstate="Runnable" seed="1786516242" result="Passed" start-time="2026-10-19 04:34:21Z" end-time="2026-10-19 04:34:21Z" duration="0.060427" asserts="0">
+          <properties />
+        </test-case>
+        <test-case id="1052" name="InvalidEditsAreTransactionalAndReferencesCannotDangle" fullname="WorkshopTests.InvalidEditsAreTransactionalAndReferencesCannotDangle" methodname="InvalidEditsAreTransactionalAndReferencesCannotDangle" classname="WorkshopTests" runstate="Runnable" seed="519739877" result="Passed" start-time="2026-10-19 04:34:21Z" end-time="2026-10-19 04:34:21Z" duration="0.002572" asserts="0">
+          <properties />
+        </test-case>
+        <test-case id="1055" name="LegacySchemaStillGetsSafeNewDefaults" fullname="WorkshopTests.LegacySchemaStillGetsSafeNewDefaults" methodname="LegacySchemaStillGetsSafeNewDefaults" classname="WorkshopTests" runstate="Runnable" seed="240381557" result="Passed" start-time="2026-10-19 04:34:21Z" end-time="2026-10-19 04:34:21Z" duration="0.001059" asserts="0">
+          <properties />
+        </test-case>
+        <test-case id="1051" name="SpriteImportAssignExportAndLoad" fullname="WorkshopTests.SpriteImportAssignExportAndLoad" methodname="SpriteImportAssignExportAndLoad" classname="WorkshopTests" runstate="Runnable" seed="1816770957" result="Passed" start-time="2026-10-19 04:34:21Z" end-time="2026-10-19 04:34:21Z" duration="0.085268" asserts="0">
+          <properties />
+        </test-case>
+        <test-case id="1054" name="TrajectoriesHaveObservableDistinctMotionAndFrameStableWave" fullname="WorkshopTests.TrajectoriesHaveObservableDistinctMotionAndFrameStableWave" methodname="TrajectoriesHaveObservableDistinctMotionAndFrameStableWave" classname="WorkshopTests" runstate="Runnable" seed="1042850482" result="Passed" start-time="2026-10-19 04:34:21Z" end-time="2026-10-19 04:34:21Z" duration="0.003779" asserts="0">
+          <properties />
+        </test-case>
+      </test-suite>
+    </test-suite>
+  </test-suite>
+</test-run>

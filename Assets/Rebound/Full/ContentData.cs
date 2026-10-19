@@ -16,6 +16,7 @@ namespace Rebound.Full
         public float damage = 3, interval = .25f, speed = 17, size = .18f, crit = .05f, spread = 8;
         public int count = 1, pierce; public string pattern = "line", sprite = "bullet";
         public string trajectory = "straight";
+        public string motionMode = "parameters", formulaX = "v*t", formulaY = "a*sin(2*pi*f*t)";
         public string impactEffect = "impact";
         public float amplitude = .6f, frequency = 2, gravity, acceleration, turnRate = 120, launchAngle, lifetime = 5;
     }

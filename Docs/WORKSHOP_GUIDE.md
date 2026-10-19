@@ -1,4 +1,4 @@
-# RE:BOUND 1.1 MOD Workshop
+# RE:BOUND 1.2 MOD Workshop
 
 ## 실행과 저장 위치
 
@@ -51,6 +51,8 @@ PNG는 2048×2048 이하, 개별 8 MiB 이하입니다. 투명 PNG를 지원합�
 이펙트는 이미지, HTML 색상(`#40E5FF`), 크기 0.02–4, 수명 0.05–3초, 속도 0–12, 입자 수 1–32를 조절합니다. 새 이펙트는 무기의 `impactEffect`, 적의 `deathEffect`, 기체의 `reboundEffect`로 연결합니다. 반동 시각 크기는 실제 반동 범위에 size를 곱한 값입니다. 이미지 크기 변경만으로 피해 판정 범위가 바뀌지는 않습니다.
 
 ## 탄환 궤적
+
+WEAPONS 위의 **A · 수치 방식 / PARAMETERS**는 아래 기존 수치 방식이고, **B · 수식 방식 / FORMULA**는 `x(t), y(t)`를 직접 입력하는 새 방식입니다. [수식 문법·예제·A/B 비교 방법](TRAJECTORY_VERSIONS.md)을 참고하세요. 두 설정은 전환해도 보존되며 APPLY/SAVE한 방식이 전투에 적용됩니다.
 
 `pattern`은 line/fan 발사 배열, `trajectory`는 발사된 각 탄환의 이동 방식입니다.
 

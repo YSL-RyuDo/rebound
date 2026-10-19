@@ -43,7 +43,7 @@ public static class FullGameBuilder
         }
         EditorBuildSettings.scenes=new[]{new EditorBuildSettingsScene(MainScene,true),new EditorBuildSettingsScene(WorkshopScene,true),new EditorBuildSettingsScene("Assets/Rebound/Scenes/Game.unity",true)};
         PlayerSettings.productName="REBOUND";PlayerSettings.defaultScreenWidth=1920;PlayerSettings.defaultScreenHeight=1080;PlayerSettings.fullScreenMode=FullScreenMode.Windowed;
-        PlayerSettings.bundleVersion="1.1.0";PlayerSettings.runInBackground=true;
+        PlayerSettings.bundleVersion="1.2.0";PlayerSettings.runInBackground=true;
         AssetDatabase.SaveAssets();Debug.Log("FULL GAME GENERATED");
     }
     static void Samples()
@@ -58,6 +58,22 @@ public static class FullGameBuilder
             upgrades=new[]{new UpgradeData {id="electric_relay",name="Overvoltage relay",description="Rebound chains to an additional enemy",effect="chain",amount=1,maxLevel=3,weight=2}},
             assets=new[]{new AssetData {id="electric",name="Electric bolt",kind="sprite",path="assets/sprites/electric.png"}}};
         Package(baseDir,"light-frame","LIGHT FRAME",light,"light","lightframe");Package(baseDir,"overcharge","OVERCHARGE",heavy,"electric","spark");
+        TrajectorySample(baseDir,false);TrajectorySample(baseDir,true);
+    }
+    static void TrajectorySample(string root,bool formula)
+    {
+        string id=formula?"trajectory-b-formula":"trajectory-a-parameters";
+        string name=formula?"B - 수식 탄환":"A - 수치 탄환";
+        string dir=Path.Combine(root,id);Directory.CreateDirectory(Path.Combine(dir,"data"));
+        var weapon=new WeaponData{id="pulse",name=name,replace=true,trajectory="wave",motionMode=formula?"formula":"parameters",speed=17,amplitude=.6f,frequency=2,formulaX="v*t",formulaY="a*sin(2*pi*f*t)"};
+        var pack=new ContentPack{weapons=new[]{weapon}};
+        var manifest=new ModManifest{schemaVersion=1,modId=id,name=name,author="REBOUND project",version="1.0.0",targetGameVersion="1.2.0",license="CC0-1.0",description=formula?"x(t)=v*t, y(t)=a*sin(2*pi*f*t). Matches A with v=17, a=0.6, f=2.":"Parameter wave: speed 17, amplitude 0.6, frequency 2 Hz. Enable A or B, not both.",content=new[]{"data/content.json"}};
+        File.WriteAllText(Path.Combine(dir,"manifest.json"),JsonUtility.ToJson(manifest,true));
+        File.WriteAllText(Path.Combine(dir,"data/content.json"),JsonUtility.ToJson(pack,true));
+        string zip=Path.Combine("Assets/StreamingAssets/SampleMods",id+".zip");bool exists=File.Exists(zip);
+        using(var archive=ZipFile.Open(zip,exists?ZipArchiveMode.Update:ZipArchiveMode.Create))
+            foreach(string relative in new[]{"manifest.json","data/content.json"})
+            {if(exists)archive.GetEntry(relative)?.Delete();archive.CreateEntryFromFile(Path.Combine(dir,relative),relative);}
     }
     static void Package(string root,string id,string name,ContentPack pack,string assetId,string shape)
     {

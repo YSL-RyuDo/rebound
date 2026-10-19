@@ -1,0 +1,39 @@
+{
+    "flight": [],
+    "weapons": [
+        {
+            "id": "pulse",
+            "name": "A - 수치 탄환",
+            "description": "",
+            "replace": true,
+            "damage": 3.0,
+            "interval": 0.25,
+            "speed": 17.0,
+            "size": 0.18000000715255738,
+            "crit": 0.05000000074505806,
+            "spread": 8.0,
+            "count": 1,
+            "pierce": 0,
+            "pattern": "line",
+            "sprite": "bullet",
+            "trajectory": "wave",
+            "motionMode": "parameters",
+            "formulaX": "v*t",
+            "formulaY": "a*sin(2*pi*f*t)",
+            "impactEffect": "impact",
+            "amplitude": 0.6000000238418579,
+            "frequency": 2.0,
+            "gravity": 0.0,
+            "acceleration": 0.0,
+            "turnRate": 120.0,
+            "launchAngle": 0.0,
+            "lifetime": 5.0
+        }
+    ],
+    "enemies": [],
+    "upgrades": [],
+    "stages": [],
+    "assets": [],
+    "story": [],
+    "effects": []
+}

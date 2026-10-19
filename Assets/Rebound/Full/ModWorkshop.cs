@@ -17,7 +17,7 @@ namespace Rebound.Full
         public const string SceneName="ModWorkshop";
         Canvas canvas;RectTransform root;Font font;ArtFactory art;ContentRegistry registry;
         string section="weapons",message="Select an item, edit values, then APPLY. Draft files are separate from installed MODs.",path="";
-        Definition selected;bool isNew;Text status;Image moving;
+        Definition selected;bool isNew,previewRejected;Text status;Image moving;
         readonly List<Action> readFields=new List<Action>();
         readonly List<Image> previewEffects=new List<Image>();
         readonly Color ink=new Color(.025f,.045f,.08f),panel=new Color(.045f,.085f,.13f),accent=new Color(.25f,.9f,.87f),white=new Color(.88f,.93f,.98f);
@@ -71,7 +71,7 @@ namespace Rebound.Full
         }
         void Render()
         {
-            if(root){root.gameObject.SetActive(false);Destroy(root.gameObject);}readFields.Clear();previewEffects.Clear();moving=null;
+            if(root){root.gameObject.SetActive(false);Destroy(root.gameObject);}readFields.Clear();previewEffects.Clear();moving=null;previewRejected=false;
             root=Rect(canvas.transform,"Workshop",0,0,1600,900);root.anchorMin=root.anchorMax=root.pivot=Vector2.one*.5f;root.anchoredPosition=Vector2.zero;
             Box(root,0,0,1600,900,ink);
             Label(root,"RE:BOUND / MOD WORKSHOP",24,20,620,45,30,accent);
@@ -99,7 +99,20 @@ namespace Rebound.Full
             Button(root,"CLONE / NEW",455,210,170,38,()=>{ReadFields();selected=WorkshopProject.Copy(selected);selected.id="custom_"+Guid.NewGuid().ToString("N").Substring(0,8);selected.name="New "+section;selected.replace=false;isNew=true;Render();});
             Button(root,"REVERT / REMOVE",635,210,195,38,()=>{Project.Revert(section,selected.id);RefreshArt();SelectFirst();Render();});
             Button(root,"APPLY",840,210,175,38,ApplySelected,new Color(.12f,.4f,.36f));
-            var form=Scroll(root,455,262,560,463,1800);float fy=8;
+            float formTop=262;
+            if(selected is WeaponData editedWeapon)
+            {
+                Button(root,"A · 수치 방식 / PARAMETERS",455,262,275,36,()=>{ReadFields();editedWeapon.motionMode="parameters";Render();},editedWeapon.motionMode=="parameters"?new Color(.12f,.4f,.36f):(Color?)null);
+                Button(root,"B · 수식 방식 / FORMULA",740,262,275,36,()=>{ReadFields();editedWeapon.motionMode="formula";Render();},editedWeapon.motionMode=="formula"?new Color(.12f,.4f,.36f):(Color?)null);
+                formTop=310;
+                if(editedWeapon.motionMode=="formula")
+                {
+                    Button(root,"직선 예제",455,307,180,32,()=>FormulaPreset("straight"));
+                    Button(root,"파동 예제",645,307,180,32,()=>FormulaPreset("wave"));
+                    Button(root,"포물선 예제",835,307,180,32,()=>FormulaPreset("arc"));formTop=350;
+                }
+            }
+            var form=Scroll(root,455,formTop,560,725-formTop,1800);float fy=8;
             BuildFields(form,selected,ref fy);
             if(selected is UpgradeData upgrade)
             {
@@ -122,7 +135,7 @@ namespace Rebound.Full
                 }
                 Button(form,"ADD WAVE",12,fy,250,34,()=>{ReadFields();stage.waves=(stage.waves??new WaveData[0]).Concat(new[]{new WaveData{start=0,end=30,enemies=new[]{"scout"}}}).ToArray();Render();});fy+=44;
             }
-            form.sizeDelta=new Vector2(form.sizeDelta.x,Mathf.Max(463,fy+12));
+            form.sizeDelta=new Vector2(form.sizeDelta.x,Mathf.Max(725-formTop,fy+12));
             Preview();
             Label(root,"PNG / ZIP / draft folder path (paste from Explorer)",24,744,900,26,16,accent);
             InputBox(root,path,24,775,985,40,v=>path=v,false).gameObject.name="Import path";
@@ -133,11 +146,21 @@ namespace Rebound.Full
             Label(root,"Draft: "+Project.Root,24,873,1550,22,12);
         }
         void Meta(string label,string value,float x,float width,Action<string> set){Label(root,label,x,82,width,24,14,accent);InputBox(root,value,x,107,width,38,set).gameObject.name="Meta:"+label;}
+        void FormulaPreset(string kind)
+        {
+            ReadFields();var weapon=(WeaponData)selected;weapon.formulaX="v*t";
+            weapon.formulaY=kind=="wave"?"a*sin(2*pi*f*t)":kind=="arc"?"-0.5*g*t^2":"0";
+            if(kind=="arc"&&weapon.gravity==0)weapon.gravity=6;
+            message="예제 수식을 불러왔습니다. x(t), y(t)를 편집하고 APPLY를 누르세요.";Render();
+        }
         void BuildFields(Transform form,object obj,ref float y)
         {
-            foreach(var field in obj.GetType().GetFields(BindingFlags.Public|BindingFlags.Instance).OrderBy(f=>f.Name=="id"?0:f.Name=="name"?1:f.Name=="description"?2:3))
+            foreach(var field in obj.GetType().GetFields(BindingFlags.Public|BindingFlags.Instance).OrderBy(f=>f.Name=="id"?0:f.Name=="name"?1:f.Name=="description"?2:f.Name=="formulaX"?3:f.Name=="formulaY"?4:5))
             {
                 if(field.Name=="replace"||field.Name=="effects"||field.Name=="waves")continue;
+                if(obj is WeaponData w&&(field.Name=="motionMode"||
+                    (w.motionMode!="formula"&&(field.Name=="formulaX"||field.Name=="formulaY"))||
+                    (w.motionMode=="formula"&&(field.Name=="trajectory"||field.Name=="turnRate"))))continue;
                 if(obj is UpgradeData u&&u.effects!=null&&u.effects.Length>0&&(field.Name=="effect"||field.Name=="amount"))continue;
                 string name=field.Name;object current=field.GetValue(obj);
                 Label(form,FieldLabel(name),12,y+5,190,30,16);
@@ -147,18 +170,25 @@ namespace Rebound.Full
                 {
                     string value=current?.ToString();Button(form,value+"  >",210,y,315,34,()=>{ReadFields();int n=Array.IndexOf(choices,value);field.SetValue(obj,choices[(n+1)%choices.Length]);Render();}).gameObject.name="Field:"+name;
                 }
-                else InputBox(form,current is string[] array?string.Join(",",array):Convert.ToString(current,CultureInfo.InvariantCulture),210,y,315,34,value=>
+                else
+                {
+                bool expression=name=="formulaX"||name=="formulaY";
+                if(expression)y+=36;
+                var input=InputBox(form,current is string[] array?string.Join(",",array):Convert.ToString(current,CultureInfo.InvariantCulture),expression?12:210,y,expression?518:315,34,value=>
                 {
                     if(field.FieldType==typeof(float)){if(!float.TryParse(value,NumberStyles.Float,CultureInfo.InvariantCulture,out var f)||float.IsNaN(f)||float.IsInfinity(f))throw new FormatException(name+": enter a finite number using a decimal point");field.SetValue(obj,f);}
                     else if(field.FieldType==typeof(int)){if(!int.TryParse(value,out var i))throw new FormatException(name+": enter a whole number");field.SetValue(obj,i);}
                     else if(field.FieldType==typeof(string[]))field.SetValue(obj,value.Split(',').Select(v=>v.Trim()).Where(v=>v.Length>0).ToArray());
                     else field.SetValue(obj,value);
-                }).gameObject.name="Field:"+name;
+                });input.gameObject.name="Field:"+name;
+                if(expression)input.characterLimit=256;
+                }
                 y+=40;
             }
         }
         static string FieldLabel(string name)
         {
+            if(name=="formulaX")return "x(t) · 전방 변위";if(name=="formulaY")return "y(t) · 수직 변위";
             switch(name){case "amplitude":return "Wave amplitude (0–3)";case "frequency":return "Wave Hz (0–8)";case "gravity":return "Gravity (units/s²)";case "acceleration":return "Acceleration (±10)";case "turnRate":return "Turn rate (°/s, 0–360)";case "launchAngle":return "Launch angle (±90°)";case "lifetime":return "Lifetime (seconds)";case "tier":return "Rarity tier";case "maxLevel":return "Max rank (1–10)";case "minLevel":return "Unlock level (1–50)";case "enemies":return "Enemy IDs (comma)";default:return name;}
         }
         static string[] Options(object obj,string field)
@@ -188,7 +218,8 @@ namespace Rebound.Full
             var motion=new ProjectileMotion(Vector2.zero,Quaternion.Euler(0,0,weapon.launchAngle)*Vector2.right*weapon.speed);
             for(int i=0;i<60;i++)
             {
-                Vector2 point=motion.Step(weapon,.025f,new Vector2(12,1));var dot=Box(p.transform,90+point.x*27,190-point.y*27,3,3,new Color(.3f,.75f,.8f,.5f));dot.raycastTarget=false;
+                Vector2 point=motion.Step(weapon,.025f,new Vector2(12,1));if(motion.Invalid)break;
+                var dot=Box(p.transform,90+point.x*27,190-point.y*27,3,3,new Color(.3f,.75f,.8f,.5f));dot.raycastTarget=false;
             }
             moving=Box(p.transform,90,190,Mathf.Max(8,weapon.size*80),Mathf.Max(5,weapon.size*40),Color.white);moving.sprite=art.Get(weapon.sprite);moving.raycastTarget=false;
             if(selected is EffectData effect)
@@ -203,15 +234,25 @@ namespace Rebound.Full
                 Label(p.transform,upgrade.description,24,297,490,60,16);
             }
             string help="Preview: 27 px = 1 world unit; target at (12, 1).\nAPPLY refreshes artwork. TEST PLAY uses this draft.\nReturn through Main Menu > Workshop.\n\nPNG import assigns the selected item's image.\nNew enemies: add their ID to a stage wave.\nNew weapons: set a flight's weapon ID.";
+            if(selected is WeaponData)
+            {
+                Label(p.transform,weapon.motionMode=="formula"?"B · 수식 방식  /  x(t), y(t)":"A · 수치 방식  /  "+weapon.trajectory,14,12,500,30,18,accent);
+                if(weapon.motionMode=="formula")
+                {
+                    help="t: 발사 후 시간(초), v: 발사 속도\na: 진폭, f: 주파수(Hz), g: 중력, acc: 가속도\nx: 발사 방향, y: 발사 방향 기준 위쪽 변위\n+ - * / ^  ·  sin cos abs sqrt min max clamp  ·  pi e\nx(0)=y(0)=0, 삼각함수는 라디안. APPLY로 검증.\n수식에 쓴 변수만 적용됩니다. 오류 발생 탄환은 회수합니다.";
+                    try{TrajectoryFormula.Validate(weapon);}catch(FormatException ex){help=ex.Message+"\n수식을 수정하고 APPLY를 누르세요.";moving.enabled=false;previewRejected=true;}
+                }
+            }
             Label(root,help,1040,585,535,145,15);
         }
         WeaponData PreviewWeapon()=>selected as WeaponData??(selected is FlightData f&&registry.Weapons.TryGetValue(f.weapon,out var w)?w:registry.Weapons["pulse"]);
         void Update()
         {
             if(!canvas)return;canvas.GetComponent<CanvasScaler>().matchWidthOrHeight=(float)Screen.width/Mathf.Max(1,Screen.height)>=16f/9f?1:0;
-            if(!moving)return;var weapon=PreviewWeapon();float age=Mathf.Repeat(Time.unscaledTime,Mathf.Min(weapon.lifetime,1.5f));
+            if(!moving||previewRejected)return;var weapon=PreviewWeapon();float age=Mathf.Repeat(Time.unscaledTime,Mathf.Min(weapon.lifetime,1.5f));
             var motion=new ProjectileMotion(Vector2.zero,Quaternion.Euler(0,0,weapon.launchAngle)*Vector2.right*weapon.speed);
             while(age>0){float dt=Mathf.Min(age,.02f);motion.Step(weapon,dt,new Vector2(12,1));age-=dt;}
+            moving.enabled=!motion.Invalid;
             moving.rectTransform.anchoredPosition=new Vector2(90+motion.Position.x*27,-190+motion.Position.y*27);
             if(selected is EffectData effect&&effect.lifetime>0)
             {

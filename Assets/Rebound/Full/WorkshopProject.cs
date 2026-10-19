@@ -15,7 +15,7 @@ namespace Rebound.Full
     }
     [Serializable] public class WorkshopDraft
     {
-        public ModManifest manifest=new ModManifest {schemaVersion=1,modId="my-mod",name="My MOD",author="Creator",version="1.0.0",targetGameVersion="1.1.0",description="Made in REBOUND Workshop",license="All rights reserved",content=new[]{"data/content.json"}};
+        public ModManifest manifest=new ModManifest {schemaVersion=1,modId="my-mod",name="My MOD",author="Creator",version="1.0.0",targetGameVersion="1.2.0",description="Made in REBOUND Workshop",license="All rights reserved",content=new[]{"data/content.json"}};
         public ContentPack content=new ContentPack();
     }
     // A draft holds only overrides/additions. The shipped baseline is never edited by this service.
@@ -56,7 +56,9 @@ namespace Rebound.Full
             var candidate=JsonUtility.FromJson<ContentPack>(JsonUtility.ToJson(Draft.content));
             var copy=Copy(definition);copy.replace=Items(Baseline,section).Any(d=>d.id==copy.id);
             Set(candidate,section,Items(candidate,section).Where(d=>d.id!=copy.id).Concat(new[]{copy}));
-            Validate(candidate);Draft.content=candidate;Save();
+            Validate(candidate);Draft.content=candidate;
+            if(candidate.weapons.Any(w=>w.motionMode=="formula"))Draft.manifest.targetGameVersion="1.2.0";
+            Save();
         }
         public void Revert(string section,string id)
         {

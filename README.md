@@ -8,7 +8,8 @@ Windows용 오리지널 2D 중력 로그라이크 슈팅 게임. 하강으로 �
 - Input Manager (Old), `Unity UI` Canvas Scaler 기준 **1920×1080**.
 - 4종 일반 적, 13종 기본 업그레이드, 4분 뒤 등장하는 3페이즈 GRAVITY WARDEN.
 - 경험치 자동 지급, 중복 없는 가중치 3지선다, 연속 레벨업 큐, 일시정지·재시작.
-- 로컬 ZIP MOD 설치·검증·활성화·해제, 샘플 2종.
+- 로컬 ZIP MOD 설치·검증·활성화·해제, 비행 샘플 2종과 탄환 A/B 비교 샘플 2종.
+- **v1.2: 탄환 제작 A/B** — 기존 수치 방식과 `x(t), y(t)` 수식 방식을 선택합니다. [두 버전 비교·수식 안내](Docs/TRAJECTORY_VERSIONS.md).
 - **v1.1: MOD WORKSHOP 제작 씬** — PNG 교체, 탄환 궤적, 적/웨이브, 이펙트, 증강 편집·추가, 테스트 플레이·ZIP 내보내기.
 - 증강 아이콘·한글 이름·설명을 제작 미리보기와 실제 레벨업 카드에 반영합니다. [네온 웨이브 제작 리소스](DemoAssets/NeonWave/README.md)와 [한국어 제작 영상 안내](Docs/WORKSHOP_VIDEO.md)를 함께 제공합니다.
 - 실버·골드·플래티넘·프리즘 증강. 최대 단계와 실제 능력치 상한을 함께 검사하고 카드에 적용 전후 수치를 표시합니다.
@@ -52,12 +53,12 @@ Unity 실행 순서:
 직접 제작: 메인 메뉴 **MOD WORKSHOP** 또는 Unity **REBOUND → Open MOD Workshop**. 사용 순서와 수치 단위는 [제작 가이드](Docs/WORKSHOP_GUIDE.md)를 참고하세요. 기존 MOD ZIP도 별도 초안으로 가져와 수정할 수 있습니다.
 
 1. 메인 메뉴 → **MOD MANAGER**.
-2. **INSTALL SAMPLES**로 LIGHT FRAME과 OVERCHARGE ZIP을 설치합니다.
+2. **INSTALL SAMPLES**로 LIGHT FRAME, OVERCHARGE, A - 수치 탄환, B - 수식 탄환 ZIP을 설치합니다.
 3. 원하는 패키지에 **ENABLE**을 누르고 메뉴로 돌아가 새 게임을 시작합니다.
 4. 사용자 ZIP은 **OPEN MOD FOLDER → Inbox**에 넣고 **INSTALL INBOX ZIPs**를 누릅니다.
 5. **DISABLE** 후 새 게임을 시작하면 해당 변경이 해제됩니다.
 
-두 샘플은 모두 기본 `re01` 기체를 교체하므로 **한 번에 하나만 활성화**하세요. 동시에 켜면 modId 정렬상 뒤에 오는 충돌 패키지를 거부하고 화면에 오류를 표시합니다. 기본 게임은 계속 실행됩니다. 샘플 소스는 `SampleMods/`, 설치 ZIP은 `Assets/StreamingAssets/SampleMods/`에 있습니다.
+LIGHT FRAME과 OVERCHARGE는 기본 `re01` 기체를 교체하므로 한 번에 하나만 활성화하세요. A/B 탄환 샘플도 같은 `pulse` 무기를 교체하므로 둘 중 하나만 켭니다. 동시에 충돌하는 MOD를 켜면 modId 정렬상 뒤에 오는 패키지를 거부하고 화면에 오류를 표시합니다. 기본 게임은 계속 실행됩니다. 샘플 소스는 `SampleMods/`, 설치 ZIP은 `Assets/StreamingAssets/SampleMods/`에 있습니다.
 
 MOD와 설정은 `Application.persistentDataPath`에 저장됩니다. Windows 기본 위치는 `%USERPROFILE%/AppData/LocalLow/Independent Prototype/REBOUND/`입니다. MOD Manager의 폴더 열기를 사용하면 실제 위치로 바로 이동합니다.
 
