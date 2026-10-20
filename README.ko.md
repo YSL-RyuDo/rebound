@@ -151,4 +151,4 @@ Unity scene: [Assets/Rebound/Scenes/REBOUND.unity](Assets/Rebound/Scenes/REBOUND
 
 ## 관련 저장소
 
-[rebound](https://github.com/YSL-RyuDo/rebound), 비공개, 접근 권한 필요
+[rebound](https://github.com/YSL-RyuDo/rebound), 공개 저장소

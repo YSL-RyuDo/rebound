@@ -151,4 +151,4 @@ The 2026 ~ 10 ~ 19 validation record reports 22 EditMode and 23 PlayMode tests p
 
 ## Related repositories
 
-[rebound](https://github.com/YSL-RyuDo/rebound), Private, access required
+[rebound](https://github.com/YSL-RyuDo/rebound), Public repository

@@ -153,4 +153,4 @@ Unity scene: [Assets/Rebound/Scenes/REBOUND.unity](Assets/Rebound/Scenes/REBOUND
 
 ## 関連リポジトリ
 
-[rebound](https://github.com/YSL-RyuDo/rebound), 非公開・アクセス権が必要
+[rebound](https://github.com/YSL-RyuDo/rebound), 公開リポジトリ
