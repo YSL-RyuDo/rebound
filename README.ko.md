@@ -2,32 +2,21 @@
 
 [English](README.md) · [Korean](README.ko.md) · [Japanese](README.ja.md)
 
+하강하며 충전하고 상승하며 공격하는 중력 슈팅 게임과 궤적 제작 워크숍입니다.
+
 **C# · Unity 2D · Local content** · 플레이 가능한 프로토타입
 
 [개발 사례 보기](https://ysl-ryudo.github.io/ko/work/rebound/) · [Portfolio](https://ysl-ryudo.github.io/ko/)
 
+[rebound](https://github.com/YSL-RyuDo/rebound) (비공개 · 접근 권한 필요)
 
-로컬 데이터 기반 MOD 제작 도구를 갖춘 Unity 2D 중력 로그라이크 슈팅 게임입니다.
+## 시스템별 담당 내용
 
-![RE:BOUND](Docs/Screenshots/11-neon-wave-game.png)
-
-## 해결하려던 문제
-
-중력 슈팅 게임과 콘텐츠 제작 도구가 작성된 궤적을 같은 방식으로 해석해야 합니다. 로컬 콘텐츠는 게임에 반영되기 전에 검증해야 합니다.
-
-## 내 구현과 설계
-
-하강 충전·상승 공격 루프와 궤적·적·웨이브·증강 제작 도구를 구현했습니다. 매개변수·수식으로 작성한 궤적은 게임과 제작 도구에서 평가기를 공유하며 로컬 ZIP을 검증합니다.
-
-### 구현 개요 · 개념 흐름도
-
-```mermaid
-flowchart LR
-    N0["Trajectory authoring"] --> N1
-    N1["Local validation"] --> N2
-    N2["Shared evaluator"] --> N3
-    N3["Combat waves"]
-```
+| 영역 | 구현 |
+|---|---|
+| 제작 | 워크숍 매개변수와 궤적 수식 |
+| 평가 | 워크숍과 게임이 공유하는 궤적 평가기 |
+| 로딩·플레이 | 로컬 ZIP 검증 · 적·웨이브·강화 요소 |
 
 ## 내 기여
 
@@ -58,7 +47,3 @@ flowchart LR
 - [Docs/WORKSHOP_GUIDE.md](Docs/WORKSHOP_GUIDE.md)
 - [Docs/TRAJECTORY_VERSIONS.md](Docs/TRAJECTORY_VERSIONS.md)
 - [Docs/RESOURCES.md](Docs/RESOURCES.md)
-
-## 구현을 확인하는 방법
-
-2026-10-19 기록에는 EditMode 22개·PlayMode 23개 통과와 Windows 빌드가 있습니다. 기존 기록이며 밸런스와 극단적인 궤적의 충돌은 별도 평가가 필요합니다.

@@ -2,32 +2,21 @@
 
 [English](README.md) · [Korean](README.ko.md) · [Japanese](README.ja.md)
 
+下降してチャージし、上昇して攻撃する重力シューティングと軌道制作ワークショップです。
+
 **C# · Unity 2D · Local content** · プレイ可能なプロトタイプ
 
 [開発事例を見る](https://ysl-ryudo.github.io/ja/work/rebound/) · [Portfolio](https://ysl-ryudo.github.io/ja/)
 
+[rebound](https://github.com/YSL-RyuDo/rebound) (非公開・アクセス権が必要)
 
-ローカルのデータ駆動MODワークショップを備えたUnity 2D重力ローグライクシューティングです。
+## システム別の担当内容
 
-![RE:BOUND](Docs/Screenshots/11-neon-wave-game.png)
-
-## 取り組んだ課題
-
-重力シューティングと制作ツールで、作成した軌道を同じように解釈する必要があります。ローカルコンテンツはゲームへの反映前に検証します。
-
-## 担当した実装と設計
-
-落下で充電・上昇で攻撃するループと、軌道・敵・ウェーブ・強化の制作ツールを実装しました。パラメーター・数式軌道の評価器をゲームとツールで共有し、ローカルZIPを検証します。
-
-### 実装概要 · 概念フロー
-
-```mermaid
-flowchart LR
-    N0["Trajectory authoring"] --> N1
-    N1["Local validation"] --> N2
-    N2["Shared evaluator"] --> N3
-    N3["Combat waves"]
-```
+| 領域 | 実装 |
+|---|---|
+| 制作 | ワークショップのパラメーターと軌道数式 |
+| 評価 | ワークショップとゲームが共有する軌道評価器 |
+| 読み込み・プレイ | ローカルZIP検証・敵・ウェーブ・強化要素 |
 
 ## 担当した内容
 
@@ -58,7 +47,3 @@ flowchart LR
 - [Docs/WORKSHOP_GUIDE.md](Docs/WORKSHOP_GUIDE.md)
 - [Docs/TRAJECTORY_VERSIONS.md](Docs/TRAJECTORY_VERSIONS.md)
 - [Docs/RESOURCES.md](Docs/RESOURCES.md)
-
-## 実装の確認方法
-
-2026-10-19の記録にはEditMode 22件・PlayMode 23件の成功とWindowsビルドがあります。既存記録であり、バランスや極端な軌道の衝突には別途評価が必要です。
