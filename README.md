@@ -1,6 +1,8 @@
 # RE:BOUND
 
-[English](README.md), [Korean](README.ko.md), [Japanese](README.ja.md)
+<!-- portfolio-languages -->
+[![English (current)](https://ysl-ryudo.github.io/assets/diagrams/language-en-current.svg)](README.md) [![한국어](https://ysl-ryudo.github.io/assets/diagrams/language-ko.svg)](README.ko.md) [![日本語](https://ysl-ryudo.github.io/assets/diagrams/language-ja.svg)](README.ja.md)
+<!-- /portfolio-languages -->
 
 A gravity shooter with a trajectory workshop: descend to recharge, ascend to attack.
 
@@ -11,15 +13,23 @@ A gravity shooter with a trajectory workshop: descend to recharge, ascend to att
 
 [Explore the case](https://ysl-ryudo.github.io/en/work/rebound/), [Portfolio](https://ysl-ryudo.github.io/en/)
 
+## Inside the game
+
+[![Fall energy, projectile hits and level progression share the same combat loop.](https://ysl-ryudo.github.io/assets/gameplay/rebound-combat.webp)](https://ysl-ryudo.github.io/assets/gameplay/rebound-combat.webp)
+
+Fall energy, projectile hits and level progression share the same combat loop.
+
+[![Upgrade selection pauses the action and applies the selected effect to the current run.](https://ysl-ryudo.github.io/assets/gameplay/rebound-upgrades.webp)](https://ysl-ryudo.github.io/assets/gameplay/rebound-upgrades.webp)
+
+Upgrade selection pauses the action and applies the selected effect to the current run.
+
+[Watch gameplay](https://ysl-ryudo.github.io/en/work/rebound/#gameplay), REBOUND, base game and two MOD configurations, 2:52. Recorded in-engine with scripted inputs on 20 October 2026.
+
 ## What I built across the game
 
-I developed the game loop as well as the trajectory-expression tool: flight, combat, progression, run states, saves and the content workshop. The expression parser is one component of the game, not the project's entire scope.
+I developed flight and rebound combat, enemies and bosses, upgrade selection, run states and saves. I also built the content workshop and expression-based trajectory editor.
 
-**Player flow**
-
-Start a run → fly and rebound → fight waves and bosses → choose upgrades → clear or fail → save or author new content
-
-Source links pin the inspected revision; contribution links identify my non-merge changes. Shared-file links do not imply sole authorship. Private source requires repository access.
+[![My implementation flow](https://ysl-ryudo.github.io/assets/diagrams/rebound-flow-en.svg)](https://ysl-ryudo.github.io/assets/diagrams/rebound-flow-en.svg)
 
 ### Flight and rebound combat
 
@@ -45,19 +55,9 @@ Built the workshop's project editing, preview and import/export flow alongside d
 
 [ModWorkshop.cs (master)](https://github.com/YSL-RyuDo/rebound/blob/30e289a89f8e24fae16bfc7fcdcb15ae965c7901/Assets/Rebound/Full/ModWorkshop.cs), [My change 6fbc48d](https://github.com/YSL-RyuDo/rebound/commit/6fbc48dfb088b5d7a6fef3d45694d976b95d3721), [WorkshopProject.cs (master)](https://github.com/YSL-RyuDo/rebound/blob/30e289a89f8e24fae16bfc7fcdcb15ae965c7901/Assets/Rebound/Full/WorkshopProject.cs), [My change 6fbc48d](https://github.com/YSL-RyuDo/rebound/commit/6fbc48dfb088b5d7a6fef3d45694d976b95d3721)
 
-## My contribution
-
-Implemented the fall-to-recharge/ascent-attack loop, combat waves, upgrades, boss progression and persistent settings.
-
-Built local ZIP MOD validation and a workshop for projectile trajectories, enemies, waves and augments.
-
-Added parameter/formula trajectory authoring and shared trajectory evaluation between the game and its workshop.
-
 ## Contribution evidence
 
 [v1.2 source baseline](https://github.com/YSL-RyuDo/rebound/tree/6fbc48dfb088b5d7a6fef3d45694d976b95d3721)
-
-Commits are evidence of the stated changes, not a percentage-of-authorship score. Third-party assets and teammates' work remain separately credited.
 
 ## Implementation and design
 
@@ -66,8 +66,6 @@ A gravity shooter and its content workshop need to interpret authored trajectori
 I built the fall-to-recharge/ascent-attack loop and a workshop for trajectories, enemies, waves and augments. Parameter/formula trajectory authoring shares its evaluator with the game, alongside local ZIP validation.
 
 ## How the code works and why it is structured this way
-
-These notes connect the inspected implementation to the constraints it addresses and its tradeoffs. Explanations of design consequences are code analysis, not a claim that every alternative was prototyped. Contribution links identify my changes within team projects; source links retain their original access permissions.
 
 ### Custom trajectories use a bounded expression language
 
@@ -105,7 +103,7 @@ Checking rank alone is cheaper but misses capped stats. Applying effects increme
 
 **Tradeoffs and verification**
 
-The generation guard only applies when the caller supplies a generation. Useful checks include all upgrades capped, multiple pending levels, stale clicks and a choice becoming invalid before selection. The code's fallback provides score, not evidence of balanced upgrade probabilities.
+Generation checks apply when the caller supplies the generation number. Edge cases include every upgrade being capped, multiple pending level-ups, stale clicks and an offer becoming invalid immediately before selection.
 
 [rebound/Progression.cs (master)](https://github.com/YSL-RyuDo/rebound/blob/30e289a89f8e24fae16bfc7fcdcb15ae965c7901/Assets/Rebound/Full/Progression.cs)
 
@@ -125,7 +123,7 @@ Separate executable builds isolate more state but slow iteration. A separate tes
 
 **Tradeoffs and verification**
 
-This is a game-progression boundary, not an operating-system sandbox. Tests should inspect saves before and after both successful and failed test runs and after transitions back to normal play.
+Both successful and failed test runs must leave campaign records unchanged. Returning to ordinary play must restore normal save behavior.
 
 [rebound/GameSession.cs (master)](https://github.com/YSL-RyuDo/rebound/blob/30e289a89f8e24fae16bfc7fcdcb15ae965c7901/Assets/Rebound/Full/GameSession.cs), [rebound/SaveManager.cs (master)](https://github.com/YSL-RyuDo/rebound/blob/30e289a89f8e24fae16bfc7fcdcb15ae965c7901/Assets/Rebound/Full/SaveManager.cs)
 

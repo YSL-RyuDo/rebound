@@ -1,6 +1,8 @@
 # RE:BOUND
 
-[English](README.md), [Korean](README.ko.md), [Japanese](README.ja.md)
+<!-- portfolio-languages -->
+[![English](https://ysl-ryudo.github.io/assets/diagrams/language-en.svg)](README.md) [![한국어 (현재 언어)](https://ysl-ryudo.github.io/assets/diagrams/language-ko-current.svg)](README.ko.md) [![日本語](https://ysl-ryudo.github.io/assets/diagrams/language-ja.svg)](README.ja.md)
+<!-- /portfolio-languages -->
 
 하강하며 충전하고 상승하며 공격하는 중력 슈팅 게임과 궤적 제작 워크숍입니다.
 
@@ -11,15 +13,23 @@
 
 [개발 사례 보기](https://ysl-ryudo.github.io/ko/work/rebound/), [Portfolio](https://ysl-ryudo.github.io/ko/)
 
+## 게임에서 보는 구현
+
+[![낙하 에너지와 투사체 충돌, 레벨 진행이 연결된 전투 화면.](https://ysl-ryudo.github.io/assets/gameplay/rebound-combat.webp)](https://ysl-ryudo.github.io/assets/gameplay/rebound-combat.webp)
+
+낙하 에너지와 투사체 충돌, 레벨 진행이 연결된 전투 화면.
+
+[![강화 선택 중에는 전투를 멈추고, 선택한 효과를 현재 플레이에 적용합니다.](https://ysl-ryudo.github.io/assets/gameplay/rebound-upgrades.webp)](https://ysl-ryudo.github.io/assets/gameplay/rebound-upgrades.webp)
+
+강화 선택 중에는 전투를 멈추고, 선택한 효과를 현재 플레이에 적용합니다.
+
+[플레이 영상 보기](https://ysl-ryudo.github.io/ko/work/rebound/#gameplay), REBOUND 기본 게임과 두 가지 MOD 설정, 2분 52초. 2026년 10월 20일 게임 내부 입력으로 자동 녹화했습니다.
+
 ## 게임 전체에서 맡은 구현
 
-궤적 수식 도구뿐 아니라 비행과 전투, 성장, 런 상태와 저장, 콘텐츠 워크숍까지 게임 흐름을 개발했습니다. 수식 파서는 게임의 구성 요소 하나이며 프로젝트 전체가 아닙니다.
+비행과 반동 전투, 적과 보스, 성장 선택지, 런 상태와 저장을 개발했습니다. 콘텐츠 워크숍과 수식 기반 궤적 편집기도 구현했습니다.
 
-**플레이 흐름**
-
-런 시작 → 비행과 반동 → 웨이브와 보스 전투 → 성장 선택 → 클리어와 실패 → 저장과 콘텐츠 제작
-
-소스 링크는 확인한 버전에 고정하고 기여 링크는 제가 작성한 병합 외 변경을 가리킵니다. 공동 파일을 연결했다고 단독 작성이라는 뜻은 아닙니다. 비공개 소스는 저장소 접근 권한이 필요합니다.
+[![담당 구현 흐름](https://ysl-ryudo.github.io/assets/diagrams/rebound-flow-ko.svg)](https://ysl-ryudo.github.io/assets/diagrams/rebound-flow-ko.svg)
 
 ### 비행과 반동 전투
 
@@ -45,19 +55,9 @@
 
 [ModWorkshop.cs (master)](https://github.com/YSL-RyuDo/rebound/blob/30e289a89f8e24fae16bfc7fcdcb15ae965c7901/Assets/Rebound/Full/ModWorkshop.cs), [내 변경 6fbc48d](https://github.com/YSL-RyuDo/rebound/commit/6fbc48dfb088b5d7a6fef3d45694d976b95d3721), [WorkshopProject.cs (master)](https://github.com/YSL-RyuDo/rebound/blob/30e289a89f8e24fae16bfc7fcdcb15ae965c7901/Assets/Rebound/Full/WorkshopProject.cs), [내 변경 6fbc48d](https://github.com/YSL-RyuDo/rebound/commit/6fbc48dfb088b5d7a6fef3d45694d976b95d3721)
 
-## 내 기여
-
-낙하 충전, 상승 공격, 전투 웨이브, 성장 선택, 보스 진행과 설정 저장을 구현했습니다.
-
-로컬 ZIP MOD 검증과 탄환 궤적, 적, 웨이브, 증강 제작 도구를 구현했습니다.
-
-수치, 수식 탄환 제작과 게임, 제작 도구가 공유하는 궤적 계산을 추가했습니다.
-
 ## 기여 근거
 
 [v1.2 source baseline](https://github.com/YSL-RyuDo/rebound/tree/6fbc48dfb088b5d7a6fef3d45694d976b95d3721)
-
-커밋은 설명한 변경의 근거이며 기여율 점수가 아닙니다. 외부 에셋과 팀원 작업의 크레딧은 구분합니다.
 
 ## 구현과 설계
 
@@ -66,8 +66,6 @@
 하강 충전, 상승 공격 루프와 궤적, 적, 웨이브, 증강 제작 도구를 구현했습니다. 매개변수, 수식으로 작성한 궤적은 게임과 제작 도구에서 평가기를 공유하며 로컬 ZIP을 검증합니다.
 
 ## 코드의 동작과 구현 방식을 택한 이유
-
-확인한 구현이 어떤 제약을 다루며 어떤 장단점이 생기는지 설명합니다. 설계 효과에 대한 설명은 코드 분석이며, 비교한 모든 대안을 당시 직접 구현했다는 뜻은 아닙니다. 기여 링크는 공동 프로젝트 안의 담당 변경을 가리키고 소스 링크는 기존 접근 권한을 유지합니다.
 
 ### 사용자 궤적에 범위가 제한된 수식 언어를 쓰는 이유
 
@@ -105,7 +103,7 @@ Progression은 레벨과 최대 단계, 능력치 변화 미리보기로 후보�
 
 **장단점과 검증 범위**
 
-세대 검사는 호출 측에서 세대 번호를 전달했을 때 적용됩니다. 모든 강화가 상한인 경우, 여러 레벨업 대기, 오래된 클릭과 선택 직전의 무효화를 검사해야 합니다. 점수 대체 보상이 있다는 사실이 강화 확률의 밸런스를 입증하지는 않습니다.
+세대 검사는 호출 측에서 세대 번호를 전달할 때 적용됩니다. 모든 강화가 상한인 경우, 여러 레벨업 대기, 오래된 클릭과 선택 직전 무효화를 처리해야 합니다.
 
 [rebound/Progression.cs (master)](https://github.com/YSL-RyuDo/rebound/blob/30e289a89f8e24fae16bfc7fcdcb15ae965c7901/Assets/Rebound/Full/Progression.cs)
 
@@ -125,7 +123,7 @@ GameSession은 제작한 콘텐츠를 실행할 때 테스트 모드를 사용�
 
 **장단점과 검증 범위**
 
-이는 게임 진행 데이터의 경계이며 운영체제 수준의 샌드박스가 아닙니다. 테스트 런의 성공과 실패 전후, 일반 플레이로 돌아간 뒤의 저장 내용을 비교하는 검증이 필요합니다.
+테스트 런의 성공과 실패 모두 캠페인 기록을 바꾸지 않아야 합니다. 일반 플레이로 돌아오면 정상적인 저장 동작이 다시 적용되어야 합니다.
 
 [rebound/GameSession.cs (master)](https://github.com/YSL-RyuDo/rebound/blob/30e289a89f8e24fae16bfc7fcdcb15ae965c7901/Assets/Rebound/Full/GameSession.cs), [rebound/SaveManager.cs (master)](https://github.com/YSL-RyuDo/rebound/blob/30e289a89f8e24fae16bfc7fcdcb15ae965c7901/Assets/Rebound/Full/SaveManager.cs)
 

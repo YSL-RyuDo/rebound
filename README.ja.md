@@ -1,6 +1,8 @@
 # RE:BOUND
 
-[English](README.md), [Korean](README.ko.md), [Japanese](README.ja.md)
+<!-- portfolio-languages -->
+[![English](https://ysl-ryudo.github.io/assets/diagrams/language-en.svg)](README.md) [![한국어](https://ysl-ryudo.github.io/assets/diagrams/language-ko.svg)](README.ko.md) [![日本語（選択中）](https://ysl-ryudo.github.io/assets/diagrams/language-ja-current.svg)](README.ja.md)
+<!-- /portfolio-languages -->
 
 下降してチャージし、上昇して攻撃する重力シューティングと軌道制作ワークショップです。
 
@@ -11,15 +13,23 @@
 
 [開発事例を見る](https://ysl-ryudo.github.io/ja/work/rebound/), [Portfolio](https://ysl-ryudo.github.io/ja/)
 
+## ゲーム内の実装
+
+[![落下エネルギー、弾の衝突、レベル進行がつながる戦闘画面。](https://ysl-ryudo.github.io/assets/gameplay/rebound-combat.webp)](https://ysl-ryudo.github.io/assets/gameplay/rebound-combat.webp)
+
+落下エネルギー、弾の衝突、レベル進行がつながる戦闘画面。
+
+[![強化選択中は戦闘を停止し、選んだ効果を現在のプレイに反映します。](https://ysl-ryudo.github.io/assets/gameplay/rebound-upgrades.webp)](https://ysl-ryudo.github.io/assets/gameplay/rebound-upgrades.webp)
+
+強化選択中は戦闘を停止し、選んだ効果を現在のプレイに反映します。
+
+[プレイ動画を見る](https://ysl-ryudo.github.io/ja/work/rebound/#gameplay), REBOUND、基本ゲームと2種類のMOD設定、2分52秒。2026年10月20日にゲーム内の自動入力で収録。
+
 ## ゲーム全体で担当した実装
 
-軌道式ツールに加え、飛行・戦闘・成長・ラン状態・保存・コンテンツワークショップまで開発しました。式パーサーはゲームの一部であり、プロジェクト全体ではありません。
+飛行と反動戦闘、敵とボス、強化選択、ラン状態と保存を開発しました。コンテンツワークショップと数式ベースの軌道エディターも実装しました。
 
-**プレイの流れ**
-
-ラン開始 → 飛行と反動 → ウェーブ・ボス戦 → 成長選択 → クリア・失敗 → 保存とコンテンツ制作
-
-ソースリンクは確認した版に固定し、担当リンクは自分のマージ以外の変更を示します。共同ファイルは単独著作を意味しません。非公開ソースには閲覧権限が必要です。
+[![担当実装の流れ](https://ysl-ryudo.github.io/assets/diagrams/rebound-flow-ja.svg)](https://ysl-ryudo.github.io/assets/diagrams/rebound-flow-ja.svg)
 
 ### 飛行と反動戦闘
 
@@ -45,19 +55,11 @@
 
 [ModWorkshop.cs (master)](https://github.com/YSL-RyuDo/rebound/blob/30e289a89f8e24fae16bfc7fcdcb15ae965c7901/Assets/Rebound/Full/ModWorkshop.cs), [担当変更 6fbc48d](https://github.com/YSL-RyuDo/rebound/commit/6fbc48dfb088b5d7a6fef3d45694d976b95d3721), [WorkshopProject.cs (master)](https://github.com/YSL-RyuDo/rebound/blob/30e289a89f8e24fae16bfc7fcdcb15ae965c7901/Assets/Rebound/Full/WorkshopProject.cs), [担当変更 6fbc48d](https://github.com/YSL-RyuDo/rebound/commit/6fbc48dfb088b5d7a6fef3d45694d976b95d3721)
 
-## 担当した内容
-
-落下による充電・上昇攻撃、戦闘ウェーブ、強化選択、ボス進行、設定保存を実装しました。
-
-ローカルZIP MODの検証と、弾道・敵・ウェーブ・強化の制作ツールを実装しました。
-
-パラメーター・数式による弾道編集と、ゲーム・制作ツール共通の弾道評価を追加しました。
-
 ## 貢献の根拠
 
 [v1.2 source baseline](https://github.com/YSL-RyuDo/rebound/tree/6fbc48dfb088b5d7a6fef3d45694d976b95d3721)
 
-コミットは記載した変更の根拠であり、貢献率の点数ではありません。外部素材・チームメンバーの貢献は区別します。
+外部素材・チームメンバーの貢献は区別します。
 
 ## 実装と設計
 
@@ -66,8 +68,6 @@
 落下で充電・上昇で攻撃するループと、軌道・敵・ウェーブ・強化の制作ツールを実装しました。パラメーター・数式軌道の評価器をゲームとツールで共有し、ローカルZIPを検証します。
 
 ## コードの動作と実装構造の理由
-
-確認した実装が扱う制約と利点・代償を説明します。設計効果の説明はコード分析であり、比較する全代案を当時試作したという意味ではありません。担当リンクは共同制作内の変更を示し、ソースの閲覧権限は維持します。
 
 ### ユーザー軌道に制限付きの式言語を使う理由
 
@@ -105,7 +105,7 @@ Progressionはレベル・最大段階・能力差分で候補を絞り、重み
 
 **利点・代償と検証範囲**
 
-世代検査は呼出側が番号を渡す場合に有効です。全強化上限、複数保留、古いクリック、選択前の無効化が検証点です。得点への代替は確率バランスの証明ではありません。
+世代検査は呼出し側が世代番号を渡す場合に適用されます。全強化が上限の場合、複数の保留レベルアップ、古いクリック、選択直前の無効化を扱う必要があります。
 
 [rebound/Progression.cs (master)](https://github.com/YSL-RyuDo/rebound/blob/30e289a89f8e24fae16bfc7fcdcb15ae965c7901/Assets/Rebound/Full/Progression.cs)
 
@@ -125,7 +125,7 @@ GameSessionは制作内容の実行にテストモードを使います。Finish
 
 **利点・代償と検証範囲**
 
-これは進行データの境界で、OSのサンドボックスではありません。テスト成功・失敗の前後と通常プレイ復帰後の保存比較が必要です。
+テストランの成功・失敗ともキャンペーン記録を変更しない必要があります。通常プレイへ戻ると通常の保存動作が再適用される必要があります。
 
 [rebound/GameSession.cs (master)](https://github.com/YSL-RyuDo/rebound/blob/30e289a89f8e24fae16bfc7fcdcb15ae965c7901/Assets/Rebound/Full/GameSession.cs), [rebound/SaveManager.cs (master)](https://github.com/YSL-RyuDo/rebound/blob/30e289a89f8e24fae16bfc7fcdcb15ae965c7901/Assets/Rebound/Full/SaveManager.cs)
 
