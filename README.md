@@ -2,9 +2,32 @@
 
 [English](README.md) · [Korean](README.ko.md) · [Japanese](README.ja.md)
 
+**C# · Unity 2D · Local content** · Playable prototype
+
+[Explore the case](https://ysl-ryudo.github.io/en/work/rebound/) · [Portfolio](https://ysl-ryudo.github.io/en/)
+
+
 An original Unity 2D gravity roguelike shooter with a local data-driven MOD workshop.
 
 ![RE:BOUND](Docs/Screenshots/11-neon-wave-game.png)
+
+## The engineering problem
+
+A gravity shooter and its content workshop need to interpret authored trajectories consistently. Local content also needs validation before it affects gameplay.
+
+## My implementation
+
+I built the fall-to-recharge/ascent-attack loop and a workshop for trajectories, enemies, waves and augments. Parameter/formula trajectory authoring shares its evaluator with the game, alongside local ZIP validation.
+
+### Implementation overview · conceptual flow
+
+```mermaid
+flowchart LR
+    N0["Trajectory authoring"] --> N1
+    N1["Local validation"] --> N2
+    N2["Shared evaluator"] --> N3
+    N3["Combat waves"]
+```
 
 ## My contribution
 
@@ -35,3 +58,7 @@ The 2026-10-19 validation record reports 22 EditMode and 23 PlayMode tests passi
 - [Docs/WORKSHOP_GUIDE.md](Docs/WORKSHOP_GUIDE.md)
 - [Docs/TRAJECTORY_VERSIONS.md](Docs/TRAJECTORY_VERSIONS.md)
 - [Docs/RESOURCES.md](Docs/RESOURCES.md)
+
+## How to evaluate the work
+
+The 2026-10-19 record reports 22 EditMode and 23 PlayMode passes and a Windows build. This is an existing record; balance and extreme-trajectory collision still need separate evaluation.
