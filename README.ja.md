@@ -23,7 +23,7 @@
 
 強化選択中は戦闘を停止し、選んだ効果を現在のプレイに反映します。
 
-[プレイ動画を見る](https://ysl-ryudo.github.io/ja/work/rebound/#gameplay), REBOUND、基本ゲームと2種類のMOD設定、2分52秒。2026年10月20日にゲーム内の自動入力で収録。
+[プレイ動画を見る](https://ysl-ryudo.github.io/ja/work/rebound/#gameplay), REBOUND、基本ゲームと2種類のMOD設定、2分52秒。2026年10月20日の実行画面。
 
 ## ゲーム全体で担当した実装
 

@@ -23,7 +23,7 @@ Fall energy, projectile hits and level progression share the same combat loop.
 
 Upgrade selection pauses the action and applies the selected effect to the current run.
 
-[Watch gameplay](https://ysl-ryudo.github.io/en/work/rebound/#gameplay), REBOUND, base game and two MOD configurations, 2:52. Recorded in-engine with scripted inputs on 20 October 2026.
+[Watch gameplay](https://ysl-ryudo.github.io/en/work/rebound/#gameplay), REBOUND, base game and two MOD configurations, 2:52. Captured in-engine on 20 October 2026.
 
 ## What I built across the game
 

@@ -23,7 +23,7 @@
 
 강화 선택 중에는 전투를 멈추고, 선택한 효과를 현재 플레이에 적용합니다.
 
-[플레이 영상 보기](https://ysl-ryudo.github.io/ko/work/rebound/#gameplay), REBOUND 기본 게임과 두 가지 MOD 설정, 2분 52초. 2026년 10월 20일 게임 내부 입력으로 자동 녹화했습니다.
+[플레이 영상 보기](https://ysl-ryudo.github.io/ko/work/rebound/#gameplay), REBOUND 기본 게임과 두 가지 MOD 설정, 2분 52초. 2026년 10월 20일 실행 화면입니다.
 
 ## 게임 전체에서 맡은 구현
 
