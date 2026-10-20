@@ -37,6 +37,30 @@ I built the fall-to-recharge/ascent-attack loop and a workshop for trajectories,
 | Evaluate | One trajectory evaluator shared by workshop and game |
 | Load & play | Local ZIP validation; enemies, waves and augments |
 
+## How the code works and why it is structured this way
+
+These notes connect the inspected implementation to the constraints it addresses and its tradeoffs. Explanations of design consequences are code analysis, not a claim that every alternative was prototyped. Contribution links identify my changes within team projects; source links retain their original access permissions.
+
+### Custom trajectories use a bounded expression language
+
+**Implementation**
+
+TrajectoryFormula parses expressions into a syntax tree with a defined set of variables, arithmetic operators and functions. It bounds source length, node count and depth, caches parsed formulas and rejects non-finite or excessive coordinate results. Validation samples the lifetime; runtime evaluation also checks each returned value.
+
+**Design rationale**
+
+A trajectory needs controlled numeric evaluation, not arbitrary C# execution. A small language makes supported behavior explicit and lets the game bound parsing and evaluation structure. Caching avoids rebuilding the same tree every update, while runtime checks cover values that a finite validation sample can miss.
+
+**Alternatives and the current tradeoff**
+
+A fixed trajectory catalogue is easy to validate but limits user expression. Arbitrary scripts provide more freedom and a much larger execution surface. The current expression tree sits between them: users compose numeric trajectories within a deliberately small language.
+
+**Tradeoffs and verification**
+
+This trades general-purpose extensibility for a smaller implementation and validation surface. New functions require parser and evaluator changes. Sampled validation does not prove continuity or correctness over all times, and the cache policy needs reconsideration if the number of active formulas grows substantially.
+
+[rebound/TrajectoryFormula.cs](https://github.com/YSL-RyuDo/rebound/blob/52994738ab20e2c209c5d359b96527cc268417f2/Assets/Rebound/Full/TrajectoryFormula.cs), [rebound/TrajectoryFormulaTests.cs](https://github.com/YSL-RyuDo/rebound/blob/52994738ab20e2c209c5d359b96527cc268417f2/Assets/Rebound/Tests/EditMode/TrajectoryFormulaTests.cs)
+
 ## Open and inspect
 
 Open the project with the Unity version recorded in [ProjectVersion.txt](ProjectSettings/ProjectVersion.txt). Keep its package lock and serialized assets intact. Select the documented branch before opening Unity.
